@@ -1,18 +1,10 @@
 #include <stdio.h>
-
-#include "freeRTOS/FreeRTOS.h"
-#include "freeRTOS/task.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 #include "esp_log.h"
 
-
-void  printTask(){
-
-    char* ourTaskName = pcTaskGetName(NULL) ;
-    ESP_LOGI(ourTaskName , "Hello starting up!") ;
-}
-
-
 void app_main(void){
-    printTask() ;
+    char* myTask = pcTaskGetName(NULL) ;
+    ESP_LOGI(myTask , "Hello world") ;
 }
