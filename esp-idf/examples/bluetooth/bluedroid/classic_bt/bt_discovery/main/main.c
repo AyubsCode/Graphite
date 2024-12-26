@@ -28,6 +28,11 @@
 
 #define GAP_TAG          "GAP"
 
+
+
+
+/*############################################# State Enum ############################################## */
+
 typedef enum {
     APP_GAP_STATE_IDLE = 0,
     APP_GAP_STATE_DEVICE_DISCOVERING,
@@ -35,6 +40,10 @@ typedef enum {
     APP_GAP_STATE_SERVICE_DISCOVERING,
     APP_GAP_STATE_SERVICE_DISCOVER_COMPLETE,
 } app_gap_state_t;
+
+/*############################################# State Enum ############################################## */
+
+/*############################################# Device Details ############################################## */
 
 typedef struct {
     bool dev_found;
@@ -48,7 +57,18 @@ typedef struct {
     app_gap_state_t state;
 } app_gap_cb_t;
 
+
+/*############################################# Device Details ############################################## */
+
+
+/*############################################# Device Instantation ############################################## */
+
 static app_gap_cb_t m_dev_info;
+
+/*############################################# Device Instantation ############################################## */
+
+
+/*############################################# Device Instantation ############################################## */
 
 static char *bda2str(esp_bd_addr_t bda, char *str, size_t size)
 {
