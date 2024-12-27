@@ -1,0 +1,89 @@
+# User Authentication System Documentation
+
+## Database: **Supabase**
+
+We use **Supabase** as the backend database and authentication service. 
+
+---
+
+## Key Files and Their Roles
+
+### 1. `lib/supabase.js`
+
+This file is responsible for setting up the Supabase client. It exports an instance of the Supabase client, which is used for interacting with the database and performing various authentication and query operations.
+
+**Supabase Client Setup:**
+```javascript
+const supabaseUrl = supabaseURL;  
+const supabaseAnonKey = supabaseAnonKey;  
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+```
+
+To use Supabase in any component that interacts with the database, you must import the client as follows:
+
+**Importing Supabase:**
+```javascript
+import { supabase } from '../lib/supabase.js';
+```
+
+---
+
+## Querying the Database
+
+To retrieve data from a Supabase table, the `select` function is used. You can specify the table and columns you want to query. You can also add conditions using `.eq()` to filter results.
+
+**Example Query:**
+```javascript
+const { error } = await supabase
+  .from('tablename') // Specify the table name
+  .select('value') // Specify the column(s) to retrieve
+  .eq('comparison', value) // Filter results based on a condition
+  .single(); // Return a single matching row
+```
+- `.from('tablename')`: The table to query.
+- `.select('value')`: The specific columns to retrieve from the table.
+- `.eq('comparison', value)`: A filter for the query, ensuring only records that match the condition are retrieved.
+- `.single()`: Ensures the query returns only one row.
+
+---
+
+## Inserting Data into the Database
+
+To insert new data into a table, the `insert` function is used. You can provide the values for the attributes that you wish to insert.
+
+**Example Insert:**
+```javascript
+const { error } = await supabase
+  .from('tablename') // Specify the table to insert data into
+  .insert({
+    attributeName: value, // Specify the attribute and its value
+  });
+```
+- `.from('tablename')`: The table to insert data into.
+- `.insert({...})`: An object that contains key-value pairs, where the keys are the attribute names and the values are the data you want to insert.
+
+---
+
+## Updating a Row in the Database
+
+To update existing records in a table, the `update` function is used. You can specify which row to update based on a condition (using `.eq()`), and provide the new values for the attributes.
+
+**Example Update:**
+```javascript
+const { error } = await supabase
+  .from('tablename') // Specify the table to update
+  .update({
+    attributeName: value, // Specify the new value for the attribute
+  })
+  .eq('comparison', value); // Condition to identify which row to update
+```
+- `.from('tablename')`: The table where the record exists.
+- `.update({...})`: An object that contains the updated key-value pairs for the attributes.
+- `.eq('comparison', value)`: A condition to find the row that should be updated.
+
+---
+
+## Error Handling
+
+In all of the above examples, the `error` object can be checked to handle any issues that arise during database interactions. If `error` is not `null`, there was an issue with the query or operation.
+

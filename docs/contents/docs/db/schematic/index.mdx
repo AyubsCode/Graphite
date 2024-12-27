@@ -1,0 +1,58 @@
+# User Authentication System Documentation
+
+## Database: Supabase
+
+The application uses Supabase as its backend database and authentication service. Supabase is a powerful, open-source alternative to Firebase that provides a PostgreSQL database, authentication, instant APIs, and realtime subscriptions.
+
+## Key Files and Their Roles
+
+### 1. `lib/supabase.js`
+
+This file sets up the Supabase client:
+
+- Imports necessary polyfills and libraries
+- Defines Supabase URL and anonymous key
+- Creates and exports a Supabase client instance with specific configuration:
+  - Uses AsyncStorage for persistent session storage
+  - Enables auto-refresh for authentication tokens
+  - Persists user sessions
+- Sets up an AppState event listener to manage token refreshing based on app state
+
+### 2. `Auth.js` (React Native Component)
+
+This file contains the main authentication UI and logic:
+
+- Imports necessary React Native and Supabase components
+- Defines the `Auth` component which includes:
+  - State management for email, password, and loading status
+  - Functions for signing in and signing up using Supabase authentication
+  - UI elements for email/password input and submit buttons
+
+## How It All Works Together
+
+1. **Supabase Client Initialization**: 
+   - The `supabase.js` file initializes the Supabase client with the correct URL and API key.
+   - It sets up persistent storage and auto-refresh for authentication tokens.
+
+2. **User Interface**: 
+   - The `Auth.js` component provides a user interface for sign-in and sign-up.
+   - It manages local state for user input (email and password).
+
+3. **Authentication Flow**:
+   - When a user attempts to sign in or sign up, the respective function (`signInWithEmail` or `signUpWithEmail`) is called.
+   - These functions use the Supabase client (imported from `supabase.js`) to interact with Supabase's authentication API.
+   - For sign-in, it uses `supabase.auth.signInWithPassword()`.
+   - For sign-up, it uses `supabase.auth.signUp()`.
+
+4. **Session Management**:
+   - After successful authentication, Supabase handles session management.
+   - The session is stored persistently using AsyncStorage.
+   - Token refresh is managed automatically when the app is in the foreground.
+
+5. **Error Handling**:
+   - Any errors during authentication are captured and displayed to the user via `Alert.alert()`.
+
+This setup provides a complete authentication system with a clean separation of concerns:
+- Database and API interactions are abstracted through the Supabase client.
+- UI and user interactions are handled in the React Native component.
+- Authentication state is managed by Supabase, with the app responding to auth state changes.

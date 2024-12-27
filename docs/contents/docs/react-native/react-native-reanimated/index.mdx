@@ -1,0 +1,123 @@
+# Contributing to Documentation
+
+Welcome to the contribution guide for the Lucidity documentation! In this guide, we will walk you through the steps to add new pages to the documentation by updating the `route-config.ts` file and creating new MDX files in the `docs/contents/docs` folder.
+
+## Understanding `route-config.ts`
+
+The `route-config.ts` file is the configuration that controls the structure of the documentation navigation. It defines the hierarchy and paths of the documentation pages, and it's used to dynamically generate the left sidebar and page routes for the documentation.
+
+### Breakdown of `route-config.ts`
+
+The structure of `route-config.ts` is based on a nested object structure. Each object represents a **section** or **page** in the documentation, with the following key properties:
+
+- **`title`**: The display name of the documentation section or page.
+- **`href`**: The relative URL for the page. This is how the app knows where to navigate when a user clicks on a section or page.
+- **`noLink`** (optional): This property, if set to `true`, turns the item into a non-clickable header. It's useful for grouping multiple pages under a single heading without making the heading itself a link.
+- **`items`** (optional): This property contains an array of child routes, making the section a collapsible or expandable item in the sidebar.
+
+Here's an example snippet from `route-config.ts`:
+
+```ts
+export const ROUTES: EachRoute[] = [
+  {
+    title: "Getting Started",
+    href: "/getting-started",
+    noLink: true, // Non-clickable heading
+    items: [
+      { title: "Introduction", href: "/introduction" }, // Individual page
+      {
+        title: "Installation",
+        href: "/installation",
+        items: [
+          { title: "Laravel", href: "/laravel" },
+          { title: "React", href: "/react" },
+        ],
+      },
+    ],
+  },
+  {
+    title: "How to Contribute",
+    href: "/contributing",
+    items: [
+      { title: "Contributing to Documentation", href: "/how-to" },
+    ],
+  },
+];
+```
+
+In this example:
+- "Getting Started" is a section with subpages like "Introduction" and "Installation."
+- "Installation" further contains pages like "Laravel" and "React."
+- "How to Contribute" is a clickable section, and "Contributing to Documentation" is a subpage under it.
+
+To add new pages, follow the steps in the next section.
+
+## Adding New Pages
+
+When contributing to the documentation, there are two main steps:
+1. **Update the `route-config.ts` file** to register the new page in the sidebar navigation.
+2. **Create a new MDX file** in the `docs/contents/docs` folder to hold the content for the new page.
+
+### Step 1: Update `route-config.ts`
+
+To add a new page to the sidebar, you'll need to modify the `ROUTES` array in `route-config.ts`. Here's an example of how to add a new section called **"Advanced Topics"** with a subpage called **"Custom Hooks"**:
+
+```ts
+export const ROUTES: EachRoute[] = [
+  // Existing routes
+  {
+    title: "Advanced Topics", // New section
+    href: "/advanced-topics",
+    items: [
+      { title: "Custom Hooks", href: "/custom-hooks" }, // New page
+    ],
+  },
+];
+```
+
+In this example:
+- We add a new section titled "Advanced Topics."
+- We add a new page called "Custom Hooks" under that section.
+- The `href` property defines the URL for these pages, which should match the folder and file structure in the `docs/contents/docs` folder.
+
+### Step 2: Create the MDX File
+
+Next, you need to create the actual documentation page by adding an MDX file inside the `docs/contents/docs` folder.
+
+1. **Navigate to the folder** where the documentation content is stored: `docs/contents/docs/`.
+2. **Create a new folder** for your section if it doesn't already exist. In our example, you would create a folder named `advanced-topics`.
+3. Inside the `advanced-topics` folder, **create a new file** named `custom-hooks.mdx`.
+
+#### Example content for `custom-hooks.mdx`:
+
+```md
+---
+title: Custom Hooks
+description: Learn how to create custom hooks in React.
+---
+
+# Custom Hooks
+
+In this section, we'll explore how to create custom hooks in React to reuse logic across your components.
+
+## Why Use Custom Hooks?
+
+Custom hooks allow you to encapsulate reusable logic...
+
+// Add more documentation content here...
+```
+
+- The front matter (`---`) at the top of the file contains metadata like `title` and `description` that will be displayed on the page.
+- The content of the MDX file will appear as the documentation content for this new page.
+
+### Finalizing the Addition
+
+Once you've updated the `route-config.ts` file and created the corresponding MDX file, your new page should appear in the documentation navigation sidebar. You can now navigate to `/advanced-topics/custom-hooks` in the app to view the new page.
+
+## Conclusion
+
+That's it! You've successfully added a new page to the documentation. By modifying `route-config.ts` and creating a corresponding MDX file, you can expand the Lucidity documentation with ease. We encourage you to explore different topics and keep contributing to make the documentation even better!
+
+If you have any questions or need further assistance, feel free to reach out or open an issue in the repository.
+
+Happy documenting! 😊

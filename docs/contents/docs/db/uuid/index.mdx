@@ -1,0 +1,52 @@
+# User Unique Identifier Documentation
+
+Unique user identifiers (UUIDs) are used to assign distinct IDs to each user within the application. These identifiers are generated using the **UUID** package and passed between components to ensure each user is uniquely identifiable across the app.
+
+---
+
+## UUID Generation in `Signup.js`
+
+In the `Signup.js` file, we use the **UUID v4** standard to generate a unique user ID. This ensures that each user gets a globally unique identifier, which is crucial for user management and identification within the app.
+
+**Imports:**
+```javascript
+import 'react-native-get-random-values'; // Enables UUID generation in React Native
+import { v4 as uuidv4 } from 'uuid'; // Importing the UUID v4 function
+```
+
+**Generating a UUID:**
+```javascript
+const user_id = uuidv4(); // Generate a new UUID
+```
+- `uuidv4()`: This function generates a unique identifier (UUID) every time it is called, which will be assigned to the `user_id` variable.
+
+---
+
+## Passing UserID to Functions
+
+Once the `user_id` is generated, it can be passed to other components or screens through **React Navigation** using `props` or `route parameters`. This allows the UUID to be used across the app for various purposes, such as database interactions or user-specific operations.
+
+**Passing `user_id` via Props:**
+```javascript
+navigation.navigate('Stackscreen', {
+  user_id: user_id, // Passing the generated user_id to another screen
+});
+```
+- `navigation.navigate()`: This function navigates to the specified screen (`Stackscreen` in this case) and passes `user_id` as a parameter.
+
+---
+
+## Receiving the `user_id` in the Destination Component
+
+The `user_id` passed via navigation can be retrieved in the target component using **React Navigation's** `route.params`. This allows you to access the `user_id` and use it within the component for any user-specific operations.
+
+**Receiving `user_id` in the Component:**
+```javascript
+export default function ExampleComponent({ navigation, route }) {
+  const { user_id } = route.params; // Extract the user_id from the route parameters
+}
+```
+- `route.params`: Contains the parameters passed from the previous screen. In this case, we are extracting `user_id` from it.
+
+---
+

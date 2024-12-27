@@ -1,0 +1,394 @@
+# Contents
+
+#### 1. Project Overview
+		 1.1 Abstract
+		 1.2 Background
+	     1.3 Objective
+
+#### 2. System Level Design
+	   2.1 System Requirements  
+       2.1.1 App  
+	   2.2 Functional Requirements
+       2.2.1 Android and iOS Applications
+       2.2.2 Web Services
+       2.2.3 Web Interface
+       2.3 Nonfunctional Requirements
+       2.3.1 Android and iOS Applications
+       2.3.2 Web Server
+       2.4 Block Diagram
+       2.5 Functional Decomposition
+       2.5.1 User Interface
+       2.5.2 Web Server
+       2.5.3 Database
+       2.5.4 Web Application
+       2.5.5 Weather Service
+       2.5.6 Mapping Service
+       2.5.7 Storage Devices
+       2.6 System Analysis
+       2.6.1 Apple iOS Devices
+       2.6.2 Mapping Service
+       2.6.3 Weather Service
+
+#### 3. Detail Description
+       3.1 I/O Specifications
+       3.1.1 Apple device → Server
+       3.1.2 Web Server → Database
+       3.1.3 Weather Service → Apple device
+       3.1.4 Mapping Service → Apple device
+       3.1.5 User → Apple Device
+       3.2 User Interface Specifications
+       3.3 Hardware Specifications
+       3.3.1 Apple Device 
+       3.3.2 Server
+       3.3.3 Third Party Hardware 
+       3.4 Software Specifications
+       3.4.1 Operating System
+       3.4.2 Server
+       #### 3. Detail 
+
+  #### 4. Conclusion
+
+ # 1. Project Overview
+
+
+    
+
+### 1.1 Abstract
+___
+-   In today’s fast-paced educational environment, students and educators alike are constantly seeking efficient ways to connect for academic support. While there are numerous tutoring platforms available, there is a need for a comprehensive app that caters specifically to students who value convenience, flexibility, and personalized learning experiences. Our team aims to create an intuitive tutoring app that connects students with qualified tutors across various subjects and grade levels, enhancing the accessibility and quality of academic support.
+    
+-   This app will serve a diverse range of users, including students from grades 1-12, university students, professional tutors and admin users. It will feature essential functionalities such as real-time session booking, an integrated messaging system, and robust scheduling options. Students will be able to search for tutors based on subject expertise, grade level, and availability, while tutors will have tools to manage their schedules and track their sessions.
+    
+-   Designed for use on both Android and iOS devices, this app will utilize modern technologies such as in-app notifications, and real-time chat. Our goal is to provide a seamless, user-friendly experience that empowers students to take control of their education and facilitates effective, personalized learning experiences for all users.
+
+### 1.2 Background
+____
+-   Education is evolving, with more students seeking personalized learning experiences beyond the traditional classroom setting. Despite the abundance of tutoring services available, many students and tutors face challenges in finding and managing sessions efficiently. The need for a streamlined, intuitive platform that connects students with the right tutors in real-time is evident.
+    
+-   Our research has shown that existing tutoring apps often lack the flexibility, user experience, and comprehensive features required by both students and tutors. This is especially true for those who want to book sessions across multiple subjects or need continuous support outside scheduled sessions. To address these gaps, we are developing a new tutoring app that offers a rich set of features designed with user convenience and effective learning in mind.
+    
+-   In the academic year of 2024, our team conducted a survey and interviews with students, tutors, and educational institutions to understand the pain points of existing platforms. The findings highlighted the demand for better session management, real-time communication, and integrated note-taking and recording functionalities. These insights have guided the design and development of our tutoring app, which aims to transform how students and tutors interact and engage with each other.
+
+### 1.3 Background
+____
+-   Our primary objective is to develop a robust and user-friendly tutoring app compatible with both Android and iOS devices. This app will enable seamless interaction between students and tutors, providing a platform for booking, managing, and conducting tutoring sessions with ease.
+    
+-   Key features will include a searchable tutor database, real-time session booking and cancellation, integrated chat for pre-session communication, and a virtual classroom environment with video and whiteboard functionalities. Additionally, we will implement a ratings and feedback system to maintain a high standard of quality and help users make informed decisions.
+    
+-   By the end of the development cycle, we aim to have a fully functional Beta version available for testing. This will allow us to gather feedback from students, tutors, and educational professionals to refine the app’s user experience and feature set. Our ultimate goal is to create a versatile, all-in-one tutoring solution that enhances learning outcomes and fosters meaningful educational relationships.
+
+# 2. System Level Design
+
+## 2.1 System Requirements
+
+### 2.1.1 Mobile Application
+The system will include a mobile application developed using React Native, ensuring compatibility across both iOS and Android platforms. The app will provide identical functional requirements on both platforms, to the extent allowed by the respective operating systems and hardware capabilities.
+
+Our primary objective is to create a seamless and intuitive tutoring user experience that caters to students from grades 1-12 and university levels. The app will facilitate communication between students and tutors, scheduling of tutoring sessions, and management of user profiles.
+
+The mobile app will need to:
+- Communicate with the backend server built using Node.js (Express).
+- Interface with a PostgreSQL database for data storage.
+- Use Firebase for user authentication.
+- Integrate with the Google Calendar API for scheduling and calendar synchronization between users.
+
+## 2.2 Functional Requirements
+
+### 2.2.1 Mobile Application
+
+#### 2.2.1.1 Synopsis
+Allow students and tutors to register, authenticate securely, create and manage profiles, search and browse available tutors/students, schedule tutoring sessions, communicate via in-app messaging, and view session histories. The app will also provide notifications and feedback mechanisms to enhance user engagement.
+
+#### 2.2.1.2 List of Requirements
+- **User Registration and Authentication:** Secure sign-up and login using Firebase Authentication.
+- **Profile Management:** Create and edit personal profiles, including educational background, subjects, availability, and photos.
+- **Search Functionality:** Search for tutors/students based on subjects, grade levels, availability, and general location.
+- **Scheduling and Calendar Integration:** Schedule tutoring sessions with synchronization to Google Calendar.
+- **In-App Messaging:** Communicate securely within the app.
+- **Session History and Feedback:** View past sessions, provide ratings, and leave feedback.
+- **Notifications:** Receive push notifications for messages, session reminders, and updates.
+
+#### 2.2.1.3 Data Collection
+The app will collect or calculate the following data:
+- **User Activity Logs:** Timestamps of user actions such as logins, logouts, and message exchanges.
+- **Session Data:** Details of scheduled sessions, durations, and attendance records.
+- **App Usage Statistics:** Screen navigation paths and feature usage for analytics.
+- **General Location Data:** Optional collection for enhancing search results based on proximity.
+
+#### 2.2.1.4 User Input
+The app will allow user input for:
+- **Personal Information:** Name, contact details, profile photo.
+- **Educational Details:** Grade level, subjects offered or needed, current grades.
+- **Availability:** Preferred dates and times for sessions.
+- **Preferences to Search:** Subjects, grades, and location preferences.
+- **Messages:** Text input for in-app communication.
+- **Feedback and Ratings:** Reviews and ratings after sessions.
+
+### 2.2.2 Admin Interface
+An administrative interface will be provided for:
+- **User Management:** View, edit, suspend, or delete user accounts.
+- **Session Oversight:** Monitor scheduled sessions and handle disputes.
+- **Analytics Dashboard:** Display key performance indicators and usage statistics.
+- **Support Requests:** Manage support requests from user reports.
+- **Data Export:** Allow exporting of structured data (CSV) for reports and backups.
+
+## 2.3 Nonfunctional Requirements
+
+### 2.3.1 Mobile Application
+- **Performance:** Load the main interface within 3 seconds.
+- **Ease of Use:** Intuitive navigation requires minimal guidance. Primary functions accessible within three taps.
+- **Security:** App should not leak user information, such as general location and grades.
+- **Graceful Exit:** Preserve user data during unexpected exits.
+- **Cross-Platform Consistency:** Maintain a uniform user experience across iOS and Android.
+- **Offline Usability:** Allow viewing of scheduled sessions without an internet connection and synchronize data when reconnected.
+- **Scalability:** Support increasing user loads without performance drops.
+- **Battery Consumption:** Optimize to minimize battery drain.
+
+### 2.3.2 Server
+- **Availability:** Maintain an uptime of 99.9% or higher.
+- **Performance:** Handle up to 10,000 requests per day. Average API response time under 200ms.
+- **Security:** Should not allow devices currently using the app to query the database using methods such as SQL injection.
+- **Maintainability:** Facilitate easy updates and feature additions.
+
+## 2.5 Functional Decomposition
+
+### 2.5.1 User Interface
+The mobile application will provide an intuitive and user-friendly graphical interface developed using React Native. The interface caters to both students (grades 1-12 and university level) and tutors, allowing:
+- **Registration and Authentication:** Sign up and log in via Firebase Authentication.
+- **Profile Management:** Create and edit personal profiles, including educational details, subjects, and availability.
+- **Search and Browse:** Navigate through a list of tutors or students based on subjects, grade levels, availability, and location.
+- **Scheduling Sessions:** Schedule tutoring sessions with real-time synchronization to Google Calendar.
+- **Messaging:** Communicate through in-app messaging for arranging details and clarifications.
+- **Notifications:** Receive push notifications for upcoming sessions, messages, and important updates.
+- **Feedback and Ratings:** Provide and view feedback after tutoring sessions.
+
+The UI aims to streamline the tutoring process, making it more efficient than traditional methods. The application will collect data from users, such as timestamps and optional location data, to enhance user experience. The app focuses on secure data handling, allowing users to upload new data to the server while restricting unauthorized data access or retrieval from the server.
+
+### 2.5.2 Database
+A PostgreSQL database will be used for robust and scalable data storage. The database will handle:
+- **User Data:** Storing user profiles, authentication tokens, and preferences.
+- **Session Information:** Recording scheduled sessions, history, and attendance.
+- **Messages:** Logging in-app communications between tutors and students.
+- **Feedback and Ratings:** Collecting reviews and ratings for quality assurance.
+
+### 2.5.3 Calendar Integration
+The app will integrate with the Google Calendar API to manage scheduling functionalities:
+- **Real-Time Synchronization:** Automatically update users' Google Calendars with scheduled tutoring sessions.
+- **Availability Management:** Tutors can set their availability, which syncs with their Google Calendar to prevent double-booking.
+- **Reminders and Notifications:** Send automated reminders to users about upcoming sessions.
+- **Conflict Detection:** Alert users if there are scheduling conflicts when booking sessions.
+
+### 2.5.4 Authentication Service
+Firebase Authentication will be utilized to handle user authentication and security:
+- **Multi-Platform Support:** Provides seamless authentication across iOS and Android platforms.
+- **Authentication Methods:** Supports email/password, Google Sign-In, and other social login options (such as LinkedIn).
+- **Secure Token Management:** Issues and verifies secure authentication tokens for session management.
+- **Password Recovery:** Allows users to reset passwords securely.
+
+Firebase's built-in security measures are in place to protect user credentials and personal information.
+
+### 2.5.5 Backend Server
+The backend server, built with Node.js (Express), will serve as the intermediary between the mobile application and the database. It will provide an API for:
+- **Handling Requests:** Processing requests from the mobile app for data retrieval and submission.
+- **Authentication Software:** Utilizing Firebase to authenticate and authorize users securely.
+- **Essential Logic:** Managing must-have functionalities like scheduling and matching tutors with students.
+- **Integration Services:** Communicating with external APIs such as Google Calendar for scheduling.
+- **Data Validation:** Ensuring all data submitted from the mobile app meets the required formats and standards before database entry.
+
+
+Here’s a revised version of your section 3 that matches the style and format you provided. It includes I/O specifications, user interface specifications, hardware specifications, software specifications, simulations and modeling, implementation issues and challenges, and testing procedures. Let me know if you’d like any changes!
+
+---
+# Detailed Description 
+### 3.1 I/O Specifications
+
+**Arrows indicate the direction of information flow.**
+
+#### 3.1.1 User Input → Application
+The user will provide input through the app interface, which includes text fields, buttons, and dropdown menus. This input will be processed and utilized to update the database and present results back to the user.
+
+#### 3.1.2 Application → Database
+The application will communicate with a backend database through RESTful APIs. Data such as user profiles, submissions, and analytics will be retrieved and stored as necessary to maintain user interactions and system performance.
+
+#### 3.1.3 Application → External APIs
+The application will interface with external services, such as Google's Calendar API and some web-scrapers we have created . These APIs will provide real-time data relevant to user queries, enriching the app's functionality and user experience.
+
+#### 3.1.4 Database → Application
+The database will send data back to the application as needed. This will include user data, historical records, and analytics that inform user decisions and enhance app features.
+
+#### 3.1.5 User → Application
+Users will be able to create and manage their profiles, providing information that personalizes their experience within the application. They will also have the option to report issues or provide feedback directly through the app interface.
+
+### 3.2 User Interface Specifications
+
+The user interface (UI) will be designed with accessibility and ease of use in mind. Users should be able to easily navigate through various functionalities, including creating, editing, and submitting data. We will ensure that our design is intuitive enough to cater to a diverse audience, ranging from casual users to experienced professionals. Our design team is currently developing wireframes that will serve as the basis for our UI. We aim to adhere to established design guidelines for both iOS and Android platforms, ensuring consistency across devices. Regular user testing sessions will be conducted to gather feedback and iterate on the UI design before final implementation.
+
+### 3.3 Hardware Specifications
+
+#### 3.3.1 User Device
+The application must run on devices with a minimum of iOS 12.0 or Android 9.0. The target devices should have at least 2 GB of RAM and network connectivity, either through Wi-Fi or cellular data. We will optimize the layout for both small and large screens, ensuring a responsive design that enhances usability on various device sizes.
+
+#### 3.3.2 Server
+Since our backend server is running on our local machines,  hosting the application and access to the database will be contingent on the fact that our , ensuring it remains operational 24/7. The server will be set up with scalability in mind, allowing us to add additional resources as user demand grows. We will utilize cloud infrastructure to ensure reliable uptime and performance.
+
+#### 3.3.3 Third-Party Services
+We will rely on established third-party services for weather data and mapping solutions, such as OpenWeatherMap and Google Maps. These services are known for their reliability and high availability, providing us with the necessary data for our application.
+
+### 3.4 Software Specifications
+
+#### 3.4.1 Operating System
+The application will be compatible with both iOS and Android operating systems, supporting iOS 12.0 and newer, as well as Android 9.0 and above. 
+
+#### 3.4.2 Backend Server
+The backend will be developed using Node.js, enabling seamless integration with our database. The server will utilize Express.js for routing and API management.
+
+#### 3.4.3 Database ( Schema ) 
+We will employ PostgreSQL as our primary database solution to manage user data and application information. The schema will be designed to support rapid data retrieval and efficient storage, catering to the needs of our application.
+
+
+### Overview ( Image ) 
+
+
+## Table: `user_roles`
+Stores the roles for different types of users (Sysadmin, Tutor, Student).
+
+```sql
+CREATE TABLE user_roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL -- Sysadmin, Tutor, Student
+);
+```
+
+## Table: `users`
+Stores user information, including Sysadmins, Tutors, and Students.
+
+```sql
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL, -- Passwords should be hashed
+    role_id INT REFERENCES user_roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## Table: `availability`
+Stores the availability schedule of Tutors.
+
+```sql
+CREATE TABLE availability (
+    availability_id SERIAL PRIMARY KEY,
+    tutor_id INT REFERENCES users(user_id), -- Only tutors
+    day_of_week VARCHAR(20), -- Monday, Tuesday, etc.
+    start_time TIME,
+    end_time TIME
+);
+```
+
+## Table: `sessions`
+Stores information about booked tutoring sessions.
+
+```sql
+CREATE TABLE sessions (
+    session_id SERIAL PRIMARY KEY,
+    tutor_id INT REFERENCES users(user_id), -- Only tutors
+    student_id INT REFERENCES users(user_id), -- Only students
+    session_date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    status VARCHAR(50) DEFAULT 'scheduled', -- scheduled, completed, cancelled
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## Table: `notifications`
+Stores real-time notifications sent to users.
+
+```sql
+CREATE TABLE notifications (
+    notification_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id),
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## Table: `payments`
+Stores payment transaction details between students and tutors.
+
+```sql
+CREATE TABLE payments (
+    payment_id SERIAL PRIMARY KEY,
+    session_id INT REFERENCES sessions(session_id),
+    student_id INT REFERENCES users(user_id), -- Only students
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    payment_status VARCHAR(50) DEFAULT 'pending' -- pending, completed, failed
+);
+```
+
+## Table: `analytics`
+Stores detailed reports on sessions, user activity, and payments.
+
+```sql
+CREATE TABLE analytics (
+    report_id SERIAL PRIMARY KEY,
+    report_type VARCHAR(100) NOT NULL, -- e.g., session_report, payment_report
+    data JSONB NOT NULL,
+    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
+
+## Relationships
+
+1. **User Roles**: Users are assigned a role (`Sysadmin`, `Tutor`, `Student`) through the `user_roles` table.
+2. **Availability**: Tutors manage their availability via the `availability` table.
+3. **Sessions**: Students can book tutoring sessions with tutors, tracked in the `sessions` table.
+4. **Notifications**: Users receive notifications about session updates and reminders in the `notifications` table.
+5. **Payments**: Payment transactions between students and tutors are stored in the `payments` table.
+6. **Analytics**: Sysadmins can generate detailed reports via the `analytics` table.
+
+
+
+#### 3.4.4 Third-Party Software
+Integration with third-party APIs, including Google Calendar , will be conducted using their respective SDKs and RESTful APIs, ensuring smooth communication between our application and external data sources.
+
+### 3.5 Simulations and Modeling
+
+#### 3.5.1 Unit Tests
+We will implement unit testing using Jest for JavaScript, ensuring that individual components function as expected. This will allow for early detection of issues and enhance code quality.
+
+#### 3.5.2 Database Simulation
+We will Populate the database with mock data . This will allow us to test data flow and performance before going live with the actual database.
+
+#### 3.5.3 API Simulation
+We will simulate everything on our local machines , we will simulate API calls to ensure our application correctly interacts with external services. This will help identify any potential integration issues before full deployment.
+
+#### 3.5.4 UI Mockup
+UI mockups will be developed using Figma, allowing for early visual representation of the application. These mockups will be used for user feedback sessions to refine the design before implementation.
+
+### 3.6 Implementation Issues and Challenges
+
+One significant challenge is ensuring cross-platform compatibility between iOS and Android versions of the application. Our team must maintain consistent feature sets and user experiences while addressing platform-specific quirks. Additionally, integrating third-party APIs poses potential hurdles, particularly regarding rate limits and data consistency. We are also mindful of the project timeline, as competing academic responsibilities may impact our development pace. To manage this, we will implement Agile methodologies, setting bi-weekly sprints to maintain progress.
+
+### 3.7 Testing Procedures and Specifications
+
+#### 3.7.1 Unit Tests
+Unit tests will be conducted for all major components, ensuring each module is functioning correctly. We will utilize automated testing frameworks to streamline this process and facilitate continuous integration.
+
+#### 3.7.2 Continuous Integration
+Our development workflow will include continuous integration practices to allow for real-time feedback on code changes. This will help catch issues early and improve collaboration among team members.
+
+#### 3.7.3 Integration Testing
+Integration testing will be essential to ensure that all components work together seamlessly. We will test interactions between the application, backend, and external APIs to validate overall functionality.
+
+#### 3.7.4 Beta Testing
+A closed beta will be initiated prior to the official launch. Selected users will be invited to test the application and provide feedback, allowing us to make necessary adjustments before the public release. Following this, a second round of beta testing will be conducted to confirm that all identified issues have been addressed.
+
+--- 

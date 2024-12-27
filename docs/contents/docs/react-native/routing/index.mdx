@@ -1,0 +1,58 @@
+# Navigation
+
+Welcome to the contribution guide for Lucidity documentation! This guide will walk you through adding navigation to new pages.
+
+## How Navigation Works
+
+We use the **Stack Navigator** library from React Navigation to manage navigation within the app.
+
+## Install Dependencies
+
+To begin, install the required packages:
+
+```bash
+npm install @react-navigation/native @react-navigation/stack react-native-screens react-native-gesture-handler
+```
+
+Additionally, you will need these dependencies:
+
+```bash
+npm install @react-native-masked-view/masked-view @react-navigation/bottom-tabs
+```
+
+## Adding a New Screen
+
+1. **Import the stack navigator**:
+
+```javascript
+import { createStackNavigator } from '@react-navigation/stack';
+```
+
+2. **Add the new screen to the navigator**:
+
+```javascript
+<Stack.Navigator initialRouteName="Home">
+  <Stack.Screen name="NewScreen" component={NewScreenComponent} />
+</Stack.Navigator>
+```
+
+## Disabling Header
+
+To hide the top header, set `headerShown` to `false`:
+
+```javascript
+<Stack.Screen name="NewScreen" component={NewScreenComponent} options={{ headerShown: false }} />
+```
+
+## Adding New Pages to the Stack
+
+To add new pages to the stack we must pass in `naviation` as a prop to all of the functional components . This is necessary for later writing the logic to transition between pages .
+
+```javascript
+export default function Onboarding({navigation}) 
+```
+After we have passed in the `navigation` to our functional components we can write logic which will trigger the transition from one page to another
+
+```javascript
+<Button onPress={() => navigation.navigate("Page-ID")}></Button> 
+```
