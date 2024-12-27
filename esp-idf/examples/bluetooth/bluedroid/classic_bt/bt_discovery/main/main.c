@@ -46,15 +46,15 @@ typedef enum {
 /*############################################# Device Details ############################################## */
 
 typedef struct {
-    bool dev_found;
-    uint8_t bdname_len;
-    uint8_t eir_len;
-    uint8_t rssi;
-    uint32_t cod;
-    uint8_t eir[ESP_BT_GAP_EIR_DATA_LEN];
-    uint8_t bdname[ESP_BT_GAP_MAX_BDNAME_LEN + 1];
-    esp_bd_addr_t bda;
-    app_gap_state_t state;
+    bool dev_found;                                  // Stores whether the device has been found or not
+    uint8_t bdname_len;                              // Stores bluetooth device's name length
+    uint8_t eir_len;                                 // Stores
+    uint8_t rssi;                                    // Stores
+    uint32_t cod;                                    // Stores
+    uint8_t eir[ESP_BT_GAP_EIR_DATA_LEN];            // Stores
+    uint8_t bdname[ESP_BT_GAP_MAX_BDNAME_LEN + 1];   // Stores
+    esp_bd_addr_t bda;                               // Stores
+    app_gap_state_t state;                           // Struct for State of the bluetooth device
 } app_gap_cb_t;
 
 
@@ -70,6 +70,21 @@ static app_gap_cb_t m_dev_info;
 
 /*############################################# Device Instantation ############################################## */
 
+
+/*############################################# Bluetooth address converter ############################################## */
+
+
+/*
+ * @brief  Converts Bluetooth device address to a human readable string
+ * @param  esp_bd_addr_t bda ; Pointer to uint8_t[6] array which contains bluetooth address ( ex. {0x01, 0x23, 0x45, 0x67, 0x89, 0xAB} )
+ * @param  char *str ; String buffer where the new bluetooth address will be stored .
+ * @param  size_t size ; size of the buffer being used to store the string .
+ * @return A pointer to where the Bluetooth Address is stored .
+ *
+ * @note    [N/A]
+ * @example [N/A]
+ */
+
 static char *bda2str(esp_bd_addr_t bda, char *str, size_t size)
 {
     if (bda == NULL || str == NULL || size < 18) {
@@ -82,6 +97,16 @@ static char *bda2str(esp_bd_addr_t bda, char *str, size_t size)
     return str;
 }
 
+/*
+ * @brief  Converts UUID to string
+ * @param  esp_bd_addr_t bda ; Pointer to uint8_t[6] array which contains bluetooth address ( ex. {0x01, 0x23, 0x45, 0x67, 0x89, 0xAB} )
+ * @param  char *str ; String buffer where the new bluetooth address will be stored .
+ * @param  size_t size ; size of the buffer being used to store the string .
+ * @return A pointer to where the Bluetooth Address is stored .
+ *
+ * @note    [N/A]
+ * @example [N/A]
+ */
 static char *uuid2str(esp_bt_uuid_t *uuid, char *str, size_t size)
 {
     if (uuid == NULL || str == NULL) {

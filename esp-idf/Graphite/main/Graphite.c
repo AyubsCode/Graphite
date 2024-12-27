@@ -1,94 +1,89 @@
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "esp_log.h"
+#include "esp_system.h"
 #include "esp_bt.h"
-#include "esp_bt_device.h"
+#include "esp_gap_ble_api.h"
+#include "esp_gatts_api.h"
 #include "esp_bt_main.h"
-#include "esp_spp_api.h"
+#include "nvs_flash.h"
+#include "esp_gatt_common_api.h"
 
-// Tag for logging
-static const char *TAG = "BT_SPP_Server";
+// Define the custom service and characteristic UUIDs
+#define EXAMPLE_SERVICE_UUID        0x00FF  // Custom service UUID
+#define EXAMPLE_CHAR_UUID           0xFF01  // Custom characteristic UUID
 
-// Bluetooth SPP Callback function
-static void spp_callback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
-    switch (event) {
-        case ESP_SPP_SRV_OPEN_EVT:
-            ESP_LOGI(TAG, "Bluetooth connection opened");
-            break;
-        case ESP_SPP_CLOSE_EVT:
-            ESP_LOGI(TAG, "Bluetooth connection closed");
-            break;
-        case ESP_SPP_DATA_IND_EVT:
-            ESP_LOGI(TAG, "Data received: %s", param->data_ind.data);
-            // Echo received data back to the client
-            esp_spp_write(param->data_ind.handle, param->data_ind.len, param->data_ind.data);
-            break;
-        default:
-            break;
-    }
+// GATT service and characteristic handles
+static uint16_t example_service_handle = 0;
+static uint16_t example_char_handle = 0;
+
+// Define the characteristic UUID structure
+static esp_gatt_srvc_id_t example_service = {
+    .is_primary = true,
+    .id = {
+        .inst_id = 0,
+        .uuid = {
+            .len = ESP_UUID_LEN_16,
+            .uuid.uuid16 = EXAMPLE_SERVICE_UUID,
+        },
+    },
+};
+
+// Define the characteristic descriptor
+static esp_gatt_char_descr_elem_t gatt_char_desc = {
+    .uuid = {
+        .len = ESP_UUID_LEN_16,
+        .uuid.uuid16 = EXAMPLE_CHAR_UUID,
+    },
+    .len = ESP_UUID_LEN_16,
+    .value = {0},
+};
+
+// BLE callback functions
+static void esp_gap_cb(esp_gap_ble_cb_event_t event, esp_gap_ble_cb_param_t *param) {
+    // Handle BLE events
 }
 
-// Function to initialize Bluetooth
-void bt_init(void) {
-    esp_err_t ret;
-
-    // Initialize the Bluetooth controller
-    ret = esp_bt_controller_init();
-    if (ret) {
-        ESP_LOGE(TAG, "Bluetooth controller initialization failed: %s", esp_err_to_name(ret));
-        return;
-    }
-
-    // Enable Bluetooth Classic mode
-    ret = esp_bt_controller_enable(ESP_BT_MODE_CLASSIC_BT);
-    if (ret) {
-        ESP_LOGE(TAG, "Bluetooth controller enable failed: %s", esp_err_to_name(ret));
-        return;
-    }
-
-    // Initialize the Bluetooth stack (Bluedroid)
-    ret = esp_bluedroid_init();
-    if (ret) {
-        ESP_LOGE(TAG, "Bluedroid stack initialization failed: %s", esp_err_to_name(ret));
-        return;
-    }
-
-    ret = esp_bluedroid_enable();
-    if (ret) {
-        ESP_LOGE(TAG, "Bluedroid stack enable failed: %s", esp_err_to_name(ret));
-        return;
-    }
-
-    // Register the SPP callback
-    esp_spp_register_callback(spp_callback);
-
-    // Initialize the SPP module in callback mode
-    ret = esp_spp_init(ESP_SPP_MODE_CB);
-    if (ret) {
-        ESP_LOGE(TAG, "SPP initialization failed: %s", esp_err_to_name(ret));
-        return;
-    }
-
-    // Start the Bluetooth SPP server
-    ret = esp_spp_start_srv(ESP_SPP_SEC_NONE, 0, "ESP32_SPP_SERVER");
-    if (ret) {
-        ESP_LOGE(TAG, "SPP server start failed: %s", esp_err_to_name(ret));
-        return;
-    }
-
-    ESP_LOGI(TAG, "Bluetooth SPP server started");
+static void esp_gatts_cb(esp_gatts_cb_event_t event, esp_gatts_cb_param_t *param) {
+    // Handle GATT events
 }
 
-// Main function
-void app_main(void) {
-    ESP_LOGI(TAG, "Starting Bluetooth SPP server");
+static void start_advertising() {
+    esp_ble_adv_data_t adv_data = {
+        .set_scan_rsp = false,
+        .include_name = true,
+        .include_txpower = true,
+        .min_interval = 0x20,
+        .max_interval = 0x40,
+        .service_uuid = {EXAMPLE_SERVICE_UUID},
+    };
+    ESP_ERROR_CHECK(esp_ble_gap_start_advertising(&adv_data));
+}
 
-    // Initialize Bluetooth
-    bt_init();
-
-    // Main loop
-    while (1) {
-        // Keep the server running
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+// Initialize BLE
+static void ble_init() {
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
     }
+    ESP_ERROR_CHECK(ret);
+
+    ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT));
+    esp_bt_controller_init();
+    esp_bt_controller_enable(ESP_BT_MODE_BLE);
+
+    ESP_ERROR_CHECK(esp_ble_gatts_register_callback(esp_gatts_cb));
+    ESP_ERROR_CHECK(esp_ble_gap_register_callback(esp_gap_cb));
+
+    ESP_ERROR_CHECK(esp_ble_gatts_app_register(0));
+
+    // Start BLE advertising
+    start_advertising();
+}
+
+void app_main() {
+    ble_init();
 }
