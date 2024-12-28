@@ -31,28 +31,10 @@ export const ROUTES: EachRoute[] = [
     href: "/bluetooth_server",
     noLink: true,  // Parent item, no direct link
     items: [
-      { title: "Setting Up Non-Volatile Storage", href: "/nvs" },  // Clickable
-      { 
-        title: "Codebase Contributions",
-        href: "/codebase" ,
-        noLink: true , // dont set to false or else boom 
-        items : [
-          { title: "react-native", href: "/frontend" },  // Clickable
-          // { title: "react-native", href: "/frontend" },  // Clickable
-        ],
-      },  // Clickable
+      { title: "Setting Up Non-Volatile Storage", href: "/nvs"},  
+      { title: "Setting Up Bluetooth Server", href: "/bts" },  
     ]
   },
-  {
-    title : "React-Native Integration",
-    href: "/react-native",
-    noLink : true, 
-    items : [
-      {title: "react-native-reanimated" , href : "/react-native-reanimated"} , 
-      {title: "Navigation" , href : "/routing"} , 
-    ],
-  },
-
 ];
 
 type Page = { title: string; href: string };
