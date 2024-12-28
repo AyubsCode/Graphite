@@ -1,0 +1,18 @@
+# Setting Up Non-Volatile Memory 
+___
+
+The entry point of the application serves to carry out three main tasks. Firstly, the app instantiates **Non-Volatile Storage (*Flash Memory*)** utilizing [[nvs_flash.h]].
+
+> [!note] **Error Handling Convention**  
+> Throughout our server, we utilize an instance of `esp_err_t ret` to store any potential errors that may occur during the process of instantiating the Bluetooth server. For example:  
+> 
+> ```c
+> esp_err_t ret;
+> ret = nvs_flash_init();  // Attempt to instantiate the Non-Volatile Storage
+> if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+>     ESP_ERROR_CHECK(nvs_flash_erase());
+>     ret = nvs_flash_init();
+> }
+> ESP_ERROR_CHECK(ret);
+> ```
+> By following this approach, we can easily check whether an error has occurred anywhere within the code and log it accordingly using `ESP_LOGE()`.

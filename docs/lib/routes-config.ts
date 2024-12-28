@@ -27,28 +27,11 @@ export const ROUTES: EachRoute[] = [
     ],
   },
   {
-    title: "Contributions",
-    href: "/contributions",
-    noLink: true,  // Parent item, no direct link
-    items: [
-      { title: "Documentation Contributions", href: "/documentation" },  // Clickable
-      { 
-        title: "Codebase Contributions",
-        href: "/codebase" ,
-        noLink: true , // dont set to false or else boom 
-        items : [
-          { title: "react-native", href: "/frontend" },  // Clickable
-          // { title: "react-native", href: "/frontend" },  // Clickable
-        ],
-      },  // Clickable
-    ]
-  },
-  {
     title: "Setting Up Bluetooth Server",
-    href: "/contributions",
+    href: "/bluetooth_server",
     noLink: true,  // Parent item, no direct link
     items: [
-      { title: "Documentation Contributions", href: "/documentation" },  // Clickable
+      { title: "Setting Up Non-Volatile Storage", href: "/nvs" },  // Clickable
       { 
         title: "Codebase Contributions",
         href: "/codebase" ,
