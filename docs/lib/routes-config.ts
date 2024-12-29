@@ -32,7 +32,8 @@ export const ROUTES: EachRoute[] = [
     noLink: true,  // Parent item, no direct link
     items: [
       { title: "Setting Up Non-Volatile Storage", href: "/nvs"},  
-      { title: "Setting Up Bluetooth Server", href: "/bts" },  
+      { title: "Setting Up Bluetooth Controller", href: "/bts" },  
+      { title: "Application Profiles", href: "/profiles" },  
     ]
   },
 ];

@@ -147,7 +147,7 @@ static esp_ble_adv_params_t adv_params = {
 };
 
 #define PROFILE_NUM 2
-#define PROFILE_A_APP_ID 0
+#define PROFILE_A_APP_ID 0 // User Defined to store within Statically Allocated Array
 #define PROFILE_B_APP_ID 1
 
 struct gatts_profile_inst {
@@ -685,71 +685,71 @@ static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_
 }
 
 
-// Main Entry Point 
+// Main Entry Point
 
 void app_main(void)
 {
-    esp_err_t ret; // Error Instantiation  , Holds potential error value 
+    esp_err_t ret; // Error Instantiation  , Holds potential error value
 
     // Initialize Non-Volatile Storage ( Flash memory ) .
     ret = nvs_flash_init();
-    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) { // If error is defined -> ESP_ERROR Check ? 
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) { // If error is defined -> ESP_ERROR Check ?
         ESP_ERROR_CHECK(nvs_flash_erase());
         ret = nvs_flash_init();
     }
     ESP_ERROR_CHECK( ret );
 
     #if CONFIG_EXAMPLE_CI_PIPELINE_ID
-    memcpy(test_device_name, esp_bluedroid_get_example_name(), ESP_BLE_ADV_NAME_LEN_MAX); // What does this do ? 
+    memcpy(test_device_name, esp_bluedroid_get_example_name(), ESP_BLE_ADV_NAME_LEN_MAX); // What does this do ?
     #endif
 
-    ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT)); 
+    ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT));
 
-    esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT(); // Set up Bluetooth Configuration Structure , default 
-    ret = esp_bt_controller_init(&bt_cfg); // Using bluetooth Configuration Structure , instantiate bluetooth controller . 
+    esp_bt_controller_config_t bt_cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT(); // Set up Bluetooth Configuration Structure , default
+    ret = esp_bt_controller_init(&bt_cfg); // Using bluetooth Configuration Structure , instantiate bluetooth controller .
     if (ret) {
         ESP_LOGE(GATTS_TAG, "%s initialize controller failed: %s", __func__, esp_err_to_name(ret));
         return;
     }
 
-    ret = esp_bt_controller_enable(ESP_BT_MODE_BLE); // Enable Controller  , Takes one of four arguments ( In this case we are using Bluetooth Low energy ) 
+    ret = esp_bt_controller_enable(ESP_BT_MODE_BLE); // Enable Controller  , Takes one of four arguments ( In this case we are using Bluetooth Low energy )
     if (ret) {
         ESP_LOGE(GATTS_TAG, "%s enable controller failed: %s", __func__, esp_err_to_name(ret));
         return;
     }
 
-    ret = esp_bluedroid_init(); // Initialize bluedroid 
+    ret = esp_bluedroid_init(); // Initialize bluedroid
     if (ret) {
         ESP_LOGE(GATTS_TAG, "%s init bluetooth failed: %s", __func__, esp_err_to_name(ret));
         return;
     }
-    ret = esp_bluedroid_enable(); // Enable bluetooth 
+    ret = esp_bluedroid_enable(); // Enable bluetooth
     if (ret) {
         ESP_LOGE(GATTS_TAG, "%s enable bluetooth failed: %s", __func__, esp_err_to_name(ret));
         return;
     }
     // Note: Avoid performing time-consuming operations within callback functions.
-    ret = esp_ble_gatts_register_callback(gatts_event_handler); // Callback for when connection / read / write operation occurs 
+    ret = esp_ble_gatts_register_callback(gatts_event_handler); // Callback for when connection / read / write operation occurs
     if (ret){
         ESP_LOGE(GATTS_TAG, "gatts register error, error code = %x", ret);
         return;
     }
-    ret = esp_ble_gap_register_callback(gap_event_handler); // Callback for when connection / read / write operation occurs 
+    ret = esp_ble_gap_register_callback(gap_event_handler); // Callback for when connection / read / write operation occurs
     if (ret){
         ESP_LOGE(GATTS_TAG, "gap register error, error code = %x", ret);
         return;
     }
-    ret = esp_ble_gatts_app_register(PROFILE_A_APP_ID); // Registering profile  ( A ) 
+    ret = esp_ble_gatts_app_register(PROFILE_A_APP_ID); // Registering profile  ( A )
     if (ret){
         ESP_LOGE(GATTS_TAG, "gatts app register error, error code = %x", ret);
         return;
     }
-    ret = esp_ble_gatts_app_register(PROFILE_B_APP_ID); // Registering profile  ( B ) 
+    ret = esp_ble_gatts_app_register(PROFILE_B_APP_ID); // Registering profile  ( B )
     if (ret){
         ESP_LOGE(GATTS_TAG, "gatts app register error, error code = %x", ret);
         return;
     }
-    esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(500); // What does this do ? 
+    esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(500); // What does this do ?
     if (local_mtu_ret){
         ESP_LOGE(GATTS_TAG, "set local  MTU failed, error code = %x", local_mtu_ret);
     }
