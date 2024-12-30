@@ -37,6 +37,14 @@ export const ROUTES: EachRoute[] = [
       { title: "GAP Parameters", href: "/gapp" },  
     ]
   },
+  {
+    title: "Bluetooth Communication",
+    href: "/bluetooth_comm",
+    noLink: true,  // Parent item, no direct link
+    items: [
+      { title: "Reading Data", href: "/creads"},  
+    ]
+  },
 ];
 
 type Page = { title: string; href: string };
