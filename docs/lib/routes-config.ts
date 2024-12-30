@@ -34,6 +34,7 @@ export const ROUTES: EachRoute[] = [
       { title: "Setting Up Non-Volatile Storage", href: "/nvs"},  
       { title: "Setting Up Bluetooth Controller", href: "/bts" },  
       { title: "Application Profiles", href: "/profiles" },  
+      { title: "GAP Parameters", href: "/gapp" },  
     ]
   },
 ];
