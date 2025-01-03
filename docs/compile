@@ -1,0 +1,4 @@
+#!/usr/sbin/bash
+
+npx next build ; 
+npx next start ; 

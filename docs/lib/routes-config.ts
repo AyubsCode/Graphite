@@ -9,21 +9,28 @@ export type EachRoute = {
 
 export const ROUTES: EachRoute[] = [
   {
-    title: "Getting Started",
-    href: "/getting-started",
+    title: "Design Document",
+    href: "/designdoc",
     noLink: true,
     items: [
-      { title: "Introduction", href: "/introduction" },
-      {
-        title: "Installation",
-        href: "/installation",
-        items: [
-          { title: "Laravel", href: "/laravel" },
-          { title: "React", href: "/react" },
-          { title: "Gatsby", href: "/gatsby" },
-          { title: "Test", href: "/test" },
-        ],
+      { 
+        title: "Introduction",
+        href: "/introduction",
+        noLink : true ,
+        items : [
+          { title: "Purpose", href: "/purpose" },
+          { title: "Scope", href: "/scope" },
+        ]
       },
+      {
+        title : "System Overview",
+        href  : "/sysover",
+        noLink: true ,
+        items : [
+          { title: "Architecture", href: "/arch" },
+          { title: "Key Components", href: "/keycmp" },
+        ],
+      }
     ],
   },
   {
