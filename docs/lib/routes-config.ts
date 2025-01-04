@@ -18,7 +18,7 @@ export const ROUTES: EachRoute[] = [
         href: "/introduction",
         noLink : true ,
         items : [
-          { title: "Purpose", href: "/purpose" },
+          { title: "Overview", href: "/purpose" },
           { title: "Scope", href: "/scope" },
         ]
       },
