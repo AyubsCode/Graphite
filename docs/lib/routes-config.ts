@@ -28,8 +28,9 @@ export const ROUTES: EachRoute[] = [
         href  : "/sysover",
         noLink: true ,
         items : [
-          { title: "Architecture", href: "/arch" },
-          { title: "Key Components", href: "/keycmp" },
+          { title: "System Level Design", href: "/arch" },
+          { title: "Functional Requirements", href: "/funcreq" },
+          { title: "Non-Functional Requirements", href: "/nfuncreq" },
         ],
       }
     ],
