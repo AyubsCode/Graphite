@@ -20,7 +20,7 @@ export const ROUTES: EachRoute[] = [
         items : [
           { title: "Purpose", href: "/purpose" },
           { title: "Background", href: "/bg" },
-          // { title: "Objective", href: "/obj" }, /dk if this is needed 
+          { title: "List of System Components", href: "/syscmps" },
         ]
       },
       {
