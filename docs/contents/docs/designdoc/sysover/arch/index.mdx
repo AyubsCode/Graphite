@@ -1,15 +1,83 @@
-# 2.0 System Level Design
+## 2 System Level Design
 
-#### **2.1 Hardware**
+### **2.1 System Requirements**
+#### **2.1.1 Hardware**
 The system will be centered around a hardware component that functions as a central storage unit. This component will not only store data but also serve as a web streaming device, enabling real-time browsing and seamless access to the data stored within it. Key features of the hardware include:  
-- **Expandable Storage**: Support for modular upgrades to increase storage capacity.  
-- **Wireless Connectivity**: Integration with modern connectivity standards such as Wi-Fi 6 and Bluetooth 5.0.  
-- **Portability**: A lightweight and energy-efficient design for on-the-go use.  
-- **Data Security**: On-device encryption for secure data handling.  
+- **Expandable Storage**: Support for modular upgrades to increase storage capacity.  
+- **Wireless Connectivity**: Integration with modern connectivity standards such as Wi-Fi 6 and Bluetooth 5.0.  
+- **Portability**: A lightweight and energy-efficient design for on-the-go use.  
+- **Data Security**: On-device encryption for secure data handling.  
 
-#### **2.2 Mobile Application**
+#### **2.1.2 Mobile Application**
 The system will feature a cross-platform application, designed to ensure identical functionality and a consistent user experience across all supported operating systems. The mobile application will serve as the primary interface for users, allowing them to interact seamlessly with the hardware component. The application’s key roles include:  
-- **Data Management**: Facilitate file uploads, downloads, and organization.  
-- **Real-Time Monitoring**: Display the status of the hardware, including storage usage and active connections.  
-- **Streaming Interface**: Provide a user-friendly interface for real-time data browsing and streaming.  
-- **Device Compatibility**: Ensure compatibility with both Android and iOS, utilizing responsive design for various screen sizes.  
+- **Data Management**: Facilitate file uploads, downloads, and organization.  
+- **Real-Time Monitoring**: Display the status of the hardware, including storage usage and active connections.  
+- **Streaming Interface**: Provide a user-friendly interface for real-time data browsing and streaming.  
+- **Device Compatibility**: Ensure compatibility with both Android and iOS, utilizing responsive design for various screen sizes.  
+
+### **2.2 Functional Requirements**
+
+##### **2.2.1 Mobile Application**
+**2.2.1.1 Synopsis** 
+The mobile application will allow users to manage and expand their device storage wirelessly. Users will be able to upload, retrieve, and organize files securely, ensuring scalability and flexibility in their storage options.  
+
+**2.2.1.2 List of Requirements**  
+- Provide a straightforward setup process for pairing the mobile device with the hardware unit.  
+- Enable users to wirelessly transfer files between the mobile device and the external storage unit.  
+- Display real-time storage capacity metrics, such as available space and usage percentage.  
+- Implement secure authentication and data encryption to protect user files.  
+- Allow users to categorize and organize files within the application.  
+- Include a robust search and filter system for locating stored files.  
+
+**2.2.1.3 Data Collection and Management**  
+The app will collect and display the following information:  
+- Device and hardware connection status.  
+- Storage unit details, including capacity and remaining space.  
+- File metadata such as upload time, file size, and format.  
+- Connection history logs for troubleshooting purposes.  
+
+**2.2.1.4 User Input**  
+The application will provide the following user input features:  
+- File upload from mobile device storage.  
+- Folder creation and organization tools. 
+- Folder restructuring . 
+- Search bar for querying stored files.  
+- Settings panel for customizing user preferences, including wireless network configurations.
+- Ability to share files from the device to other users . 
+
+
+### 2.3 Nonfunctional Requirements  
+
+#### 2.3.1 Mobile Application  
+
+The following Non-Functional requirements have been listed in order of importance . 
+
+**Security:**  
+- The app must use secure authentication protocols, ensuring the protection of user credentials and private data. No sensitive information should be stored in plain text.  
+
+**Graceful Failure:**  
+- In the event of an unexpected error, the app should exit cleanly, preserving user data and preventing device crashes or restarts. Effective rollback mechanisms will be put into place to negate the loss of data .
+- In cases of interrupted network connectivity or failed transmissions, the app must store data locally and retry submissions when the network is restored.  
+
+**Multi-Task Capability:**  
+- The app should allow users to switch between it and other apps without losing progress or data integrity.  
+
+**Performance:**  
+- The mobile app must operate efficiently, with minimal impact on battery life, ensuring at least 3 hours of continuous usage on a modern device with a well-maintained battery.  
+
+**Ease of Use:**  
+- The application should have an intuitive user interface, allowing users to perform storage operations (e.g., upload, retrieve, organize files) without requiring formal training or a user manual.  
+
+**Form Factor Adaptability:**  
+- The application should function effectively across a wide range of device screen sizes and resolutions, maintaining usability on standard form factors.  
+
+**Offline Usability:**  
+- The app must allow users to manage files and interact with the hardware unit without requiring a continuous network connection.  
+
+**Minimal Data Transfer:**  
+- The app will minimize network activity, optimizing data transfer to essential operations like file uploads or configuration updates.  
+
+**Minimal Resource Usage:**  
+- CPU and memory consumption will be minimized to ensure smooth operation, even on devices with limited resources.  
+
+

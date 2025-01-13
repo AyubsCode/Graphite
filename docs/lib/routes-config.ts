@@ -21,6 +21,7 @@ export const ROUTES: EachRoute[] = [
           { title: "Purpose", href: "/purpose" },
           { title: "Background", href: "/bg" },
           { title: "List of System Components", href: "/syscmps" },
+          { title: "Objective", href: "/obj" },
         ]
       },
       {
@@ -32,13 +33,21 @@ export const ROUTES: EachRoute[] = [
           { title: "Functional Requirements", href: "/funcreq" },
           { title: "Non-Functional Requirements", href: "/nfuncreq" },
         ],
+      },
+      {
+        title : "High Level Design",
+        href  : "/hdl",
+      },
+      {
+        title : "Database Shcema",
+        href  : "/db",
       }
     ],
   },
   {
     title: "Setting Up Bluetooth Server",
     href: "/bluetooth_server",
-    noLink: true,  // Parent item, no direct link
+    noLink: true,  // Parent itm, no direct link
     items: [
       { title: "Setting Up Non-Volatile Storage", href: "/nvs"},  
       { title: "Setting Up Bluetooth Controller", href: "/bts" },  
