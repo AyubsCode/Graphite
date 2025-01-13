@@ -51,7 +51,7 @@ static esp_err_t data_handler(httpd_req_t *req)
 {
     // Example: sending a simulated temperature value
     char resp[32];
-    sprintf(resp, "23.5");  // You can replace this with real sensor data
+    sprintf(resp, "23.5");  
     httpd_resp_send(req, resp, strlen(resp));
     return ESP_OK;
 }
