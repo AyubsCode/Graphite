@@ -1,3 +1,97 @@
-## 3 High level Design
+### 3. High-Level Design 
 
-### 3.1 Block Diagram
+#### **3.1 Block Diagram**
+
+
+#### **3.2 Application Programming Interface**
+ 
+#### **3.2.1 I/O APIs**
+The following is an abstract example of the *Application Programming Interface*.. 
+####  1. Uploading a  File 
+
+-   **Endpoint:** `POST /file`
+-   **Request Body:**
+    
+    ```json
+    {
+      "filename": "string",
+      "createdOnInUTC": "long",
+      "createdBy": "string",
+      "updatedOnInUTC": "long",
+      "updatedBy": "string"
+    }
+    
+    ```
+   
+    
+-   **Response:**
+    
+    ```json
+    {
+	  "isViable" : "bool" 
+      "uploadStatus": "string",
+    }
+    
+    ```
+    
+-   **Process:**
+    -   This operation involves a two-step process:
+        1.  File metadata is stored locally .
+        2.  The actual file upload begins.
+    ---
+
+####  2. Uploading a  File 
+
+-   **Endpoint:** `GET fileId`
+-   **Response:**
+    
+    ```json
+    {
+      "fileId": "string",
+      "downloadUrl": "string",
+      "isViable" : "bool", 
+      "streamStatus" : "double" 
+    }
+    
+    ```
+    It should be taken into account that `fileId` is the absolute path to the file in question . 
+    
+    ---
+#### **3. Delete File**
+
+-   **Endpoint:** `DELETE fileId`
+-   **Details:**
+    -   Deletes the file from the hardware's flash and its associated metadata from the device .
+
+    ---
+
+#### **4. Get Latest Snapshot**
+
+-   **Endpoint:** `GET /folders/{folderId}?startIndex={startIndex}&limit={limit}`
+-   **Response:**
+    
+    ```json
+    {
+      "folderId": "string",
+      "fileList": [
+        {
+          "fileId": "string",
+          "filename": "string",
+          "thumbnail_img": "string",
+          "lastModifiedDateInUTC": "string",
+          "creationDateInUTC": "string"
+        }
+      ]
+    }
+    
+    ```
+    
+-   **Details:**
+    -   Provides a paginated list of files within a specified folder.
+    -   Data is fetched dynamically as the user scrolls to optimize performance for folders with many files.
+
+----------
+
+#### **Design Considerations**
+
+   - Metadata and other relevant data must be stored on the device locally. 
