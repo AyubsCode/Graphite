@@ -63,6 +63,14 @@ export const ROUTES: EachRoute[] = [
       { title: "Reading Data", href: "/creads"},  
     ]
   },
+  {
+    title: "Documentation Contributions",
+    href: "/contributions",
+    noLink: true,  // Parent item, no direct link
+    items: [
+      { title: "Codebase", href: "/codebase"},  
+    ]
+  },
 ];
 
 type Page = { title: string; href: string };

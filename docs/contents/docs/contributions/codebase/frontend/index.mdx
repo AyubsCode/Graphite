@@ -1,0 +1,163 @@
+# Contributing to the React Native Codebase
+
+## Coding Standards
+
+When contributing to this React Native codebase, it's crucial to follow best practices to ensure code readability, maintainability, and consistency throughout the project. While there is no official standard for React Native, we adopt widely accepted conventions and guidelines.
+
+### Basic Rules
+- **Variable Declarations:** Always use `const` or `let` to declare variables. Use `const` by default unless reassignment is necessary.
+- **Component Style:** Always use functional components. Avoid nesting components or declaring them inside the render method; separate components whenever possible.
+
+### Naming Conventions
+- **PascalCase:** For React Native components, capitalize the first letter of each word in the name (e.g., `MyComponent`).
+- **camelCase:** For non-component functions, variables, and hooks (e.g., `myFunction`).
+- **CONSTANT_CASE:** For global constants and enums (e.g., `PRIMARY_COLOR`, `API_ENDPOINT`).
+
+```javascript
+// CONSTANT_CASE
+const PRIMARY_COLOR = '#FF0000';
+const FONT_SIZE_LARGE = 18;
+const API_ENDPOINT = 'https://api.example.com';
+
+// PascalCase & camelCase
+interface MyComponent {
+  camelCaseExample: string;
+}
+```
+
+### Type System
+- Always define types explicitly when possible. Avoid using `any` type.
+- **Interface (TypeScript):** Define the shape or structure of an object with interfaces to ensure type safety, reusability, and clarity.
+
+```typescript
+interface Person {
+  name: string;
+  age: number;
+}
+```
+
+### Source Organization
+
+#### Imports
+- Use absolute paths when possible.
+- Use relative paths for files within the same directory.
+
+#### Exports
+- Prefer file-scoped named exports.
+- Use the same name when importing a default module.
+
+### Styles
+- **Base Styles:** Use base styles when possible to maintain consistency.
+
+```javascript
+const baseStyle = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+  justifyContentCenter: {
+    justifyContent: 'center',
+  },
+  centralize: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  p4: {
+    padding: 4,
+  },
+  m8: {
+    margin: 8,
+  },
+});
+```
+
+- **Component Styles:** Create separate style files for new components.
+
+```javascript
+const styles = StyleSheet.create({
+  width: {
+    width: 16,
+  },
+  height: {
+    height: 16,
+  },
+  successMessage: {
+    fontFamily: 'Inter-Medium',
+    color: 'green',
+  },
+  errorMessage: {
+    fontFamily: 'Inter-Regular',
+    color: 'red',
+  },
+  textAlignCenter: {
+    textAlign: 'center',
+  },
+});
+
+export default styles;
+```
+
+- **No Inline Styles:** Avoid using inline styles; always use `StyleSheet.create`.
+
+```javascript
+// Bad
+<Text style={{ fontSize: 16, color: 'red' }}>Hello, React Native!</Text>
+
+// Good
+<Text style={styles.errorMessage}>Hello, React Native!</Text>
+```
+
+### Consistency
+- Use arrow functions when declaring functions, especially for event handlers and functional components.
+
+```javascript
+// Event Handlers
+<Button onPress={() => console.log('Button clicked!')} title="Click me" />
+
+// Functional Components
+const MyComponent = () => {
+  return <Text>Hello, React Native!</Text>;
+};
+```
+
+### Hooks API
+- Use `useCallback` and `useMemo` for memoization when appropriate. Ensure that dependencies are correctly specified to avoid unnecessary re-renders.
+
+```javascript
+// Bad
+const FooComponent = () => {
+  const onPress = () => {};
+  return <Bar onPress={onPress} />;
+};
+
+// Good
+const FooComponent = ({a, b}) => {
+  const onPress = useCallback(() => {}, [a, b]);
+  return <Bar onPress={onPress} />;
+};
+```
+
+### Selectors
+- Use selectors to access values from the Redux state.
+
+```javascript
+function TodoList() {
+  const todos = useSelector((state) => state.todos);
+}
+```
+
+### Folder Structure
+```
+/src
+  /components   - Reusable components
+  /pages        - Application screens/features
+  /navigations  - Navigation configurations
+  /services     - Shared services (e.g., API calls)
+  /utils        - Utility functions (e.g., date formatting)
+  /types        - Enums, interfaces
+  /redux        - Redux actions, reducers, and store
+App.js          - Main app component
+index.js        - App entry point
+/assets         - Images, fonts, etc.
+```
+- Modify environment variables in the root `.env` file as needed.
+
