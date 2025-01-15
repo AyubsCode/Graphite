@@ -12,29 +12,32 @@
 #include "driver/gpio.h"  // Added for GPIO control
 
 #define AP_SSID "MyESP32"
-#define TAG "WIFI_SERVER"
 #define AP_PASS "12345678"
 #define LED_PIN 2  // Built-in LED pin number
 
 static const char *TAG = "wifi_ap";
 
+
+typedef struct{
+    char* firstName ;
+    char* lastName  ;
+}JSON;
+
 const char* html_page = "<!DOCTYPE html><html>\
 <head><title>ESP32 Control</title></head>\
 <body>\
-    <h1>ESP32 Web Server</h1>\
-    <p>Temperature: <span id='temp'>--</span>°C</p>\
-    <button onclick='getData()'>Get Data</button>\
-    <button onclick='toggleLED()'>Toggle LED</button>\
+    <h1>JSON Test 4 capstone</h1>\
+    <p>JSON DATA : <span id='json'>--</span></p>\
+    <p>JSON DATA Name : <span id='jsonName'>--</span></p>\
+    <button onclick='fetchJSON()'>Fetch JSON</button>\
     <script>\
-        function getData() {\
-            fetch('/data')\
+        function fetchJSON() {\
+            fetch('/json')\
                 .then(response => response.text())\
-                .then(data => {\
-                    document.getElementById('temp').innerText = data;\
+                .then(value => {\
+                    document.getElementById('json').innerText = value;\
+                    document.getElementById('jsonName').innerText = typeof(value);\
                 });\
-        }\
-        function toggleLED() {\
-            fetch('/toggle');\
         }\
     </script>\
 </body></html>";
@@ -66,11 +69,26 @@ static esp_err_t toggle_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
+static esp_err_t root_json (httpd_req_t *req)
+{
+    // Names resp[1] = { { "Ayub" , "Mohamed"} } ;
+    char* resp = "{ \"Values\" : \"Test\"}" ;
+    httpd_resp_send(req, resp, sizeof(resp));
+    return ESP_OK ;
+}
+
 // HTTP server configuration
 httpd_uri_t uri_root = {
     .uri = "/",
     .method = HTTP_GET,
     .handler = root_handler,
+    .user_ctx = NULL
+};
+
+httpd_uri_t uri_json = {
+    .uri = "/json",
+    .method = HTTP_GET,
+    .handler = root_json ,
     .user_ctx = NULL
 };
 
@@ -97,9 +115,9 @@ static httpd_handle_t start_webserver(void)
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_register_uri_handler(server, &uri_root);
         httpd_register_uri_handler(server, &uri_data);
+        httpd_register_uri_handler(server, &uri_json);
         httpd_register_uri_handler(server, &uri_toggle);
-        // printf("Server started on port: '%d'\n", config.server_port);
-        ESP_LOGI(TAG , "Server has begun %d/n" , config.server_port);
+        printf("Server started on port: '%d'\n", config.server_port);
         return server;
     }
 
