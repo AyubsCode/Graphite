@@ -12,12 +12,12 @@
 #include "driver/gpio.h"  // Added for GPIO control
 
 #define AP_SSID "MyESP32"
+#define TAG "WIFI_SERVER"
 #define AP_PASS "12345678"
 #define LED_PIN 2  // Built-in LED pin number
 
 static const char *TAG = "wifi_ap";
 
-// HTML page with buttons
 const char* html_page = "<!DOCTYPE html><html>\
 <head><title>ESP32 Control</title></head>\
 <body>\
@@ -51,7 +51,7 @@ static esp_err_t data_handler(httpd_req_t *req)
 {
     // Example: sending a simulated temperature value
     char resp[32];
-    sprintf(resp, "23.5");  
+    sprintf(resp, "23.5");
     httpd_resp_send(req, resp, strlen(resp));
     return ESP_OK;
 }
@@ -98,7 +98,8 @@ static httpd_handle_t start_webserver(void)
         httpd_register_uri_handler(server, &uri_root);
         httpd_register_uri_handler(server, &uri_data);
         httpd_register_uri_handler(server, &uri_toggle);
-        printf("Server started on port: '%d'\n", config.server_port);
+        // printf("Server started on port: '%d'\n", config.server_port);
+        ESP_LOGI(TAG , "Server has begun %d/n" , config.server_port);
         return server;
     }
 
