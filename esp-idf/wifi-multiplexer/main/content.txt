@@ -1,0 +1,12 @@
+{
+  "folderId": "string",
+  "fileList": [
+    {
+      "fileId": "string",
+      "filename": "string",
+      "thumbnail_img": "string",
+      "lastModifiedDateInUTC": "string",
+      "creationDateInUTC": "string"
+    }
+  ]
+}

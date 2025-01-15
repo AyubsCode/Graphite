@@ -33,7 +33,7 @@ const char* html_page = "<!DOCTYPE html><html>\
     <script>\
         function fetchJSON() {\
             fetch('/json')\
-                .then(response => response.text())\
+                .then(response => response.json())\
                 .then(value => {\
                     document.getElementById('json').innerText = value;\
                     document.getElementById('jsonName').innerText = typeof(value);\
