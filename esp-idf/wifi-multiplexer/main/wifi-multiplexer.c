@@ -3,81 +3,159 @@
 #include "freertos/task.h"
 #include "esp_wifi.h"
 #include "esp_system.h"
+#include "esp_timer.h"
 #include "esp_event.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
 #include "lwip/err.h"
 #include "lwip/sys.h"
 #include "esp_http_server.h"
-#include "driver/gpio.h"  // Added for GPIO control
+#include "driver/gpio.h"
+#include "cJSON.h"
 
-#define AP_SSID "MyESP32"
+#define AP_SSID "TestNetwork"
 #define AP_PASS "12345678"
-#define LED_PIN 2  // Built-in LED pin number
+#define LED_PIN 2
+#define MAX_JSON_SIZE 1024
 
 static const char *TAG = "wifi_ap";
 
 
-typedef struct{
-    char* firstName ;
-    char* lastName  ;
-}JSON;
 
+// remember , I have to play around w this some more
 const char* html_page = "<!DOCTYPE html><html>\
-<head><title>ESP32 Control</title></head>\
+<head>\
+    <title>ESP32 JSON Communication</title>\
+    <style>\
+        body { font-family: Arial, sans-serif; margin: 20px; }\
+        .container { max-width: 800px; margin: 0 auto; }\
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }\
+        button { padding: 10px 20px; margin: 10px 0; }\
+        input { margin: 5px 0; padding: 5px; }\
+    </style>\
+</head>\
 <body>\
-    <h1>JSON Test 4 capstone</h1>\
-    <p>JSON DATA : <span id='json'>--</span></p>\
-    <p>JSON DATA Name : <span id='jsonName'>--</span></p>\
-    <button onclick='fetchJSON()'>Fetch JSON</button>\
+    <div class='container'>\
+        <h1>ESP32 JSON Communication</h1>\
+        <div>\
+            <h2>Send JSON to ESP32</h2>\
+            <input type='text' id='messageInput' placeholder='Enter message'>\
+            <button onclick='sendJSON()'>Send JSON</button>\
+        </div>\
+        <div>\
+            <h2>Receive JSON from ESP32</h2>\
+            <button onclick='fetchJSON()'>Fetch JSON</button>\
+            <h3>Received Data:</h3>\
+            <pre id='receivedJson'>No data</pre>\
+        </div>\
+    </div>\
     <script>\
-        function fetchJSON() {\
-            fetch('/json')\
-                .then(response => response.json())\
-                .then(value => {\
-                    document.getElementById('json').innerText = value;\
-                    document.getElementById('jsonName').innerText = typeof(value);\
+        async function sendJSON() {\
+            const message = document.getElementById('messageInput').value;\
+            const data = {\
+                message: message,\
+                timestamp: new Date().toISOString()\
+            };\
+            try {\
+                const response = await fetch('/api/json', {\
+                    method: 'POST',\
+                    headers: {\
+                        'Content-Type': 'application/json'\
+                    },\
+                    body: JSON.stringify(data)\
                 });\
+                const result = await response.json();\
+                alert('Server response: ' + result.status);\
+            } catch (error) {\
+                console.error('Error:', error);\
+                alert('Error sending data');\
+            }\
+        }\
+        async function fetchJSON() {\
+            try {\
+                const response = await fetch('/api/json');\
+                const data = await response.json();\
+                document.getElementById('receivedJson').textContent = \
+                    JSON.stringify(data, null, 2);\
+            } catch (error) {\
+                console.error('Error:', error);\
+                document.getElementById('receivedJson').textContent = \
+                    'Error fetching data';\
+            }\
         }\
     </script>\
 </body></html>";
 
-// Function to handle root URL
 static esp_err_t root_handler(httpd_req_t *req)
 {
     httpd_resp_send(req, html_page, strlen(html_page));
     return ESP_OK;
 }
 
-// Function to handle data request
-static esp_err_t data_handler(httpd_req_t *req)
+static esp_err_t post_json_handler(httpd_req_t *req)
 {
-    // Example: sending a simulated temperature value
-    char resp[32];
-    sprintf(resp, "23.5");
-    httpd_resp_send(req, resp, strlen(resp));
+    char content[MAX_JSON_SIZE];
+    int ret = httpd_req_recv(req, content, sizeof(content));
+
+    if (ret <= 0) {
+        const char* error_response = "{\"status\":\"error\",\"message\":\"No data received\"}";
+        httpd_resp_set_type(req, "application/json");
+        httpd_resp_send(req, error_response, strlen(error_response));
+        return ESP_OK;
+    }
+
+    content[ret] = '\0';
+
+    cJSON *root = cJSON_Parse(content);
+    if (root == NULL) {
+        const char* error_response = "{\"status\":\"error\",\"message\":\"Invalid JSON\"}";
+        httpd_resp_set_type(req, "application/json");
+        httpd_resp_send(req, error_response, strlen(error_response));
+        return ESP_OK;
+    }
+
+    cJSON *message = cJSON_GetObjectItem(root, "message");
+    if (cJSON_IsString(message) && (message->valuestring != NULL)) {
+        ESP_LOGI(TAG, "Received message: %s", message->valuestring);
+    }
+
+    cJSON_Delete(root);
+
+    const char* success_response = "{\"status\":\"success\",\"message\":\"Data received\"}";
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_send(req, success_response, strlen(success_response));
+
     return ESP_OK;
 }
 
-// Function to handle LED toggle
-static esp_err_t toggle_handler(httpd_req_t *req)
+static esp_err_t get_json_handler(httpd_req_t *req)
 {
-    static bool led_state = false;
-    led_state = !led_state;
-    gpio_set_level(LED_PIN, led_state);
-    httpd_resp_send(req, "OK", 2);
+    cJSON *root = cJSON_CreateObject();
+
+    cJSON_AddStringToObject(root, "device", "ESP32");
+    cJSON_AddNumberToObject(root, "uptime", esp_timer_get_time() / 1000000); // seconds
+    cJSON_AddBoolToObject(root, "led_state", gpio_get_level(LED_PIN));
+
+    cJSON *measurements = cJSON_CreateArray();
+    for (int i = 0; i < 3; i++) {
+        cJSON *measurement = cJSON_CreateObject();
+        cJSON_AddNumberToObject(measurement, "value", i * 10);
+        cJSON_AddNumberToObject(measurement, "timestamp", esp_timer_get_time() + i);
+        cJSON_AddItemToArray(measurements, measurement);
+    }
+    cJSON_AddItemToObject(root, "measurements", measurements);
+
+    char *json_string = cJSON_Print(root);
+
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_send(req, json_string, strlen(json_string));
+
+    free(json_string);
+    cJSON_Delete(root);
+
     return ESP_OK;
 }
 
-static esp_err_t root_json (httpd_req_t *req)
-{
-    // Names resp[1] = { { "Ayub" , "Mohamed"} } ;
-    char* resp = "{ \"Values\" : \"Test\"}" ;
-    httpd_resp_send(req, resp, sizeof(resp));
-    return ESP_OK ;
-}
-
-// HTTP server configuration
 httpd_uri_t uri_root = {
     .uri = "/",
     .method = HTTP_GET,
@@ -85,43 +163,35 @@ httpd_uri_t uri_root = {
     .user_ctx = NULL
 };
 
-httpd_uri_t uri_json = {
-    .uri = "/json",
+httpd_uri_t uri_get_json = {
+    .uri = "/api/json",
     .method = HTTP_GET,
-    .handler = root_json ,
+    .handler = get_json_handler,
     .user_ctx = NULL
 };
 
-httpd_uri_t uri_data = {
-    .uri = "/data",
-    .method = HTTP_GET,
-    .handler = data_handler,
+httpd_uri_t uri_post_json = {
+    .uri = "/api/json",
+    .method = HTTP_POST,
+    .handler = post_json_handler,
     .user_ctx = NULL
 };
 
-httpd_uri_t uri_toggle = {
-    .uri = "/toggle",
-    .method = HTTP_GET,
-    .handler = toggle_handler,
-    .user_ctx = NULL
-};
-
-// Start the HTTP server
 static httpd_handle_t start_webserver(void)
 {
     httpd_handle_t server = NULL;
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
+    config.max_uri_handlers = 4;
 
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_register_uri_handler(server, &uri_root);
-        httpd_register_uri_handler(server, &uri_data);
-        httpd_register_uri_handler(server, &uri_json);
-        httpd_register_uri_handler(server, &uri_toggle);
-        printf("Server started on port: '%d'\n", config.server_port);
+        httpd_register_uri_handler(server, &uri_get_json);
+        httpd_register_uri_handler(server, &uri_post_json);
+        ESP_LOGI(TAG, "Server started on port: '%d'", config.server_port);
         return server;
     }
 
-    printf("Error starting server!\n");
+    ESP_LOGI(TAG, "Error starting server!");
     return NULL;
 }
 
@@ -148,14 +218,11 @@ static void wifi_init_ap(void)
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_ap_config));
     ESP_ERROR_CHECK(esp_wifi_start());
 
-    printf("WiFi AP Started\n");
-    printf("SSID: %s\n", AP_SSID);
-    printf("Password: %s\n", AP_PASS);
+    ESP_LOGI(TAG, "WiFi AP Started with SSID: %s", AP_SSID);
 }
 
 void app_main(void)
 {
-    // Initialize NVS
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         ESP_ERROR_CHECK(nvs_flash_erase());
@@ -163,13 +230,10 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(ret);
 
-    // Configure LED pin
     gpio_reset_pin(LED_PIN);
     gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
 
-    // Start WiFi AP
     wifi_init_ap();
 
-    // Start HTTP server
     start_webserver();
 }
