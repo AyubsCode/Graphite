@@ -56,6 +56,16 @@ export const ROUTES: EachRoute[] = [
     ]
   },
   {
+    title: "JSON Specifications",
+    href: "/json",
+    noLink: true,  // Parent itm, no direct link
+    items: [
+      { title: "Sending JSON", href: "/sendjs"},  
+      { title: "Recieving JSON", href: "/recvjs" },  
+      { title: "Creating JSON", href: "/makejs" },  
+    ]
+  },
+  {
     title: "Bluetooth Communication",
     href: "/bluetooth_comm",
     noLink: true,  // Parent item, no direct link
