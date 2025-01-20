@@ -73,6 +73,17 @@ export const ROUTES: EachRoute[] = [
       { title: "Reading Data", href: "/creads"},  
     ]
   },
+
+  {
+    title: "SPI Communication Between MicroSD Card And ESP32 Board",
+    href: "/setup_SPI",
+    noLink: true,
+    items:[
+      {title: "Basics of SPI Communication Protocol", href:"/bspi"},
+      {title: "Setup",href:"/hts"},
+    ]
+  },
+
   {
     title: "Documentation Contributions",
     href: "/contributions",
