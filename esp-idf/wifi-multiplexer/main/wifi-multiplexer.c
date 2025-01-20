@@ -132,18 +132,18 @@ static esp_err_t get_json_handler(httpd_req_t *req)
 {
     cJSON *root = cJSON_CreateObject();
 
-    cJSON_AddStringToObject(root, "device", "ESP32");
-    cJSON_AddNumberToObject(root, "uptime", esp_timer_get_time() / 1000000); // seconds
+    cJSON_AddStringToObject(root, "name", "Test JSON");
+    cJSON_AddNumberToObject(root, "uptime", esp_timer_get_time() / 1000000);
     cJSON_AddBoolToObject(root, "led_state", gpio_get_level(LED_PIN));
 
-    cJSON *measurements = cJSON_CreateArray();
-    for (int i = 0; i < 3; i++) {
-        cJSON *measurement = cJSON_CreateObject();
-        cJSON_AddNumberToObject(measurement, "value", i * 10);
-        cJSON_AddNumberToObject(measurement, "timestamp", esp_timer_get_time() + i);
-        cJSON_AddItemToArray(measurements, measurement);
-    }
-    cJSON_AddItemToObject(root, "measurements", measurements);
+    // cJSON *measurements = cJSON_CreateArray();
+    // for (int i = 0; i < 3; i++) {
+    //     cJSON *measurement = cJSON_CreateObject();
+    //     cJSON_AddNumberToObject(measurement, "value", i * 10);
+    //     cJSON_AddNumberToObject(measurement, "timestamp", esp_timer_get_time() + i);
+    //     cJSON_AddItemToArray(measurements, measurement);
+    // }
+    // cJSON_AddItemToObject(root, "measurements", measurements);
 
     char *json_string = cJSON_Print(root);
 

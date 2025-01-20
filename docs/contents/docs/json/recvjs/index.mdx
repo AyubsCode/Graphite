@@ -1,0 +1,39 @@
+## Receiving JSON 
+
+Within the `wifi-multiplexer.c` file , we begin by instantiating a HTTP response handler `static esp_err_t get_json_handler(httpd_req_t *req)` . After which the function proceeds as follows ..
+
+
+```c
+static esp_err_t get_json_handler(httpd_req_t *req)
+{
+    cJSON *root = cJSON_CreateObject();
+
+    cJSON_AddStringToObject(root, "device", "ESP32");
+    cJSON_AddNumberToObject(root, "uptime", esp_timer_get_time() / 1000000); // seconds
+    cJSON_AddBoolToObject(root, "led_state", gpio_get_level(LED_PIN));
+
+    cJSON *measurements = cJSON_CreateArray();
+    for (int i = 0; i < 3; i++) {
+        cJSON *measurement = cJSON_CreateObject();
+        cJSON_AddNumberToObject(measurement, "value", i * 10);
+        cJSON_AddNumberToObject(measurement, "timestamp", esp_timer_get_time() + i);
+        cJSON_AddItemToArray(measurements, measurement);
+    }
+    cJSON_AddItemToObject(root, "measurements", measurements);
+
+    char *json_string = cJSON_Print(root);
+
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_send(req, json_string, strlen(json_string));
+
+    free(json_string);
+    cJSON_Delete(root);
+
+    return ESP_OK;
+}
+```
+
+Here we create a JSON Object with the handle `root` . After which we assign fields to the JSON Object , namely 
+- `"device"` is assigned the string value "ESP32".
+- `"uptime"` is assigned the unsigned integer value of uptime in seconds  .
+- `"led_state"` is assigned a boolean value with the state of the LED . 
