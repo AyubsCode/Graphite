@@ -64,6 +64,22 @@ export const ROUTES: EachRoute[] = [
     ]
   },
   {
+    title: "Webserver Setup",
+    href: "/wbs",
+    noLink: true,  
+    items: [
+      { title: "Setting up the Webserver", href: "/webserversetup"},  
+    ]
+  },
+  {
+    title: "JSON Serialization",
+    href: "/json",
+    noLink: true,  
+    items: [
+      { title: "Sending JSON", href: "/sendjson"},  
+    ]
+  },
+  {
     title: "Documentation Contributions",
     href: "/contributions",
     noLink: true,  // Parent item, no direct link
