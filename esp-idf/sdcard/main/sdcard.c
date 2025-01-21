@@ -65,7 +65,6 @@ void init_sd_card() {
     ESP_LOGI("SD", "SD card mounted successfully");
     sdmmc_card_print_info(stdout, card);
 
-    // Your file operations remain the same
     FILE* test_file = fopen("/sdcard/test.txt", "w");
     if (test_file == NULL) {
         ESP_LOGE("SD", "Failed to open test.txt for writing.");
