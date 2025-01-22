@@ -18,6 +18,34 @@
 #define PIN_NUM_CLK   18
 #define PIN_NUM_CS    5
 
+
+void writeFile(){
+    FILE* test_file = fopen("/sdcard/test.txt", "w");
+    if (test_file == NULL) {
+        ESP_LOGE("SD", "Failed to open test.txt for writing.");
+    } else {
+        fprintf(test_file, "SD card is Works\n");
+        fclose(test_file);
+        ESP_LOGI("SD", "Successfully written to test.txt.");
+    }
+}
+
+void readFile(){
+    test_file = fopen("/sdcard/test.txt", "r");
+    if (test_file == NULL) {
+        ESP_LOGE("SD", "Failed to open test.txt for reading.");
+    } else {
+        ESP_LOGI("SD", "Reading from test.txt...");
+        char buffer[128];
+        while (fgets(buffer, sizeof(buffer), test_file)) {
+            printf("%s", buffer);
+        }
+        fclose(test_file);
+        ESP_LOGI("SD", "File read successfully.");
+    }
+}
+
+
 void init_sd_card() {
     esp_err_t ret;
     ESP_LOGI("SD", "Initializing SD card...");
@@ -65,6 +93,9 @@ void init_sd_card() {
     ESP_LOGI("SD", "SD card mounted successfully");
     sdmmc_card_print_info(stdout, card);
 
+<<<<<<< HEAD
+    // Writing Operations
+=======
     FILE* test_file = fopen("/sdcard/test.txt", "w");
     if (test_file == NULL) {
         ESP_LOGE("SD", "Failed to open test.txt for writing.");
@@ -73,21 +104,15 @@ void init_sd_card() {
         fclose(test_file);
         ESP_LOGI("SD", "Successfully written to test.txt.");
     }
+>>>>>>> b56c980b6359735c862333767f4feb65d7670198
 
-    // Read test file
-    test_file = fopen("/sdcard/test.txt", "r");
-    if (test_file == NULL) {
-        ESP_LOGE("SD", "Failed to open test.txt for reading.");
-    } else {
-        ESP_LOGI("SD", "Reading from test.txt...");
-        char buffer[128];
-        while (fgets(buffer, sizeof(buffer), test_file)) {
-            printf("%s", buffer);
-        }
-        fclose(test_file);
-        ESP_LOGI("SD", "File read successfully.");
-    }
+    writeFile()
+    // Reading Test Files
+    readFile()
 }
+
+
+
 
 void app_main(void) {
     esp_log_level_set("*", ESP_LOG_INFO);
