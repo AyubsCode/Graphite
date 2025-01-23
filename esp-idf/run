@@ -4,3 +4,10 @@
 . export.sh
 cd sdcard
 idf.py build flash monitor
+
+run() {
+    PROJ=$1
+    echo $PROJ
+}
+
+run $1
