@@ -11,6 +11,7 @@
 #include "driver/spi_common.h"
 #include "sdmmc_cmd.h"
 #include "esp_err.h"
+#include <stdio.h>
 
 // Define pins for SPI
 #define PIN_NUM_MISO  19
@@ -19,18 +20,21 @@
 #define PIN_NUM_CS    5
 
 
-void writeFile(){
-    FILE* test_file = fopen("/sdcard/test.txt", "w");
+void writeFile(char* path){
+    FILE* test_file = fopen(path , "w") ;
     if (test_file == NULL) {
         ESP_LOGE("SD", "Failed to open test.txt for writing.");
     } else {
         fprintf(test_file, "SD card is Works\n");
+        fprintf(test_file, "SD card is Works\n");
+        fprintf(test_file, "This is the new functions line\n");
         fclose(test_file);
         ESP_LOGI("SD", "Successfully written to test.txt.");
     }
 }
 
 void readFile(){
+    FILE* test_file = fopen("/sdcard/test.txt", "w");
     test_file = fopen("/sdcard/test.txt", "r");
     if (test_file == NULL) {
         ESP_LOGE("SD", "Failed to open test.txt for reading.");
@@ -92,26 +96,21 @@ void init_sd_card() {
 
     ESP_LOGI("SD", "SD card mounted successfully");
     sdmmc_card_print_info(stdout, card);
-
-<<<<<<< HEAD
-    // Writing Operations
-=======
     FILE* test_file = fopen("/sdcard/test.txt", "w");
+    writeFile("/sdcard/test.txt") ;
+    test_file = fopen("/sdcard/test.txt", "r");
     if (test_file == NULL) {
-        ESP_LOGE("SD", "Failed to open test.txt for writing.");
+        ESP_LOGE("SD", "Failed to open test.txt for reading.");
     } else {
-        fprintf(test_file, "SD card is Works\n");
+        ESP_LOGI("SD", "Reading from test.txt...");
+        char buffer[128];
+        while (fgets(buffer, sizeof(buffer), test_file)) {
+            printf("%s", buffer);
+        }
         fclose(test_file);
-        ESP_LOGI("SD", "Successfully written to test.txt.");
+        ESP_LOGI("SD", "File read successfully.");
     }
->>>>>>> b56c980b6359735c862333767f4feb65d7670198
-
-    writeFile()
-    // Reading Test Files
-    readFile()
 }
-
-
 
 
 void app_main(void) {

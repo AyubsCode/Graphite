@@ -1,0 +1,6 @@
+#!usr/local/bin/bash
+
+./install.sh
+. export.sh
+cd sdcard
+idf.py build flash monitor
