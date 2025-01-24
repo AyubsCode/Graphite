@@ -18,4 +18,8 @@
 void app_main(void) {
     esp_log_level_set("*", ESP_LOG_INFO);
     init_sd_card();
+    writeFile("/sdcard/test.txt") ;
+    readFile("/sdcard/test.txt") ;
+    writeFile("/sdcard/phrase.txt") ;
+    readFile("/sdcard/phrase.txt") ;
 }

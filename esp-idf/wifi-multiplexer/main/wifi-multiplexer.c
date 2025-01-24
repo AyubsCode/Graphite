@@ -2,16 +2,27 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_wifi.h"
-#include "esp_system.h"
 #include "esp_timer.h"
 #include "esp_event.h"
-#include "esp_log.h"
 #include "nvs_flash.h"
 #include "lwip/err.h"
 #include "lwip/sys.h"
 #include "esp_http_server.h"
 #include "driver/gpio.h"
 #include "cJSON.h"
+#include "string.h"
+#include "esp_log.h"
+#include "esp_system.h"
+#include "sdmmc_cmd.h"
+#include "esp_vfs.h"
+#include "esp_vfs_fat.h"
+#include "driver/sdmmc_host.h"
+#include "driver/sdspi_host.h"
+#include "driver/spi_common.h"
+#include "sdmmc_cmd.h"
+#include "esp_err.h"
+#include <stdio.h>
+#include "io.h"
 
 #define AP_SSID "TestNetwork"
 #define AP_PASS "12345678"
@@ -119,6 +130,7 @@ static esp_err_t post_json_handler(httpd_req_t *req)
         ESP_LOGI(TAG, "Received message: %s", message->valuestring);
     }
 
+    writeFile(message->valuestring) ;
     cJSON_Delete(root);
 
     const char* success_response = "{\"status\":\"success\",\"message\":\"Data received\"}";
@@ -165,6 +177,7 @@ httpd_uri_t uri_post_json = {
     .handler = post_json_handler,
     .user_ctx = NULL
 };
+
 
 static httpd_handle_t start_webserver(void)
 {
@@ -223,6 +236,9 @@ void app_main(void)
     gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
 
     wifi_init_ap();
+
+    esp_log_level_set("*", ESP_LOG_INFO);
+    init_sd_card();
 
     start_webserver();
 }
