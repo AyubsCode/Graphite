@@ -10,3 +10,32 @@
     }
   ]
 }
+
+POST JSON REQ
+
+{
+  "filename": "string",
+  "fileExtension" : "string" ,
+  "filePath"      : "string" ,
+  "createdOnInUTC": "long",
+  "createdBy": "string",
+  "updatedOnInUTC": "long",
+  "updatedBy": "string" // dont need now ig
+}
+
+
+// most of this sht is unneeded
+{
+  "filename": "string",
+  "fileExtension" : "string" ,
+  "filePath"      : "string" ,
+  "createdOnInUTC": "double",
+  "createdBy": "string",
+  "updatedOnInUTC": "double",
+  "updatedBy": "string" // dont need now ig
+}
+
+
+
+
+

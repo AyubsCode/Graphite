@@ -50,7 +50,9 @@ const char* html_page = "<!DOCTYPE html><html>\
         <h1>ESP32 JSON Communication</h1>\
         <div>\
             <h2>Send JSON to ESP32</h2>\
-            <input type='text' id='messageInput' placeholder='Enter message'>\
+            <input type='text' id='filename' placeholder='Enter filename'>\
+            <input type='text' id='fileExtension' placeholder='Enter fileExtension'>\
+            <input type='text' id='filePath' placeholder='Enter filepath'>\
             <button onclick='sendJSON()'>Send JSON</button>\
         </div>\
         <div>\
@@ -62,10 +64,15 @@ const char* html_page = "<!DOCTYPE html><html>\
     </div>\
     <script>\
         async function sendJSON() {\
-            const message = document.getElementById('messageInput').value;\
+            const filename  = document.getElementById('filename').value;\
+            const path      = document.getElementById('filePath').value;\
+            const extension = document.getElementById('fileExtension').value;\
             const data = {\
-                message: message,\
-                timestamp: new Date().toISOString()\
+                filename : name ,\
+                fileExtension : extension ,\
+                filePath      : path      ,\
+                createdOnInUTC: 1.0       ,\
+                updatedInUTC  : 1.0       ,\
             };\
             try {\
                 const response = await fetch('/api/json', {\
@@ -117,6 +124,7 @@ static esp_err_t post_json_handler(httpd_req_t *req)
 
     content[ret] = '\0';
 
+    // Parse the content and save as a cJSON object
     cJSON *root = cJSON_Parse(content);
     if (root == NULL) {
         const char* error_response = "{\"status\":\"error\",\"message\":\"Invalid JSON\"}";
@@ -125,12 +133,42 @@ static esp_err_t post_json_handler(httpd_req_t *req)
         return ESP_OK;
     }
 
-    cJSON *message = cJSON_GetObjectItem(root, "message");
-    if (cJSON_IsString(message) && (message->valuestring != NULL)) {
-        ESP_LOGI(TAG, "Received message: %s", message->valuestring);
+    FileMetaData file ;
+
+    cJSON *fileExtension = cJSON_GetObjectItem(root, "fileExtension");
+    cJSON *filename = cJSON_GetObjectItem(root, "filename");
+    cJSON *filepath = cJSON_GetObjectItem(root, "filePath");
+    cJSON *createdOnInUTC = cJSON_GetObjectItem(root, "createdOnInUTC");
+    cJSON *updatedInUTC = cJSON_GetObjectItem(root, "updatedInUTC");
+
+    if (cJSON_IsString( filename ) && (filename->valuestring != NULL))
+    {
+        file.name = filename->valuestring ;
+    }
+    // Cast as int ,
+    if (cJSON_IsNumber( fileExtension ) && ( fileExtension->valueint ))
+    { // Check if its defined
+        file.extension = ( FILE_TYPE ) fileExtension->valueint ; // Is this bad ?
     }
 
-    writeFile(message->valuestring) ;
+    if (cJSON_IsString( filepath ) && ( filepath->valuestring))
+    { // Check if its defined
+        file.path =  filepath->valuestring; // Is this bad ?
+    }
+
+    if ( cJSON_IsNumber( createdOnInUTC ) && createdOnInUTC->valuedouble)
+    {
+        file.created_on = createdOnInUTC->valuedouble ;
+    }
+
+    if ( cJSON_IsNumber( updatedInUTC ) && updatedInUTC->valuedouble)
+    {
+        file.created_on = updatedInUTC->valuedouble ;
+    }
+
+    writeFile( &file ) ;
+
+    // Destroy cJSON
     cJSON_Delete(root);
 
     const char* success_response = "{\"status\":\"success\",\"message\":\"Data received\"}";

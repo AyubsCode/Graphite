@@ -13,20 +13,87 @@
 #include "sdmmc_cmd.h"
 #include "esp_err.h"
 #include <stdio.h>
-#include "io.h"
+#include "cJSON.h"
+
 // Define pins for SPI
 #define PIN_NUM_MISO  19
 #define PIN_NUM_MOSI  23
 #define PIN_NUM_CLK   18
 #define PIN_NUM_CS    5
+#define FILE_WRITE_TAG "Writing"
 
 
-void writeFile(char* path)
+// Error type struct
+
+typedef enum IO_ERROR{
+    EXIT_SUCCESSFUL       , // Successful Event
+    SPECIFICATION_FAILURE , // Failed to specify file type
+    SIZE_BOUND            , // Exceeded file size
+}IO_ERROR;
+
+
+// File type definitions
+
+typedef enum FILE_TYPE {
+    JPEG                  ,
+    PNG                   ,
+    MP4                   ,
+    PDF                   ,
+
+}FILE_TYPE;
+
+typedef struct {
+  FILE_TYPE        extension     ;
+  char*            name          ;
+  char*            path          ;
+  double           created_on ;
+  double           updated_on ;
+}FileMetaData;
+
+
+/*{
+  "filename"    : "string",
+  "filetype"    : "string", / can be something like "JPEG"
+  "destination ": "string", / can be something like "JPEG"
+  "createdOnInUTC": "long",
+  "createdBy": "string",
+  "updatedOnInUTC": "long",
+  "updatedBy": "string"
+}*/
+
+// IO_ERROR handleFile( FileMetaData* file_details )
+// {
+//     // Handle the file handoff
+//     switch ( file_details->extension ) {
+//         case JPEG :
+//             ESP_LOGI(FILE_WRITE_TAG , "Attempting to handle JPEG file") ;
+//         break ;
+//         case PNG  :
+//             ESP_LOGI(FILE_WRITE_TAG , "Attempting to handle PNG file") ;
+//         break ;
+//         case MP4  :
+//             ESP_LOGI(FILE_WRITE_TAG , "Attempting to handle MP4 file") ;
+//         break ;
+//         case PDF  :
+//             ESP_LOGI(FILE_WRITE_TAG , "Attempting to handle PDF file") ;
+//         break ;
+//         default :
+//             ESP_LOGE(FILE_WRITE_TAG , "Error while attempting to hand off to appropriate function" ) ;
+//     }
+// }
+
+void writeFile(FileMetaData* file_details )
 {
-    FILE* test_file = fopen(path , "w") ;
+    // Check if file_details-> is non null , if it is -> save to a root for now just throw an error
+    if(file_details == NULL){
+        ESP_LOGE("SD", "Failed to write due to unspecified file_path") ;
+    }
+    ESP_LOGI("SD"  , "Attempting to write to %s" , file_details->path);
+    FILE* test_file = fopen( file_details->path , "w") ;
     if (test_file == NULL) {
         ESP_LOGE("SD", "Failed to open test.txt for writing.");
     } else {
+        // Get file type
         fprintf(test_file, "SD card is Working\n");
         fprintf(test_file, "SD card is Working\n");
         fprintf(test_file, "Testing , Testing , 1 , 2 , 3\n");

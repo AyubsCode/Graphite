@@ -6,8 +6,11 @@ cd sdcard
 idf.py build flash monitor
 
 run() {
-    PROJ=$1
-    echo $PROJ
+    DIR=$1
+    ./install.sh
+    . export.sh
+    cd $DIR
+    idf.py build flash monitor
 }
 
 run $1
