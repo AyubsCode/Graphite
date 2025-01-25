@@ -89,33 +89,52 @@ void writeFile(FileMetaData* file_details )
         ESP_LOGE("SD", "Failed to write due to unspecified file_path") ;
     }
     ESP_LOGI("SD"  , "Attempting to write to %s" , file_details->path);
-    FILE* test_file = fopen( file_details->path , "w") ;
-    if (test_file == NULL) {
+    FILE* file = fopen( file_details->path , "w") ;
+    if ( file == NULL ) {
         ESP_LOGE("SD", "Failed to open test.txt for writing.");
     } else {
         // Get file type
-        fprintf(test_file, "SD card is Working\n");
-        fprintf(test_file, "SD card is Working\n");
-        fprintf(test_file, "Testing , Testing , 1 , 2 , 3\n");
-        fclose(test_file);
+        fprintf( file , "SD card is Working\n");
+        fprintf( file , "SD card is Working\n");
+        fprintf( file , "Testing , Testing , 1 , 2 , 3\n");
+        fclose( file );
         ESP_LOGI("SD", "Successfully written to test.txt.");
     }
 }
 
-void readFile( char* path )
+void readFile( FileMetaData* file_details )
 {
-    FILE* test_file ;
-    test_file = fopen( path , "r");
-    if (test_file == NULL) {
-        ESP_LOGE("SD", "Failed to open test.txt for reading.");
-    } else {
-        ESP_LOGI("SD", "Reading from test.txt...");
-        char buffer[128];
-        while (fgets(buffer, sizeof(buffer), test_file)) {
-            printf("%s", buffer);
+    // This only works for text files gotta write handlers for other file types
+    if( file_details->extension == TXT )
+    {
+        FILE* file ;
+        file = fopen( file_details->path , "r");
+        if (file == NULL) {
+            ESP_LOGE("SD", "Failed to open test.txt for reading.");
+        } else {
+            ESP_LOGI("SD", "Reading from test.txt...");
+            char buffer[128];
+            while (fgets(buffer, sizeof(buffer), file )) {
+                printf("%s", buffer);
+            }
+            fclose( file );
+            ESP_LOGI("SD", "File read successfully. Length of file " );
         }
-        fclose(test_file);
-        ESP_LOGI("SD", "File read successfully. Length of file " );
+    } else if( file_details->extension == PDF )
+    {
+        ESP_LOGI("SD" , "Handling PDF Write Operation") ;
+    } else if( file_details->extension == PNG )
+    {
+        ESP_LOGI("SD" , "Handling PNG Write Operation") ;
+    }else if( file_details-> extension == MP4 )
+    {
+        ESP_LOGI("SD" , "Handling MP4 Write Operation") ;
+    } else if( file_details->extension == JPEG )
+    {
+        ESP_LOGI("SD" , "Handling JPEG Write Operation") ;
+    }
+    else{
+        ESP_LOGE("SD" , "Unknown file type") ;
     }
 }
 

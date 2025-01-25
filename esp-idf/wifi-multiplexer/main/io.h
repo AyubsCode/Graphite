@@ -3,6 +3,7 @@
 
 typedef enum FILE_TYPE {
     JPEG                  ,
+    TXT                   ,
     PNG                   ,
     MP4                   ,
     PDF                   ,
