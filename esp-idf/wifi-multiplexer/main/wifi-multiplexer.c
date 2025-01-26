@@ -22,6 +22,7 @@
 #include "sdmmc_cmd.h"
 #include "esp_err.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "io.h"
 
 #define AP_SSID "TestNetwork"
@@ -51,7 +52,7 @@ const char* html_page = "<!DOCTYPE html><html>\
         <div>\
             <h2>Send JSON to ESP32</h2>\
             <input type='text' id='filename' placeholder='Enter filename'>\
-            <input type='text' id='fileExtension' placeholder='Enter fileExtension'>\
+            <input type='number' id='fileExtension' placeholder='Enter fileExtension'>\
             <input type='text' id='filePath' placeholder='Enter filepath'>\
             <button onclick='sendJSON()'>Send JSON</button>\
         </div>\
@@ -66,10 +67,10 @@ const char* html_page = "<!DOCTYPE html><html>\
         async function sendJSON() {\
             const filename  = document.getElementById('filename').value;\
             const path      = document.getElementById('filePath').value;\
-            const extension = document.getElementById('fileExtension').value;\
+            const extension = Number(document.getElementById('fileExtension').value);\
             const data = {\
                 filename : name ,\
-                fileExtension : extension ,\
+                fileExtension : Number(extension) ,\
                 filePath      : path      ,\
                 createdOnInUTC: 1.0       ,\
                 updatedInUTC  : 1.0       ,\
@@ -145,15 +146,16 @@ static esp_err_t post_json_handler(httpd_req_t *req)
     {
         file.name = filename->valuestring ;
     }
-    // Cast as int ,
-    if (cJSON_IsNumber( fileExtension ) && ( fileExtension->valueint ))
-    { // Check if its defined
-        file.extension = ( FILE_TYPE ) fileExtension->valueint ; // Is this bad ?
+
+    if (  fileExtension->valueint || fileExtension->valuestring )
+    {
+        int cvt = atoi(fileExtension->valuestring) ; // Bruh change this pls
+        file.extension = ( FILE_TYPE ) cvt ;
     }
 
     if (cJSON_IsString( filepath ) && ( filepath->valuestring))
     { // Check if its defined
-        file.path =  filepath->valuestring; // Is this bad ?
+        file.path =  filepath->valuestring;
     }
 
     if ( cJSON_IsNumber( createdOnInUTC ) && createdOnInUTC->valuedouble)
@@ -167,8 +169,7 @@ static esp_err_t post_json_handler(httpd_req_t *req)
     }
 
     writeFile( &file ) ;
-
-    // Destroy cJSON
+    readFile( &file )  ;
     cJSON_Delete(root);
 
     const char* success_response = "{\"status\":\"success\",\"message\":\"Data received\"}";

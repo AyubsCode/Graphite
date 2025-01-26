@@ -12,6 +12,7 @@
 #include "driver/spi_common.h"
 #include "sdmmc_cmd.h"
 #include "esp_err.h"
+#include <stddef.h>
 #include <stdio.h>
 #include "cJSON.h"
 
@@ -21,21 +22,25 @@
 #define PIN_NUM_CLK   18
 #define PIN_NUM_CS    5
 #define FILE_WRITE_TAG "Writing"
+#define FILE_TYPES 5 // Number of different file types
 
 
-// Error type struct
+
 
 typedef enum IO_ERROR{
     EXIT_SUCCESSFUL       , // Successful Event
     SPECIFICATION_FAILURE , // Failed to specify file type
     SIZE_BOUND            , // Exceeded file size
+    METADATA_ERROR        , // Metadata error
 }IO_ERROR;
 
 
 // File type definitions
 
+
 typedef enum FILE_TYPE {
     JPEG                  ,
+    TXT                   ,
     PNG                   ,
     MP4                   ,
     PDF                   ,
@@ -51,36 +56,21 @@ typedef struct {
 }FileMetaData;
 
 
-/*{
-  "filename"    : "string",
-  "filetype"    : "string", / can be something like "JPEG"
-  "destination ": "string", / can be something like "JPEG"
-  "createdOnInUTC": "long",
-  "createdBy": "string",
-  "updatedOnInUTC": "long",
-  "updatedBy": "string"
-}*/
+IO_ERROR jpeg_handler( FileMetaData* file_details  ) ;
+IO_ERROR txt_handler(  FileMetaData* file_details  ) ;
+IO_ERROR png_handler(  FileMetaData* file_details  ) ;
+IO_ERROR mp4_handler(  FileMetaData* file_details  ) ;
+IO_ERROR pdf_handler(  FileMetaData* file_details  ) ;
 
-// IO_ERROR handleFile( FileMetaData* file_details )
-// {
-//     // Handle the file handoff
-//     switch ( file_details->extension ) {
-//         case JPEG :
-//             ESP_LOGI(FILE_WRITE_TAG , "Attempting to handle JPEG file") ;
-//         break ;
-//         case PNG  :
-//             ESP_LOGI(FILE_WRITE_TAG , "Attempting to handle PNG file") ;
-//         break ;
-//         case MP4  :
-//             ESP_LOGI(FILE_WRITE_TAG , "Attempting to handle MP4 file") ;
-//         break ;
-//         case PDF  :
-//             ESP_LOGI(FILE_WRITE_TAG , "Attempting to handle PDF file") ;
-//         break ;
-//         default :
-//             ESP_LOGE(FILE_WRITE_TAG , "Error while attempting to hand off to appropriate function" ) ;
-//     }
-// }
+typedef IO_ERROR ( *callback_arr )( FileMetaData* );
+
+static callback_arr read_callback_array[FILE_TYPES] = {
+    &jpeg_handler ,
+    &txt_handler  ,
+    &png_handler  ,
+    &mp4_handler  ,
+    &pdf_handler  ,
+};
 
 void writeFile(FileMetaData* file_details )
 {
@@ -88,10 +78,10 @@ void writeFile(FileMetaData* file_details )
     if(file_details == NULL){
         ESP_LOGE("SD", "Failed to write due to unspecified file_path") ;
     }
-    ESP_LOGI("SD"  , "Attempting to write to %s" , file_details->path);
+    ESP_LOGI("SD"  , "Attempting to write to %s" , file_details->name);
     FILE* file = fopen( file_details->path , "w") ;
     if ( file == NULL ) {
-        ESP_LOGE("SD", "Failed to open test.txt for writing.");
+        ESP_LOGE("SD", "Failed to open %s .txt for writing, null ", file_details->name);
     } else {
         // Get file type
         fprintf( file , "SD card is Working\n");
@@ -102,40 +92,86 @@ void writeFile(FileMetaData* file_details )
     }
 }
 
+
+// Is this still needed ?
+
 void readFile( FileMetaData* file_details )
 {
-    // This only works for text files gotta write handlers for other file types
-    if( file_details->extension == TXT )
+    if( file_details == NULL )
     {
-        FILE* file ;
-        file = fopen( file_details->path , "r");
-        if (file == NULL) {
-            ESP_LOGE("SD", "Failed to open test.txt for reading.");
-        } else {
-            ESP_LOGI("SD", "Reading from test.txt...");
-            char buffer[128];
-            while (fgets(buffer, sizeof(buffer), file )) {
-                printf("%s", buffer);
-            }
-            fclose( file );
-            ESP_LOGI("SD", "File read successfully. Length of file " );
+        ESP_LOGE("SD" , "Failed to access file metadata") ;
+    }
+
+    if( file_details->extension == TXT)
+    {
+        ESP_LOGI("SD" , "ATTEMPTING FILE TYPE : %d" , ( int ) file_details->extension) ;
+        read_callback_array[file_details->extension](file_details) ;
+    }else{
+        ESP_LOGE("SD" , "Unknown filetype : %d " , ( int ) file_details->extension );
+    }
+}
+
+
+IO_ERROR jpeg_handler( FileMetaData* file_details )
+{
+    ESP_LOGI("SD" , "Attempting to write to a jpg file" ) ;
+    if( file_details == NULL )
+    {
+        return METADATA_ERROR ;
+    }
+    return EXIT_SUCCESSFUL ;
+}
+
+IO_ERROR txt_handler( FileMetaData* file_details )
+{
+    ESP_LOGE("SD" , "Attempting to write to a txt file" ) ;
+    if( file_details == NULL )
+    {
+        return METADATA_ERROR ;
+    }
+    FILE* file = fopen( file_details->path , "r");
+    if (file == NULL) {
+        ESP_LOGE("SD", "Failed to open test.txt for reading.");
+    } else {
+        ESP_LOGI("SD", "Reading from test.txt...");
+        char buffer[128];
+        while (fgets(buffer, sizeof(buffer), file )) {
+            printf("%s", buffer);
         }
-    } else if( file_details->extension == PDF )
-    {
-        ESP_LOGI("SD" , "Handling PDF Write Operation") ;
-    } else if( file_details->extension == PNG )
-    {
-        ESP_LOGI("SD" , "Handling PNG Write Operation") ;
-    }else if( file_details-> extension == MP4 )
-    {
-        ESP_LOGI("SD" , "Handling MP4 Write Operation") ;
-    } else if( file_details->extension == JPEG )
-    {
-        ESP_LOGI("SD" , "Handling JPEG Write Operation") ;
+        fclose( file );
+        ESP_LOGI("SD", "File read successfully. Length of file " );
     }
-    else{
-        ESP_LOGE("SD" , "Unknown file type") ;
+    return EXIT_SUCCESSFUL ;
+}
+
+IO_ERROR png_handler( FileMetaData* file_details )
+{
+    ESP_LOGI("SD" , "Attempting to write to a png file" ) ;
+    if( file_details == NULL )
+    {
+        return METADATA_ERROR ;
     }
+    return EXIT_SUCCESSFUL ;
+}
+
+IO_ERROR mp4_handler( FileMetaData* file_details )
+{
+    ESP_LOGI("SD" , "Attempting to write to a mp4 file" ) ;
+    if( file_details == NULL )
+    {
+        return METADATA_ERROR ;
+    }
+    return EXIT_SUCCESSFUL ;
+}
+
+IO_ERROR pdf_handler( FileMetaData* file_details )
+{
+    ESP_LOGI("SD" , "Attempting to write to a pdf file" ) ;
+    if( file_details == NULL )
+    {
+        return METADATA_ERROR ;
+    }
+    return EXIT_SUCCESSFUL ;
 }
 
 void init_sd_card()
