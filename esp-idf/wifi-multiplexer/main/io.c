@@ -111,6 +111,8 @@ void readFile( FileMetaData* file_details )
 }
 
 
+// Is this needed anymore if we are just sending utilizing tcp ?
+
 IO_ERROR jpeg_handler( FileMetaData* file_details )
 {
     ESP_LOGI("SD" , "Attempting to write to a jpg file" ) ;

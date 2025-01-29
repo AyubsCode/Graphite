@@ -18,10 +18,10 @@
 #include "esp_netif.h"
 #include "protocol_examples_common.h"
 
-#include "lwip/err.h"
-#include "lwip/sockets.h"
-#include "lwip/sys.h"
-#include <lwip/netdb.h>
+#include "lwip/err.h" // What for ? 
+#include "lwip/sockets.h" // What for ? 
+#include "lwip/sys.h" // What for ? 
+#include <lwip/netdb.h> // What for ? 
 
 
 #define PORT                        CONFIG_EXAMPLE_PORT
@@ -29,7 +29,7 @@
 #define KEEPALIVE_INTERVAL          CONFIG_EXAMPLE_KEEPALIVE_INTERVAL
 #define KEEPALIVE_COUNT             CONFIG_EXAMPLE_KEEPALIVE_COUNT
 
-static const char *TAG = "example";
+static const char *TAG = "example"; // Tag for logging 
 
 static void do_retransmit(const int sock)
 {
