@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include "io.h"
 
-#define AP_SSID "TestNetwork"
+#define AP_SSID "ESP32APNET" // COnfigure in AP Mode 
 #define AP_PASS "12345678"
 #define LED_PIN 2
 #define MAX_JSON_SIZE 1024
@@ -70,7 +70,7 @@ const char* html_page = "<!DOCTYPE html><html>\
             const extension = Number(document.getElementById('fileExtension').value);\
             const data = {\
                 filename : name ,\
-                fileExtension : Number(extension) ,\
+                fileExtension : extension ,\
                 filePath      : path      ,\
                 createdOnInUTC: 1.0       ,\
                 updatedInUTC  : 1.0       ,\

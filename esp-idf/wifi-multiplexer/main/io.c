@@ -1,4 +1,3 @@
-
 #include "stdio.h"
 #include "string.h"
 #include "driver/gpio.h"
@@ -51,8 +50,8 @@ typedef struct {
   FILE_TYPE        extension     ;
   char*            name          ;
   char*            path          ;
-  double           created_on ;
-  double           updated_on ;
+  double           created_on    ;
+  double           updated_on    ;
 }FileMetaData;
 
 
