@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include "io.h"
 
-#define AP_SSID "ESP32APNET" // COnfigure in AP Mode 
+#define AP_SSID "ESP32APNET" // COnfigure in AP Mode
 #define AP_PASS "12345678"
 #define LED_PIN 2
 #define MAX_JSON_SIZE 1024
