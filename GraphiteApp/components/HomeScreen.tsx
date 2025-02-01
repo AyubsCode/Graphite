@@ -3,8 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  TouchableOpacity,
+  TextInput, TouchableOpacity,
   SafeAreaView,
   Animated,
   PanResponder,
@@ -14,17 +13,25 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons"; // We have 2 swap this out later 4 our own 
 import { StatusBar } from "expo-status-bar";
+
+
+
 
 interface FileItem {
   name: string;
   date: string;
 }
 
+// How does this work ?
+
 interface AddFilesButtonProps {
-  onPress: () => void;
+  onPress: () => void ; 
 }
+
+
+// Is this for the animation ? 
 
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const WINDOW_WIDTH = Dimensions.get("window").width;
@@ -33,7 +40,7 @@ const BOTTOM_SHEET_MAX_HEIGHT = WINDOW_HEIGHT * 0.9;
 const STORAGE_SECTION_HEIGHT = 400;
 const DRAWER_WIDTH = WINDOW_WIDTH * 0.8;
 
-// Add Files Button Component
+
 const AddFilesButton: React.FC<AddFilesButtonProps> = ({ onPress }) => {
   return (
     <View style={styles.addButtonContainer}>
@@ -45,7 +52,8 @@ const AddFilesButton: React.FC<AddFilesButtonProps> = ({ onPress }) => {
   );
 };
 
-// Drawer Menu Component
+// Turn this into its own component
+
 const DrawerMenu: React.FC<{
   isVisible: boolean;
   translateX: Animated.Value;
@@ -93,7 +101,7 @@ const DrawerMenu: React.FC<{
   );
 };
 
-export default function HomeScreen() {
+export default function HomeScreen( { navigation } ) {
   const totalSpace = 150;
   const usedSpace = 102;
   const usagePercentage = Math.round((usedSpace / totalSpace) * 100);
@@ -122,8 +130,11 @@ export default function HomeScreen() {
     }).start(() => setIsDrawerVisible(false));
   };
 
+
+
+  // For now we just navigate 2 the expr page to test the HLS encoding 
   const handleAddFiles = () => {
-    // Implement add files logic
+    navigation.navigate("expr")
     console.log("Add files pressed");
   };
 

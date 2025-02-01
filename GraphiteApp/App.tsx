@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-// Screen Imports
-import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
+import HomeScreen        from           "./components/HomeScreen.tsx"     ;
+import LoginScreen       from           "./components/LoginScreen.tsx"    ;
+import Expr              from           "./components/Expr.tsx"    ;
 
 // Define the type for route parameters
 export type RootStackParamList = {
@@ -19,12 +19,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // INITIAL SCREEN
         initialRouteName="Home"
         screenOptions={{ headerShown: false }}>
-        {/* Screens Stack */}
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="expr" component={Expr} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
