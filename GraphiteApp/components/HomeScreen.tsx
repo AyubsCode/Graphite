@@ -24,7 +24,7 @@ interface FileItem {
   date: string;
 }
 
-// How does this work ?
+// How does this work ? Defines 'contract' apparently 
 
 interface AddFilesButtonProps {
   onPress: () => void ; 
