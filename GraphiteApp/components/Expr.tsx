@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker'          ;
 /* TODO : Make it so that whether or not the user has allowed access media files occurs on startup or when pairing device . 
 /* TODO : is assetId needed ?  ln 37
 /* TODO : Add default path to filePath in the types . 
+/* TODO : Fix file extension logic so it doesn't just map to something generic like " IMAGE "  , more granular like ".png" 
  */
 
 
@@ -17,7 +18,6 @@ import * as ImagePicker from 'expo-image-picker'          ;
   "exif": null,
   "fileName": "IMG_4663.PNG",
   "fileSize": 1789453,
-
   "height": 1125,
   "mimeType": "image/png",
   "pairedVideoAsset": null,
@@ -111,9 +111,6 @@ const getFile = async() => {
 
   if (!result.canceled && result.assets[0]) {
     const fileType = result.assets[0].type;
-    console.log("File type:", fileType);
-    console.log(CALLBACK_MAP) ; 
-    
     const execution_function = CALLBACK_MAP.get(fileType);
     if (!execution_function) {
       console.log("No handler found for file type:", fileType);
@@ -121,7 +118,7 @@ const getFile = async() => {
     }
     
     const parse_result = execution_function(result.assets[0]);
-    console.log("Parse result:", parse_result);
+    if(result.assets[0].fileExtension) console.log("Not a thing") ; 
   }
 };
 
