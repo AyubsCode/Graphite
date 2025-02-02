@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker'          ;
 
 /* TODO : Make it so that whether or not the user has allowed access media files occurs on startup or when pairing device . 
 /* TODO : is assetId needed ?  ln 37
+/* TODO : Add default path to filePath in the types . 
  */
 
 
@@ -16,6 +17,7 @@ import * as ImagePicker from 'expo-image-picker'          ;
   "exif": null,
   "fileName": "IMG_4663.PNG",
   "fileSize": 1789453,
+
   "height": 1125,
   "mimeType": "image/png",
   "pairedVideoAsset": null,
@@ -25,34 +27,76 @@ import * as ImagePicker from 'expo-image-picker'          ;
 }
  * */
 
+
+enum ERROR {
+  STATUS_SUCCESS , 
+  PARSE_ERROR    , 
+}
+
+type ParseCallback = ( fileDetails : Object ) => ERROR ;
+
 type Dimensions = {
   height : number ,  
   width  : number ,  
 }
 
-
 type Image = {
-  fileName   : string        ; // files name
-  size       : number        ; // files size
-  assetID    : string        ; // idk what this is or whether we should add it 
-  dimensions : Dimensions    ;
-  type       : string        ;
+  fileName      : string        ; // files name
+  filePath      : string        ; // Add default path 
+  size          : number        ; // files size
+  assetID       : string        ; // idk what this is or whether we should add it 
+  dimensions    : Dimensions    ;
+  type          : string        ;
+  fileExtension : string        ; // File type  idk if this is worth storing tho 
 }
 
 type Video = {
 
 }
-
 type Document = {
 
 }
 
 
+const parseVideo = ( fileDetails : object ) : ERROR => {
+  console.log(`Attempting to parse video : [ ]`) ; 
+  return STATUS_SUCCESS ; 
+}
+
+const parseImage = ( fileDetails : object ) : ERROR => {
+  console.log(`Attempting to parse Image : [ ]`) ; 
+  return STATUS_SUCCESS ; 
+}
+
+const parseDocument = ( fileDetails : object ) : ERROR => {
+  console.log(`Attempting to parse Document : [ ]`) ; 
+  return STATUS_SUCCESS ; 
+}
+
+let CALLBACK_MAP: Map<string, ParseCallback> = new Map([
+  ["JPEG", parseImage],
+  ["PNG", parseImage],
+  ["image", parseImage],
+  ["MP4", parseVideo],
+  ["AVI", parseVideo],
+  ["H.264", parseVideo],
+  ["PDF", parseDocument],
+  ["TXT", parseDocument],
+]);
+
+
+
+
+// Might need metadata later
+
+
+
 
 
 // Wrap in try catch later
+// Convert to type safe  ? 
 
-const getFile = async () => {
+const getFile = async() => {
   const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
   if (!permission.granted) {
     alert("Permission to access media library is required!");
@@ -60,14 +104,24 @@ const getFile = async () => {
   }
 
   const result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All, // Images & Videos
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
     allowsEditing: true,
-    quality: 1, // High quality
+    quality: 1,
   });
 
-  if (!result.canceled) {
-    console.log("Picked file:", result.assets[0]);
-    return result.assets[0]; // File object
+  if (!result.canceled && result.assets[0]) {
+    const fileType = result.assets[0].type;
+    console.log("File type:", fileType);
+    console.log(CALLBACK_MAP) ; 
+    
+    const execution_function = CALLBACK_MAP.get(fileType);
+    if (!execution_function) {
+      console.log("No handler found for file type:", fileType);
+      return;
+    }
+    
+    const parse_result = execution_function(result.assets[0]);
+    console.log("Parse result:", parse_result);
   }
 };
 
