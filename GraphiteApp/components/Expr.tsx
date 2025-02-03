@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker'          ;
 /* TODO : is assetId needed ?  ln 37
 /* TODO : Add default path to filePath in the types . 
 /* TODO : Fix file extension logic so it doesn't just map to something generic like " IMAGE "  , more granular like ".png" 
+/* TODO : filePath      : "TBD"                  ,  // User passes this in
  */
 
 
@@ -64,7 +65,22 @@ const parseVideo = ( fileDetails : object ) : ERROR => {
 }
 
 const parseImage = ( fileDetails : object ) : ERROR => {
-  console.log(`Attempting to parse Image : [ ]`) ; 
+  const dimensions : Dimensions = {
+    height : fileDetails.height , 
+    width  : fileDetails.width  , 
+  }
+
+  const image : Image = {
+    fileName      : fileDetails.fileName   , 
+    filePath      : "TBD"                  ,  // User passes this in
+    size          : fileDetails.fileSize   , 
+    assetID       : fileDetails.assetId    ,
+    dimensions    : dimensions             ,
+    type          : fileDetails.type       ,
+    fileExtension : fileDetails.mimeType   , 
+  }
+
+  console.log("Parsed Object: ",  image) ; 
   return STATUS_SUCCESS ; 
 }
 
@@ -80,6 +96,7 @@ let CALLBACK_MAP: Map<string, ParseCallback> = new Map([
   ["MP4", parseVideo],
   ["AVI", parseVideo],
   ["H.264", parseVideo],
+  ["video", parseVideo],
   ["PDF", parseDocument],
   ["TXT", parseDocument],
 ]);
@@ -88,10 +105,6 @@ let CALLBACK_MAP: Map<string, ParseCallback> = new Map([
 
 
 // Might need metadata later
-
-
-
-
 
 // Wrap in try catch later
 // Convert to type safe  ? 
@@ -109,7 +122,7 @@ const getFile = async() => {
     quality: 1,
   });
 
-  if (!result.canceled && result.assets[0]) {
+  if (!result.canceled && result.assets[0]){
     const fileType = result.assets[0].type;
     const execution_function = CALLBACK_MAP.get(fileType);
     if (!execution_function) {
@@ -121,7 +134,6 @@ const getFile = async() => {
     if(result.assets[0].fileExtension) console.log("Not a thing") ; 
   }
 };
-
 
 
 export default function Expr() {
