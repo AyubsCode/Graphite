@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker'          ;
 /* TODO : Add default path to filePath in the types . 
 /* TODO : Fix file extension logic so it doesn't just map to something generic like " IMAGE "  , more granular like ".png" 
 /* TODO : filePath      : "TBD"                  ,  // User passes this in
+/* TODO : Eject app
  */
 
 
@@ -52,7 +53,13 @@ type Image = {
 }
 
 type Video = {
-
+  fileName      : string        ; // files name
+  filePath      : string        ; // Add default path 
+  size          : number        ; // files size
+  assetID       : string        ; // idk what this is or whether we should add it 
+  dimensions    : Dimensions    ;
+  type          : string        ;
+  fileExtension : string        ; // File type  idk if this is worth storing tho 
 }
 type Document = {
 
@@ -60,7 +67,21 @@ type Document = {
 
 
 const parseVideo = ( fileDetails : object ) : ERROR => {
-  console.log(`Attempting to parse video : [ ]`) ; 
+  const dimensions : Dimensions = {
+    height : fileDetails.height , 
+    width  : fileDetails.width  , 
+  }
+
+  const video     : Video = {
+    fileName      : fileDetails.fileName   , 
+    filePath      : "TBD"                  ,  // User passes this in
+    size          : fileDetails.fileSize   , 
+    assetID       : fileDetails.assetId    ,
+    dimensions    : dimensions             ,
+    type          : fileDetails.type       ,
+    fileExtension : fileDetails.mimeType   , 
+  }
+  console.log(`Parsed video : ${video}`) ; 
   return STATUS_SUCCESS ; 
 }
 
