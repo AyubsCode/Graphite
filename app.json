@@ -1,0 +1,15 @@
+{
+  "android": {
+    "package": "com.anonymous.graphiteapp"
+  },
+  "ios": {
+    "bundleIdentifier": "com.anonymous.graphiteapp"
+  },
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "822217bc-c32b-48d4-a87e-4633e93c9448"
+      }
+    }
+  }
+}
