@@ -15,8 +15,8 @@
 #include "sdmmc_cmd.h"
 
 // Wi-Fi credentials
-#define WIFI_SSID "YOUR WIFI SSID"
-#define WIFI_PASSWORD "YOUR WIFI PASSWORD"
+#define WIFI_SSID "TELUS5786"
+#define WIFI_PASSWORD "h42xtxnn5q"
 
 // SoftAP credentials
 #define AP_SSID "ESP32_AP"
@@ -150,7 +150,7 @@ static esp_err_t init_sd_card() {
 
 
 // Function handles all server functions, including writing to sd card and processing client data
-static void tcp_server_task(void *pvParameters) {
+static void tcp_server_write(void *pvParameters) {
     int addr_family = AF_INET;
     int ip_protocol = IPPROTO_IP;
 
@@ -198,17 +198,18 @@ static void tcp_server_task(void *pvParameters) {
         }
         ESP_LOGI(TAG, "New client connected");
 
-        // Set a timeout for recv to prevent hanging, closes socket if no data received
+        /* Set a timeout for recv to prevent hanging, closes socket if no data received
         struct timeval timeout;
         timeout.tv_sec = 5;  // 5-second timeout
         timeout.tv_usec = 0;
         setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+	*/
 
         // Open file for writing
         // Currently hard coded as "file_(filenum).txt" TODO: save original filename
 
 
-        sprintf(filename, "/sdcard/file-%d.txt", filenum);
+        sprintf(filename, "/sdcard/file-%d.jpg", filenum);
         // Open the file
         FILE *file = fopen(filename, "wb");
         if (!file) {
@@ -247,6 +248,122 @@ static void tcp_server_task(void *pvParameters) {
     }
 }
 
+static void tcp_server_read(void *pvParameters) {
+    int addr_family = AF_INET;
+    int ip_protocol = IPPROTO_IP;
+
+    // Initialize the SD card once at task start
+    if (init_sd_card() != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to initialize SD card");
+        vTaskDelete(NULL);
+    }
+
+    // Create a socket
+    int listen_sock = socket(addr_family, SOCK_STREAM, ip_protocol);
+    if (listen_sock < 0) {
+        ESP_LOGE(TAG, "Unable to create socket: errno %d", errno);
+        vTaskDelete(NULL);
+    }
+
+    // Bind the socket
+    struct sockaddr_in server_addr;
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(PORT);
+    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    if (bind(listen_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+        ESP_LOGE(TAG, "Socket bind failed: errno %d", errno);
+        close(listen_sock);
+        vTaskDelete(NULL);
+    }
+
+    // Listen for incoming connections
+    if (listen(listen_sock, 5) < 0) {
+        ESP_LOGE(TAG, "Socket listen failed: errno %d", errno);
+        close(listen_sock);
+        vTaskDelete(NULL);
+    }
+    ESP_LOGI(TAG, "TCP server listening on port %d", PORT);
+
+    while (1) {
+        // Accept incoming connection
+        struct sockaddr_in client_addr;
+        socklen_t client_addr_len = sizeof(client_addr);
+        int client_sock = accept(listen_sock, (struct sockaddr *)&client_addr, &client_addr_len);
+        if (client_sock < 0) {
+            ESP_LOGE(TAG, "Unable to accept connection: errno %d", errno);
+            continue;
+        }
+        ESP_LOGI(TAG, "New client connected");
+
+        // Set a timeout for recv to prevent hanging
+        struct timeval timeout;
+        timeout.tv_sec = 5;  // 5-second timeout
+        timeout.tv_usec = 0;
+        setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+
+        // Receive the filename from the client
+        char filename[128];
+        int filename_len = recv(client_sock, filename, 128 - 1, 0);
+        if (filename_len < 0) {
+            ESP_LOGE(TAG, "Failed to receive filename: errno %d", errno);
+            close(client_sock);
+            continue;
+        }
+        filename[filename_len] = '\0'; // Null-terminate the filename
+        ESP_LOGI(TAG, "Requested file: %s", filename);
+
+        // Open the requested file from the SD card
+        char filepath[128 + 8]; // Adjust the buffer size as needed
+        snprintf(filepath, sizeof(filepath), "/sdcard/%s", filename); // Assuming files are stored in /sdcard/
+        FILE *file = fopen(filepath, "rb");
+        if (!file) {
+            ESP_LOGE(TAG, "Failed to open file: %s", filepath);
+            const char *error_msg = "File not found";
+            send(client_sock, error_msg, strlen(error_msg), 0);
+            close(client_sock);
+            continue;
+        }
+
+        // Send the file data to the client
+        char read_buffer[BUFFER_SIZE];
+        while (1) {
+            int len = fread(read_buffer, 1, BUFFER_SIZE, file);
+            if (len < 0) {
+                ESP_LOGE(TAG, "Read from SD card failed");
+                break;
+            } else if (len == 0) {
+                ESP_LOGI(TAG, "End of file reached");
+                break;
+            } else {
+                int sent = send(client_sock, read_buffer, len, 0);
+                if (sent < 0) {
+                    if (errno == EWOULDBLOCK || errno == EAGAIN) {
+                        ESP_LOGW(TAG, "Send timeout");
+                        break;
+                    } else {
+                        ESP_LOGE(TAG, "Send failed: errno %d", errno);
+                        break;
+                    }
+                } else if (sent == 0) {
+                    ESP_LOGI(TAG, "Client disconnected");
+                    break;
+                } else if (sent < len) {
+                    ESP_LOGW(TAG, "Partial send, %d bytes sent out of %d", sent, len);
+                }
+            }
+        }
+
+        // Send confirmation to client
+        const char *response = "File sent successfully";
+        send(client_sock, response, strlen(response), 0);
+
+        // Clean up
+        fclose(file);
+        close(client_sock);
+        ESP_LOGI(TAG, "Client connection closed");
+    }
+}
+
 void app_main(void) {
     // standard initalization for esp32 flash storage, wifi init, etc
     esp_err_t ret = nvs_flash_init();
@@ -272,5 +389,6 @@ void app_main(void) {
     //wifi_init_softap();
 
     // Start the TCP server task
-    xTaskCreate(tcp_server_task, "tcp_server", 4096, NULL, 5, NULL);
+    // xTaskCreate(tcp_server_write, "tcp_server", 4096, NULL, 5, NULL);
+    xTaskCreate(tcp_server_read, "tcp_server", 4096, NULL, 5, NULL);
 }
