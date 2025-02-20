@@ -1,44 +1,48 @@
-#ifndef IO_H
+#ifndef DEBUG
 #define IO_H
 
-typedef enum FILE_TYPE {
-    JPEG                  ,
-    TXT                   ,
-    PNG                   ,
-    MP4                   ,
-    PDF                   ,
+#include "esp_http_server.h"
+#include "esp_err.h"
 
-}FILE_TYPE;
+#define MAX_FILENAME_LENGTH 256
+#define MAX_PATH_LENGTH 512
 
+// File types enum
+typedef enum {
+    FILE_TYPE_JPEG = 0,
+    FILE_TYPE_PNG,
+    FILE_TYPE_TXT,
+    FILE_TYPE_PDF,
+    FILE_TYPE_MP4,
+    FILE_TYPE_UNKNOWN
+} FileType;
+
+// Error codes
+typedef enum {
+    EXIT_SUCCESSFUL = 0,
+    METADATA_ERROR,
+    FILE_OPEN_ERROR,
+    FILE_SIZE_ERROR,
+    MEMORY_ERROR,
+    RECEIVE_ERROR,
+    WRITE_ERROR,
+    READ_ERROR,
+    JSON_PARSE_ERROR
+} IO_ERROR;
+
+// File metadata structure
 typedef struct {
-  FILE_TYPE        extension     ;
-  char*            name          ;
-  char*            path          ;
-  unsigned long    created_on ;
-  unsigned long    updated_on ;
-}FileMetaData;
+    char filename[MAX_FILENAME_LENGTH];
+    size_t filesize;
+    FileType type;
+    char path[MAX_PATH_LENGTH];
+} FileMetadata;
 
-typedef enum IO_ERROR{
-    EXIT_SUCCESSFUL       , // Successful Event
-    SPECIFICATION_FAILURE , // Failed to specify file type
-    SIZE_BOUND            , // Exceeded file size
-    METADATA_ERROR        , // Metadata error
-}IO_ERROR;
+// Function declarations
+IO_ERROR writeFile(const char* path, const uint8_t* data, size_t len, FileType type);
+IO_ERROR readFile(const char* path, uint8_t** data, size_t* len);
+IO_ERROR handle_file_upload(httpd_req_t *req, char* filename, size_t content_len);
+IO_ERROR parse_file_metadata(const char* json_str, FileMetadata* metadata);
+esp_err_t init_sd_card(void);
 
-
-// Typedef for array
-
-typedef IO_ERROR ( *read_callback_arr )( FileMetaData* );
-
-
-IO_ERROR jpeg_handler( FileMetaData* file_details  ) ;
-IO_ERROR txt_handler(  FileMetaData* file_details  ) ;
-IO_ERROR png_handler(  FileMetaData* file_details  ) ;
-IO_ERROR mp4_handler(  FileMetaData* file_details  ) ;
-IO_ERROR pdf_handler(  FileMetaData* file_details  ) ;
-
-void writeFile( FileMetaData* file_details )  ;
-void readFile(  FileMetaData* file_details )  ;
-void init_sd_card()         ;
-
-#endif
+#endif // IO_H

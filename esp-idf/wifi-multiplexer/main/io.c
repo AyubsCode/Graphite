@@ -13,7 +13,9 @@
 #include "esp_err.h"
 #include <stddef.h>
 #include <stdio.h>
+#include "esp_http_server.h"
 #include "cJSON.h"
+#include "io.h"
 
 // Define pins for SPI
 #define PIN_NUM_MISO  19
@@ -21,164 +23,124 @@
 #define PIN_NUM_CLK   18
 #define PIN_NUM_CS    5
 #define FILE_WRITE_TAG "Writing"
-#define FILE_TYPES 5 // Number of different file types
+#define MAX_FILE_SIZE (1024 * 1024)  // 1MB max file size
+#define CHUNK_SIZE 4096              // 4KB chunks for reading/writing
+#define MAX_JSON_SIZE 1024
 
+static const char *TAG = "io_handler";
+static bool sd_card_mounted = false;
+static const char* mount_point = "/sdcard";
 
-
-
-typedef enum IO_ERROR{
-    EXIT_SUCCESSFUL       , // Successful Event
-    SPECIFICATION_FAILURE , // Failed to specify file type
-    SIZE_BOUND            , // Exceeded file size
-    METADATA_ERROR        , // Metadata error
-}IO_ERROR;
-
-
-// File type definitions
-
-
-typedef enum FILE_TYPE {
-    JPEG                  ,
-    TXT                   ,
-    PNG                   ,
-    MP4                   ,
-    PDF                   ,
-
-}FILE_TYPE;
-
-typedef struct {
-  FILE_TYPE        extension     ;
-  char*            name          ;
-  char*            path          ;
-  double           created_on    ;
-  double           updated_on    ;
-}FileMetaData;
-
-
-IO_ERROR jpeg_handler( FileMetaData* file_details  ) ;
-IO_ERROR txt_handler(  FileMetaData* file_details  ) ;
-IO_ERROR png_handler(  FileMetaData* file_details  ) ;
-IO_ERROR mp4_handler(  FileMetaData* file_details  ) ;
-IO_ERROR pdf_handler(  FileMetaData* file_details  ) ;
-
-typedef IO_ERROR ( *callback_arr )( FileMetaData* );
-
-static callback_arr read_callback_array[FILE_TYPES] = {
-    &jpeg_handler ,
-    &txt_handler  ,
-    &png_handler  ,
-    &mp4_handler  ,
-    &pdf_handler  ,
-};
-
-void writeFile(FileMetaData* file_details )
-{
-    // Check if file_details-> is non null , if it is -> save to a root for now just throw an error
-    if(file_details == NULL){
-        ESP_LOGE("SD", "Failed to write due to unspecified file_path") ;
-    }
-    ESP_LOGI("SD"  , "Attempting to write to %s" , file_details->name);
-    FILE* file = fopen( file_details->path , "w") ;
-    if ( file == NULL ) {
-        ESP_LOGE("SD", "Failed to open %s .txt for writing, null ", file_details->name);
-    } else {
-        // Get file type
-        fprintf( file , "SD card is Working\n");
-        fprintf( file , "SD card is Working\n");
-        fprintf( file , "Testing , Testing , 1 , 2 , 3\n");
-        fclose( file );
-        ESP_LOGI("SD", "Successfully written to test.txt.");
-    }
-}
-
-
-// Is this still needed ?
-
-void readFile( FileMetaData* file_details )
-{
-    if( file_details == NULL )
-    {
-        ESP_LOGE("SD" , "Failed to access file metadata") ;
+// Function to write file data to SD card
+IO_ERROR writeFile(const char* path, const uint8_t* data, size_t len, FileType type) {
+    if (path == NULL || data == NULL) {
+        ESP_LOGE(TAG, "Invalid parameters for file writing");
+        return METADATA_ERROR;
     }
 
-    if( file_details->extension == TXT)
-    {
-        ESP_LOGI("SD" , "ATTEMPTING FILE TYPE : %d" , ( int ) file_details->extension) ;
-        read_callback_array[file_details->extension](file_details) ;
-    }else{
-        ESP_LOGE("SD" , "Unknown filetype : %d " , ( int ) file_details->extension );
-    }
-}
+    char full_path[256];
+    snprintf(full_path, sizeof(full_path), "/sdcard/%s", path);
+    ESP_LOGI(TAG, "Writing file to: %s", full_path);
 
-
-// Is this needed anymore if we are just sending utilizing tcp ?
-
-IO_ERROR jpeg_handler( FileMetaData* file_details )
-{
-    ESP_LOGI("SD" , "Attempting to write to a jpg file" ) ;
-    if( file_details == NULL )
-    {
-        return METADATA_ERROR ;
-    }
-    return EXIT_SUCCESSFUL ;
-}
-
-IO_ERROR txt_handler( FileMetaData* file_details )
-{
-    ESP_LOGE("SD" , "Attempting to write to a txt file" ) ;
-    if( file_details == NULL )
-    {
-        return METADATA_ERROR ;
-    }
-    FILE* file = fopen( file_details->path , "r");
+    FILE* file = fopen(full_path, "wb");
     if (file == NULL) {
-        ESP_LOGE("SD", "Failed to open test.txt for reading.");
-    } else {
-        ESP_LOGI("SD", "Reading from test.txt...");
-        char buffer[128];
-        while (fgets(buffer, sizeof(buffer), file )) {
-            printf("%s", buffer);
-        }
-        fclose( file );
-        ESP_LOGI("SD", "File read successfully. Length of file " );
+        ESP_LOGE(TAG, "Failed to open file for writing: %s", full_path);
+        return FILE_OPEN_ERROR;
     }
-    return EXIT_SUCCESSFUL ;
+
+    size_t written = fwrite(data, 1, len, file);
+    fclose(file);
+
+    if (written != len) {
+        ESP_LOGE(TAG, "Failed to write complete file. Written: %d, Expected: %d", written, len);
+        return WRITE_ERROR;
+    }
+
+    ESP_LOGI(TAG, "Successfully written %d bytes to file: %s", written, full_path);
+    return EXIT_SUCCESSFUL;
 }
 
-IO_ERROR png_handler( FileMetaData* file_details )
-{
-    ESP_LOGI("SD" , "Attempting to write to a png file" ) ;
-    if( file_details == NULL )
-    {
-        return METADATA_ERROR ;
+// Function to read file from SD card
+IO_ERROR readFile(const char* path, uint8_t** data, size_t* len) {
+    if (path == NULL || data == NULL || len == NULL) {
+        ESP_LOGE(TAG, "Invalid parameters for file reading");
+        return METADATA_ERROR;
     }
-    return EXIT_SUCCESSFUL ;
+
+    char full_path[256];
+    snprintf(full_path, sizeof(full_path), "/sdcard/%s", path);
+    ESP_LOGI(TAG, "Reading file from: %s", full_path);
+
+    FILE* file = fopen(full_path, "rb");
+    if (file == NULL) {
+        ESP_LOGE(TAG, "Failed to open file for reading: %s", full_path);
+        return FILE_OPEN_ERROR;
+    }
+
+    // Get file size
+    fseek(file, 0, SEEK_END);
+    *len = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    // Allocate memory for file data
+    *data = malloc(*len);
+    if (*data == NULL) {
+        fclose(file);
+        ESP_LOGE(TAG, "Failed to allocate memory for file data");
+        return MEMORY_ERROR;
+    }
+
+    // Read file data
+    size_t read_len = fread(*data, 1, *len, file);
+    fclose(file);
+
+    if (read_len != *len) {
+        free(*data);
+        *data = NULL;
+        *len = 0;
+        ESP_LOGE(TAG, "Failed to read complete file");
+        return READ_ERROR;
+    }
+
+    ESP_LOGI(TAG, "Successfully read %d bytes from file: %s", read_len, full_path);
+    return EXIT_SUCCESSFUL;
 }
 
-IO_ERROR mp4_handler( FileMetaData* file_details )
-{
-    ESP_LOGI("SD" , "Attempting to write to a mp4 file" ) ;
-    if( file_details == NULL )
-    {
-        return METADATA_ERROR ;
+// Function to handle file upload from HTTP request
+// Function to parse file metadata from JSON
+
+
+IO_ERROR parse_file_metadata(const char* json_str, FileMetadata* metadata) {
+    if (json_str == NULL || metadata == NULL) {
+        return METADATA_ERROR;
     }
-    return EXIT_SUCCESSFUL ;
+
+    cJSON *root = cJSON_Parse(json_str);
+    if (root == NULL) {
+        return JSON_PARSE_ERROR;
+    }
+
+    cJSON *filename = cJSON_GetObjectItem(root, "fileName");
+    cJSON *filesize = cJSON_GetObjectItem(root, "fileSize");
+    cJSON *filetype = cJSON_GetObjectItem(root, "fileType");
+
+    if (!filename || !filesize || !filetype) {
+        cJSON_Delete(root);
+        return METADATA_ERROR;
+    }
+
+    strncpy(metadata->filename, filename->valuestring, MAX_FILENAME_LENGTH - 1);
+    metadata->filesize = filesize->valueint;
+    metadata->type = filetype->valueint;
+
+    cJSON_Delete(root);
+    return EXIT_SUCCESSFUL;
 }
 
-IO_ERROR pdf_handler( FileMetaData* file_details )
-{
-    ESP_LOGI("SD" , "Attempting to write to a pdf file" ) ;
-    if( file_details == NULL )
-    {
-        return METADATA_ERROR ;
-    }
-    return EXIT_SUCCESSFUL ;
-}
 
-void init_sd_card()
-{
+esp_err_t init_sd_card(void) {
     esp_err_t ret;
-    ESP_LOGI("SD", "Initializing SD card...");
+    ESP_LOGI(TAG, "Initializing SD card...");
 
     // Configure SPI bus
     spi_bus_config_t bus_cfg = {
@@ -192,8 +154,8 @@ void init_sd_card()
 
     ret = spi_bus_initialize(HSPI_HOST, &bus_cfg, SDSPI_DEFAULT_DMA);
     if (ret != ESP_OK) {
-        ESP_LOGE("SD", "Failed to initialize bus.");
-        return;
+        ESP_LOGE(TAG, "Failed to initialize bus.");
+        return ret;
     }
 
     sdmmc_host_t host = SDSPI_HOST_DEFAULT();
@@ -209,19 +171,216 @@ void init_sd_card()
     };
 
     sdmmc_card_t* card;
-    ret = esp_vfs_fat_sdspi_mount("/sdcard", &host, &slot_config, &mount_config, &card);
+    ret = esp_vfs_fat_sdspi_mount(mount_point, &host, &slot_config, &mount_config, &card);
 
     if (ret != ESP_OK) {
         if (ret == ESP_FAIL) {
-            ESP_LOGE("SD", "Failed to mount filesystem.");
+            ESP_LOGE(TAG, "Failed to mount filesystem. Check SD card is inserted and formatted.");
         } else {
-            ESP_LOGE("SD", "Failed to initialize the card (%s)", esp_err_to_name(ret));
+            ESP_LOGE(TAG, "Failed to initialize the card (%s)", esp_err_to_name(ret));
         }
-        return;
+        return ret;
     }
 
-    ESP_LOGI("SD", "SD card mounted successfully");
-    sdmmc_card_print_info(stdout, card);
-    // FILE* test_file = fopen("/sdcard/test.txt", "w");
+    // Verify we can write to the card
+    char test_path[64];
+    snprintf(test_path, sizeof(test_path), "%s/test.txt", mount_point);
+    FILE* test_file = fopen(test_path, "w");
+    if (test_file == NULL) {
+        ESP_LOGE(TAG, "Failed to create test file. Check SD card is not write-protected");
+        esp_vfs_fat_sdmmc_unmount();
+        return ESP_FAIL;
+    }
+    fclose(test_file);
+    unlink(test_path);  // Clean up test file
 
+    sd_card_mounted = true;
+    ESP_LOGI(TAG, "SD card mounted successfully at %s", mount_point);
+    sdmmc_card_print_info(stdout, card);
+    return ESP_OK;
 }
+
+IO_ERROR handle_file_upload(httpd_req_t *req, char* filename, size_t content_len) {
+    if (!sd_card_mounted) {
+        ESP_LOGE(TAG, "SD card not mounted");
+        return FILE_OPEN_ERROR;
+    }
+
+    if (content_len > MAX_FILE_SIZE) {
+        ESP_LOGE(TAG, "File too large: %d bytes", content_len);
+        return FILE_SIZE_ERROR;
+    }
+
+    char filepath[512];
+    snprintf(filepath, sizeof(filepath), "%s/%s", mount_point, filename);
+    ESP_LOGI(TAG, "Attempting to create file at: %s", filepath);
+
+    // Check if directory exists
+    char dir_path[512];
+    strncpy(dir_path, filepath, sizeof(dir_path));
+    char* last_slash = strrchr(dir_path, '/');
+    if (last_slash) {
+        *last_slash = '\0';
+        // Try to create directory if it doesn't exist
+        struct stat st;
+        if (stat(dir_path, &st) != 0) {
+            if (mkdir(dir_path, 0755) != 0) {
+                ESP_LOGE(TAG, "Failed to create directory: %s", dir_path);
+                return FILE_OPEN_ERROR;
+            }
+        }
+    }
+
+    // Open file for writing
+    FILE* file = fopen(filepath, "wb");
+    if (!file) {
+        ESP_LOGE(TAG, "Failed to create file: %s", filepath );
+        return FILE_OPEN_ERROR;
+    }
+
+    uint8_t *chunk = malloc(CHUNK_SIZE);
+    if (!chunk) {
+        fclose(file);
+        ESP_LOGE(TAG, "Failed to allocate memory for chunk");
+        return MEMORY_ERROR;
+    }
+
+    size_t remaining = content_len;
+    size_t received = 0;
+
+    while (remaining > 0) {
+        size_t chunk_size = (remaining < CHUNK_SIZE) ? remaining : CHUNK_SIZE;
+        // Attempt to parse this as json first
+        int ret = httpd_req_recv(req, (char*)chunk, chunk_size);
+
+        if (ret <= 0) {
+            if (ret == HTTPD_SOCK_ERR_TIMEOUT) {
+                continue;  // Retry on timeout
+            }
+            free(chunk);
+            fclose(file);
+            unlink(filepath);  // Clean up partial file
+            ESP_LOGE(TAG, "File receive failed");
+            return RECEIVE_ERROR;
+        }
+
+        size_t written = fwrite(chunk, 1, ret, file);
+        if (written != ret) {
+            free(chunk);
+            fclose(file);
+            unlink(filepath);  // Clean up partial file
+            ESP_LOGE(TAG, "File write failed: %d bytes written, expected %d", written, ret);
+            return WRITE_ERROR;
+        }
+
+        remaining -= ret;
+        received += ret;
+
+        ESP_LOGI(TAG, "Upload progress: %d%%", (int)((received * 100) / content_len));
+    }
+
+    free(chunk);
+    fclose(file);
+
+    // Verify file was created
+    struct stat st;
+    if (stat(filepath, &st) != 0) {
+        ESP_LOGE(TAG, "Failed to verify file creation");
+        return FILE_OPEN_ERROR;
+    }
+
+    ESP_LOGI(TAG, "File uploaded successfully: %s (size: %d bytes)", filepath, (int)st.st_size);
+    return EXIT_SUCCESSFUL;
+}
+// IO_ERROR handle_file_upload(httpd_req_t *req, char* filename, size_t content_len) {
+//     if (!sd_card_mounted) {
+//         ESP_LOGE(TAG, "SD card not mounted");
+//         return FILE_OPEN_ERROR;
+//     }
+//
+//     if (content_len > MAX_FILE_SIZE) {
+//         ESP_LOGE(TAG, "File too large: %d bytes", content_len);
+//         return FILE_SIZE_ERROR;
+//     }
+//
+//     // Create full path
+//     char filepath[512];
+//     snprintf(filepath, sizeof(filepath), "%s/%s", mount_point, filename);
+//     ESP_LOGI(TAG, "Attempting to create file at: %s", filepath);
+//
+//     // Check if directory exists
+//     char dir_path[512];
+//     strncpy(dir_path, filepath, sizeof(dir_path));
+//     char* last_slash = strrchr(dir_path, '/');
+//     if (last_slash) {
+//         *last_slash = '\0';
+//         // Try to create directory if it doesn't exist
+//         struct stat st;
+//         if (stat(dir_path, &st) != 0) {
+//             if (mkdir(dir_path, 0755) != 0) {
+//                 ESP_LOGE(TAG, "Failed to create directory: %s", dir_path);
+//                 return FILE_OPEN_ERROR;
+//             }
+//         }
+//     }
+//
+//     // Open file for writing
+//     FILE* file = fopen(filepath, "wb");
+//     if (!file) {
+//         ESP_LOGE(TAG, "Failed to create file: %s", filepath );
+//         return FILE_OPEN_ERROR;
+//     }
+//
+//     uint8_t *chunk = malloc(CHUNK_SIZE);
+//     if (!chunk) {
+//         fclose(file);
+//         ESP_LOGE(TAG, "Failed to allocate memory for chunk");
+//         return MEMORY_ERROR;
+//     }
+//
+//     size_t remaining = content_len;
+//     size_t received = 0;
+//
+//     while (remaining > 0) {
+//         size_t chunk_size = (remaining < CHUNK_SIZE) ? remaining : CHUNK_SIZE;
+//         int ret = httpd_req_recv(req, (char*)chunk, chunk_size);
+//
+//         if (ret <= 0) {
+//             if (ret == HTTPD_SOCK_ERR_TIMEOUT) {
+//                 continue;  // Retry on timeout
+//             }
+//             free(chunk);
+//             fclose(file);
+//             unlink(filepath);  // Clean up partial file
+//             ESP_LOGE(TAG, "File receive failed");
+//             return RECEIVE_ERROR;
+//         }
+//
+//         size_t written = fwrite(chunk, 1, ret, file);
+//         if (written != ret) {
+//             free(chunk);
+//             fclose(file);
+//             unlink(filepath);  // Clean up partial file
+//             ESP_LOGE(TAG, "File write failed: %d bytes written, expected %d", written, ret);
+//             return WRITE_ERROR;
+//         }
+//
+//         remaining -= ret;
+//         received += ret;
+//
+//         ESP_LOGI(TAG, "Upload progress: %d%%", (int)((received * 100) / content_len));
+//     }
+//
+//     free(chunk);
+//     fclose(file);
+//
+//     // Verify file was created
+//     struct stat st;
+//     if (stat(filepath, &st) != 0) {
+//         ESP_LOGE(TAG, "Failed to verify file creation");
+//         return FILE_OPEN_ERROR;
+//     }
+//
+//     ESP_LOGI(TAG, "File uploaded successfully: %s (size: %d bytes)", filepath, (int)st.st_size);
+//     return EXIT_SUCCESSFUL;
+// }

@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 #include "esp_wifi.h"
 #include "esp_timer.h"
 #include "esp_event.h"
@@ -95,7 +94,7 @@ static esp_err_t upload_file_handler(httpd_req_t *req)
 
     struct {
         const char *key;
-        cJSON_bool (*validate)(const cJSON *item);
+        cJSON_bool (*validate)(const cJSON *item);  // Pointer to validation function
     } fields[] = {
         {"fileName", cJSON_IsString},
         {"fileSize", cJSON_IsNumber},
@@ -180,8 +179,8 @@ static httpd_handle_t start_webserver(void)
 
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_register_uri_handler(server, &uri_root);
-        httpd_register_uri_handler(server, &uri_get_json);
         httpd_register_uri_handler(server, &uri_upload_file);
+        httpd_register_uri_handler(server, &uri_get_json);
         ESP_LOGI(TAG, "Server started on port: '%d'", config.server_port);
         return server;
     }
