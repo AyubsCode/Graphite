@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -10,104 +12,53 @@
 #include "esp_http_server.h"
 #include "driver/gpio.h"
 #include "cJSON.h"
-#include "string.h"
 #include "esp_log.h"
 #include "esp_system.h"
+#include "esp_netif.h"
+#include "esp_mac.h"
 #include "sdmmc_cmd.h"
 #include "esp_vfs.h"
 #include "esp_vfs_fat.h"
 #include "driver/sdmmc_host.h"
 #include "driver/sdspi_host.h"
 #include "driver/spi_common.h"
-#include "sdmmc_cmd.h"
 #include "esp_err.h"
-#include <stdio.h>
-#include <stdlib.h>
 #include "io.h"
 
-#define AP_SSID "ESP32APNET" // COnfigure in AP Mode
-#define AP_PASS "12345678"
+#define STA_SSID "TELUS4110"
+#define STA_PASS "94wphb3zc5"
 #define LED_PIN 2
 #define MAX_JSON_SIZE 1024
+#define WIFI_CONNECTED_BIT BIT0
 
 static const char *TAG = "wifi_ap";
+static EventGroupHandle_t wifi_event_group;
 
 
-
-// remember , I have to play around w this some more
-const char* html_page = "<!DOCTYPE html><html>\
-<head>\
-    <title>ESP32 JSON Communication</title>\
-    <style>\
-        body { font-family: Arial, sans-serif; margin: 20px; }\
-        .container { max-width: 800px; margin: 0 auto; }\
-        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }\
-        button { padding: 10px 20px; margin: 10px 0; }\
-        input { margin: 5px 0; padding: 5px; }\
-    </style>\
-</head>\
-<body>\
-    <div class='container'>\
-        <h1>ESP32 JSON Communication</h1>\
-        <div>\
-            <h2>Send JSON to ESP32</h2>\
-            <input type='text' id='filename' placeholder='Enter filename'>\
-            <input type='number' id='fileExtension' placeholder='Enter fileExtension'>\
-            <input type='text' id='filePath' placeholder='Enter filepath'>\
-            <button onclick='sendJSON()'>Send JSON</button>\
-        </div>\
-        <div>\
-            <h2>Receive JSON from ESP32</h2>\
-            <button onclick='fetchJSON()'>Fetch JSON</button>\
-            <h3>Received Data:</h3>\
-            <pre id='receivedJson'>No data</pre>\
-        </div>\
-    </div>\
-    <script>\
-        async function sendJSON() {\
-            const filename  = document.getElementById('filename').value;\
-            const path      = document.getElementById('filePath').value;\
-            const extension = Number(document.getElementById('fileExtension').value);\
-            const data = {\
-                filename : name ,\
-                fileExtension : extension ,\
-                filePath      : path      ,\
-                createdOnInUTC: 1.0       ,\
-                updatedInUTC  : 1.0       ,\
-            };\
-            try {\
-                const response = await fetch('/api/json', {\
-                    method: 'POST',\
-                    headers: {\
-                        'Content-Type': 'application/json'\
-                    },\
-                    body: JSON.stringify(data)\
-                });\
-                const result = await response.json();\
-                alert('Server response: ' + result.status);\
-            } catch (error) {\
-                console.error('Error:', error);\
-                alert('Error sending data');\
-            }\
-        }\
-        async function fetchJSON() {\
-            try {\
-                const response = await fetch('/api/json');\
-                const data = await response.json();\
-                document.getElementById('receivedJson').textContent = \
-                    JSON.stringify(data, null, 2);\
-            } catch (error) {\
-                console.error('Error:', error);\
-                document.getElementById('receivedJson').textContent = \
-                    'Error fetching data';\
-            }\
-        }\
-    </script>\
-</body></html>";
+static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
+{
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
+    {
+        esp_wifi_connect();
+    }
+    else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
+    {
+        ESP_LOGE(TAG, "Wi-Fi Disconnected, retrying...");
+        esp_wifi_connect();
+    }
+    else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
+    {
+        ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
+        ESP_LOGI(TAG, "Connected! Assigned IP: " IPSTR, IP2STR(&event->ip_info.ip));
+        xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_BIT);
+    }
+}
 
 static esp_err_t root_handler(httpd_req_t *req)
 {
-    httpd_resp_send(req, html_page, strlen(html_page));
+    const char* resp = "Hello from the esp32" ;
+    httpd_resp_send(req, resp , strlen(resp));
+    ESP_LOGI(TAG , "Connected via root & sent resp %s" , resp) ;
     return ESP_OK;
 }
 
@@ -236,30 +187,35 @@ static httpd_handle_t start_webserver(void)
     return NULL;
 }
 
-static void wifi_init_ap(void)
+static void wifi_init_sta()
 {
+    wifi_event_group = xEventGroupCreate();
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
-    esp_netif_create_default_wifi_ap();
+
+    esp_netif_t *netif = esp_netif_create_default_wifi_sta();
+    ESP_ERROR_CHECK(esp_netif_dhcpc_start(netif));
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-    wifi_config_t wifi_ap_config = {
-        .ap = {
-            .ssid = AP_SSID,
-            .ssid_len = strlen(AP_SSID),
-            .password = AP_PASS,
-            .max_connection = 4,
-            .authmode = WIFI_AUTH_WPA_WPA2_PSK
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &event_handler, NULL, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, NULL, NULL));
+
+    wifi_config_t wifi_sta_config = {
+        .sta = {
+            .ssid = STA_SSID,
+            .password = STA_PASS,
+            .threshold.authmode = WIFI_AUTH_WPA2_PSK,
         },
     };
 
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
-    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_ap_config));
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_sta_config));
     ESP_ERROR_CHECK(esp_wifi_start());
 
-    ESP_LOGI(TAG, "WiFi AP Started with SSID: %s", AP_SSID);
+    ESP_LOGI(TAG, "Wi-Fi STA Mode Started, waiting for IP...");
+    xEventGroupWaitBits(wifi_event_group, WIFI_CONNECTED_BIT, pdFALSE, pdTRUE, portMAX_DELAY);
 }
 
 void app_main(void)
@@ -274,7 +230,7 @@ void app_main(void)
     gpio_reset_pin(LED_PIN);
     gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
 
-    wifi_init_ap();
+    wifi_init_sta();
 
     esp_log_level_set("*", ESP_LOG_INFO);
     init_sd_card();
