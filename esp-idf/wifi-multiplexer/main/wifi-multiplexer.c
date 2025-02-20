@@ -35,6 +35,14 @@ static const char *TAG = "wifi_ap";
 static EventGroupHandle_t wifi_event_group;
 
 
+typedef struct {
+    int    fileSize   ;
+    char*  fileName   ;
+    int    height     ;
+    int    width      ;
+    char*  extension  ;
+}Image;
+
 static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
@@ -62,7 +70,8 @@ static esp_err_t root_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
-static esp_err_t post_json_handler(httpd_req_t *req)
+
+static esp_err_t upload_file_handler(httpd_req_t *req)
 {
     char content[MAX_JSON_SIZE];
     int ret = httpd_req_recv(req, content, sizeof(content));
@@ -76,7 +85,6 @@ static esp_err_t post_json_handler(httpd_req_t *req)
 
     content[ret] = '\0';
 
-    // Parse the content and save as a cJSON object
     cJSON *root = cJSON_Parse(content);
     if (root == NULL) {
         const char* error_response = "{\"status\":\"error\",\"message\":\"Invalid JSON\"}";
@@ -85,42 +93,37 @@ static esp_err_t post_json_handler(httpd_req_t *req)
         return ESP_OK;
     }
 
-    FileMetaData file ;
+    struct {
+        const char *key;
+        cJSON_bool (*validate)(const cJSON *item);
+    } fields[] = {
+        {"fileName", cJSON_IsString},
+        {"fileSize", cJSON_IsNumber},
+        {"height",   cJSON_IsNumber},
+        {"width",    cJSON_IsNumber},
+        {"extension", cJSON_IsString}
+    };
 
-    cJSON *fileExtension = cJSON_GetObjectItem(root, "fileExtension");
-    cJSON *filename = cJSON_GetObjectItem(root, "filename");
-    cJSON *filepath = cJSON_GetObjectItem(root, "filePath");
-    cJSON *createdOnInUTC = cJSON_GetObjectItem(root, "createdOnInUTC");
-    cJSON *updatedInUTC = cJSON_GetObjectItem(root, "updatedInUTC");
-
-    if (cJSON_IsString( filename ) && (filename->valuestring != NULL))
-    {
-        file.name = filename->valuestring ;
+    for (size_t i = 0; i < sizeof(fields) / sizeof(fields[0]); i++) {
+        cJSON *item = cJSON_GetObjectItem(root, fields[i].key);
+        if (!item || !fields[i].validate(item)) {
+            ESP_LOGE(TAG, "Invalid or missing '%s'", fields[i].key);
+            char error_response[128];
+            snprintf(error_response, sizeof(error_response),
+                     "{\"status\":\"error\",\"message\":\"Invalid or missing '%s'\"}", fields[i].key);
+            httpd_resp_send(req, error_response, strlen(error_response));
+            cJSON_Delete(root);
+            return ESP_OK;
+        }
     }
 
-    if (  fileExtension->valueint || fileExtension->valuestring )
-    {
-        int cvt = atoi(fileExtension->valuestring) ; // Bruh change this pls
-        file.extension = ( FILE_TYPE ) cvt ;
-    }
+    ESP_LOGI(TAG, "Received: fileName=%s, fileSize=%d, height=%d, width=%d, extension=%s",
+             cJSON_GetObjectItem(root, "fileName")->valuestring,
+             cJSON_GetObjectItem(root, "fileSize")->valueint,
+             cJSON_GetObjectItem(root, "height")->valueint,
+             cJSON_GetObjectItem(root, "width")->valueint,
+             cJSON_GetObjectItem(root, "extension")->valuestring);
 
-    if (cJSON_IsString( filepath ) && ( filepath->valuestring))
-    { // Check if its defined
-        file.path =  filepath->valuestring;
-    }
-
-    if ( cJSON_IsNumber( createdOnInUTC ) && createdOnInUTC->valuedouble)
-    {
-        file.created_on = createdOnInUTC->valuedouble ;
-    }
-
-    if ( cJSON_IsNumber( updatedInUTC ) && updatedInUTC->valuedouble)
-    {
-        file.created_on = updatedInUTC->valuedouble ;
-    }
-
-    writeFile( &file ) ;
-    readFile( &file )  ;
     cJSON_Delete(root);
 
     const char* success_response = "{\"status\":\"success\",\"message\":\"Data received\"}";
@@ -161,10 +164,10 @@ httpd_uri_t uri_get_json = {
     .user_ctx = NULL
 };
 
-httpd_uri_t uri_post_json = {
-    .uri = "/api/json",
+httpd_uri_t uri_upload_file = {
+    .uri = "/upload" ,
     .method = HTTP_POST,
-    .handler = post_json_handler,
+    .handler = upload_file_handler,
     .user_ctx = NULL
 };
 
@@ -178,7 +181,7 @@ static httpd_handle_t start_webserver(void)
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_register_uri_handler(server, &uri_root);
         httpd_register_uri_handler(server, &uri_get_json);
-        httpd_register_uri_handler(server, &uri_post_json);
+        httpd_register_uri_handler(server, &uri_upload_file);
         ESP_LOGI(TAG, "Server started on port: '%d'", config.server_port);
         return server;
     }
