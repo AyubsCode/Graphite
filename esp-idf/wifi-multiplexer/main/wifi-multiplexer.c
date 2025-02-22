@@ -26,8 +26,10 @@
 
 #define STA_SSID "TELUS4110"
 #define STA_PASS "94wphb3zc5"
+#define PARSE_BUFFER 256
 #define LED_PIN 2
 #define MAX_JSON_SIZE 1024
+#define PARSE_TAG "Parsing"
 #define WIFI_CONNECTED_BIT BIT0
 
 static const char *TAG = "wifi_ap";
@@ -41,6 +43,34 @@ typedef struct {
     int    width      ;
     char*  extension  ;
 }Image;
+
+
+char* get_file_name( char* string_to_parse ){
+    // Get idx of filenmae
+    char* delimeter = "filename=\"" ;
+    char* begin = strstr( string_to_parse , delimeter) ;
+
+    int idx = 0 ;
+    if(begin){
+        begin = begin + strlen(delimeter)  ;
+        while(begin[idx] != '\"' && begin[idx] != '\0'){
+            idx ++ ;
+        }
+        char* string_ret_val = malloc(idx + 1) ;
+        if(!string_ret_val){
+            perror("Failed to allocate memory") ;
+            return NULL ;
+        }
+        strncpy( string_ret_val , begin , idx ) ;
+        string_ret_val[idx] = '\0' ;
+        return string_ret_val ;
+    }else{
+        ESP_LOGE(PARSE_TAG , "Could not parse http header")  ;
+        return NULL ;
+    }
+    return NULL ;
+}
+
 
 static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
@@ -66,6 +96,48 @@ static esp_err_t root_handler(httpd_req_t *req)
     const char* resp = "Hello from the esp32" ;
     httpd_resp_send(req, resp , strlen(resp));
     ESP_LOGI(TAG , "Connected via root & sent resp %s" , resp) ;
+    return ESP_OK;
+}
+static esp_err_t upload_binaries_handler(httpd_req_t *req)
+
+{
+    size_t content_length = req->content_len ;
+    char content[MAX_JSON_SIZE] ;
+    int ret = httpd_req_recv(req , content , sizeof(content)) ;
+
+    int BUFFER_SIZE = 1024 ;
+
+
+
+    // Get the stinky first 100 characters
+
+    char header_to_parse_container[PARSE_BUFFER ] ;
+    strncpy(header_to_parse_container , content  , PARSE_BUFFER ) ;
+
+    // dealocate this ptr after use !!
+    char* filename = get_file_name( header_to_parse_container ) ;
+
+    // Case this returned null filename wasn't found
+
+    if(!filename){
+        ESP_LOGE(PARSE_TAG , "Failed to parse filename from HTTP header") ;
+        return ESP_OK;
+    }
+
+    if( ret > 0 ){
+        const char* resp = "Hello from the esp32" ;
+        httpd_resp_send(req, resp , strlen(resp));
+        ESP_LOGI(TAG , "Connected via root save file : %s" , filename ) ;
+        ESP_LOGI(TAG , "File_size : %zu" , content_length) ;
+        free(filename) ;
+        return ESP_OK;
+    }else{
+        const char* error_response = "{\"status\":\"error\",\"message\":\"No data received\"}";
+        httpd_resp_set_type(req, "application/json");
+        httpd_resp_send(req, error_response, strlen(error_response));
+        ESP_LOGE(TAG , "ret unpopulated"  ) ;
+        return ESP_OK;
+    }
     return ESP_OK;
 }
 
@@ -170,6 +242,13 @@ httpd_uri_t uri_upload_file = {
     .user_ctx = NULL
 };
 
+httpd_uri_t uri_upload_binaries = {
+    .uri = "/binaries" ,
+    .method = HTTP_POST,
+    .handler = upload_binaries_handler,
+    .user_ctx = NULL
+};
+
 
 static httpd_handle_t start_webserver(void)
 {
@@ -181,6 +260,7 @@ static httpd_handle_t start_webserver(void)
         httpd_register_uri_handler(server, &uri_root);
         httpd_register_uri_handler(server, &uri_upload_file);
         httpd_register_uri_handler(server, &uri_get_json);
+        httpd_register_uri_handler(server, &uri_upload_binaries);
         ESP_LOGI(TAG, "Server started on port: '%d'", config.server_port);
         return server;
     }
