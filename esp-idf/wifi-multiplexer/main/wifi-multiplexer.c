@@ -260,8 +260,8 @@ static esp_err_t get_json_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
-    .uri = "/",
  httpd_uri_t uri_root = {
+    .uri = "/",
     .method = HTTP_GET,
     .handler = root_handler,
     .user_ctx = NULL
