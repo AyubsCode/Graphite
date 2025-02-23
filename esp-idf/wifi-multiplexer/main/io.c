@@ -31,7 +31,6 @@ static const char *TAG = "io_handler";
 static bool sd_card_mounted = false;
 static const char* mount_point = "/sdcard";
 
-// Function to write file data to SD card
 IO_ERROR writeFile(const char* path, const uint8_t* data, size_t len, FileType type) {
     if (path == NULL || data == NULL) {
         ESP_LOGE(TAG, "Invalid parameters for file writing");

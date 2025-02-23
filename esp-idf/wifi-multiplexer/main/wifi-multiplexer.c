@@ -1,5 +1,6 @@
-#include <stdio.h>
+ #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
 #include "esp_wifi.h"
@@ -71,6 +72,20 @@ char* get_file_name( char* string_to_parse ){
     return NULL ;
 }
 
+int parse_header(char* jpeg_http_request_header, size_t length) {
+    unsigned char jpeg_sig[] = { 0xFF, 0xD8, 0xFF, 0xE0 };
+    size_t sig_len = sizeof(jpeg_sig);
+
+    // Scan the buffer manually since strstr won't work for binary data
+    for (size_t i = 0; i < length - sig_len; i++) {
+        if (memcmp(jpeg_http_request_header + i, jpeg_sig, sig_len) == 0) {
+            return (int)(i + sig_len);  // Ensuring it never returns < 100 depends on HTTP structure
+        }
+    }
+
+    return -1;  // JPEG header not found
+}
+
 
 static void event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
@@ -98,48 +113,72 @@ static esp_err_t root_handler(httpd_req_t *req)
     ESP_LOGI(TAG , "Connected via root & sent resp %s" , resp) ;
     return ESP_OK;
 }
-static esp_err_t upload_binaries_handler(httpd_req_t *req)
-
-{
-    size_t content_length = req->content_len ;
-    char content[MAX_JSON_SIZE] ;
-    int ret = httpd_req_recv(req , content , sizeof(content)) ;
-
-    int BUFFER_SIZE = 1024 ;
 
 
-
-    // Get the stinky first 100 characters
-
-    char header_to_parse_container[PARSE_BUFFER ] ;
-    strncpy(header_to_parse_container , content  , PARSE_BUFFER ) ;
-
-    // dealocate this ptr after use !!
-    char* filename = get_file_name( header_to_parse_container ) ;
-
-    // Case this returned null filename wasn't found
-
-    if(!filename){
-        ESP_LOGE(PARSE_TAG , "Failed to parse filename from HTTP header") ;
-        return ESP_OK;
-    }
-
-    if( ret > 0 ){
-        const char* resp = "Hello from the esp32" ;
-        httpd_resp_send(req, resp , strlen(resp));
-        ESP_LOGI(TAG , "Connected via root save file : %s" , filename ) ;
-        ESP_LOGI(TAG , "File_size : %zu" , content_length) ;
-        free(filename) ;
-        return ESP_OK;
-    }else{
-        const char* error_response = "{\"status\":\"error\",\"message\":\"No data received\"}";
+static esp_err_t recv_file(httpd_req_t *req) {
+    char content[MAX_JSON_SIZE];
+    int ret = httpd_req_recv(req, content, sizeof(content));
+    if (ret <= 0) {
+        ESP_LOGE(TAG, "Could not get request");
+        const char* resp = "{\"status\":\"error\"}";
         httpd_resp_set_type(req, "application/json");
-        httpd_resp_send(req, error_response, strlen(error_response));
-        ESP_LOGE(TAG , "ret unpopulated"  ) ;
+        httpd_resp_send(req, resp, strlen(resp));
         return ESP_OK;
     }
+    const char* resp = "{\"status\":\"success\"}";
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_send(req, resp, strlen(resp));
     return ESP_OK;
 }
+
+static esp_err_t upload_binaries_handler(httpd_req_t *req)
+{
+    size_t content_length = req->content_len;
+    size_t bytes_received = 0;
+    char content[1024];
+    bool image_started = false;
+
+    FILE *fptr = fopen("/sdcard/test.jpg", "wb");
+    if (!fptr) {
+        ESP_LOGE("SDCARD", "Failed to open file");
+        return ESP_FAIL;
+    }
+
+    while (bytes_received < content_length) {
+        int ret = httpd_req_recv(req, content, sizeof(content));
+        if (ret <= 0) {
+            ESP_LOGE(TAG, "Receive failed");
+            fclose(fptr);
+            return ESP_FAIL;
+        }
+
+        if (!image_started) {
+            for (int i = 0; i < ret - 2; i++) {
+                if ((unsigned char)content[i] == 0xFF &&
+                    (unsigned char)content[i + 1] == 0xD8 &&
+                    (unsigned char)content[i + 2] == 0xFF) {
+
+                    image_started = true;
+                    size_t data_size = ret - i;
+                    fwrite(&content[i], 1, data_size, fptr);
+                    bytes_received += ret;
+                    break;
+                }
+            }
+        } else {
+            fwrite(content, 1, ret, fptr);
+            bytes_received += ret;
+        }
+    }
+
+    fclose(fptr);
+
+    const char* resp = "{\"status\":\"success\"}";
+    httpd_resp_send(req, resp, strlen(resp));
+
+    return ESP_OK;
+}
+
 
 
 static esp_err_t upload_file_handler(httpd_req_t *req)
@@ -221,8 +260,8 @@ static esp_err_t get_json_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
-httpd_uri_t uri_root = {
     .uri = "/",
+ httpd_uri_t uri_root = {
     .method = HTTP_GET,
     .handler = root_handler,
     .user_ctx = NULL
@@ -242,6 +281,13 @@ httpd_uri_t uri_upload_file = {
     .user_ctx = NULL
 };
 
+httpd_uri_t uri_get_file = {
+    .uri = "/recv" ,
+    .method = HTTP_POST,
+    .handler = recv_file,
+    .user_ctx = NULL
+};
+
 httpd_uri_t uri_upload_binaries = {
     .uri = "/binaries" ,
     .method = HTTP_POST,
@@ -254,12 +300,13 @@ static httpd_handle_t start_webserver(void)
 {
     httpd_handle_t server = NULL;
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
-    config.max_uri_handlers = 4;
+    config.max_uri_handlers = 5;
 
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_register_uri_handler(server, &uri_root);
         httpd_register_uri_handler(server, &uri_upload_file);
         httpd_register_uri_handler(server, &uri_get_json);
+        httpd_register_uri_handler(server, &uri_get_file);
         httpd_register_uri_handler(server, &uri_upload_binaries);
         ESP_LOGI(TAG, "Server started on port: '%d'", config.server_port);
         return server;
