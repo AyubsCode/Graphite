@@ -184,8 +184,9 @@ static void tcp_server_write(void *pvParameters) {
         vTaskDelete(NULL);
     }
     ESP_LOGI(TAG, "TCP server listening on port %d", PORT);
-    int filenum = 1;
-    char filename[32];
+    char filename[256];
+    char response[256];
+    char name[248];
 
     while (1) {
         // Accept incoming connection
@@ -198,18 +199,23 @@ static void tcp_server_write(void *pvParameters) {
         }
         ESP_LOGI(TAG, "New client connected");
 
-        /* Set a timeout for recv to prevent hanging, closes socket if no data received
+        // Set a timeout for recv to prevent hanging, closes socket if no data received
         struct timeval timeout;
         timeout.tv_sec = 5;  // 5-second timeout
         timeout.tv_usec = 0;
         setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
-	*/
 
-        // Open file for writing
-        // Currently hard coded as "file_(filenum).txt" TODO: save original filename
+	// Receive filename from client
+        int len = recv(client_sock, name, sizeof(name) - 1, 0);
+        if (len <= 0) {
+            ESP_LOGE(TAG, "Failed to receive filename");
+            close(client_sock);
+            continue;
+        }
+	name[len] = '\0';  // End of Filename
+        snprintf(filename, sizeof(filename), "/sdcard/%s", name);
+        ESP_LOGI(TAG, "File saved as: %s", filename);
 
-
-        sprintf(filename, "/sdcard/file-%d.jpg", filenum);
         // Open the file
         FILE *file = fopen(filename, "wb");
         if (!file) {
@@ -217,7 +223,10 @@ static void tcp_server_write(void *pvParameters) {
             close(client_sock);
             continue;
         }
-        filenum++; // next file will be named file-(filenum + 1).txt
+
+        // Send confirmation to client
+        sprintf(response, "Filename received successfully");
+        send(client_sock, response, strlen(response), 0);
 
         while (1) {
             int len = recv(client_sock, read_buffer, BUFFER_SIZE, 0);
@@ -227,10 +236,10 @@ static void tcp_server_write(void *pvParameters) {
                     break;
                 } else {
                     ESP_LOGE(TAG, "Receive failed: errno %d", errno);
-                    break;
                 }
             } else if (len == 0) {
                 ESP_LOGI(TAG, "Client disconnected");
+                break;
             } else {
                 // Write to sd card
                 fwrite(read_buffer, 1, len, file);
@@ -238,10 +247,7 @@ static void tcp_server_write(void *pvParameters) {
             }
         }
 
-        // Send confirmation to client
-        const char *response = "File received successfully";
-        send(client_sock, response, strlen(response), 0);
-
+        // Clean up after client
         fclose(file);
         close(client_sock);
         ESP_LOGI(TAG, "Client connection closed");
@@ -302,18 +308,18 @@ static void tcp_server_read(void *pvParameters) {
         setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 
         // Receive the filename from the client
-        char filename[128];
-        int filename_len = recv(client_sock, filename, 128 - 1, 0);
-        if (filename_len < 0) {
+        char filename[248];
+        int len = recv(client_sock, filename, sizeof(filename) - 1, 0);
+        if (len < 0) {
             ESP_LOGE(TAG, "Failed to receive filename: errno %d", errno);
             close(client_sock);
             continue;
         }
-        filename[filename_len] = '\0'; // Null-terminate the filename
+        filename[len] = '\0'; // End of Filename
         ESP_LOGI(TAG, "Requested file: %s", filename);
 
         // Open the requested file from the SD card
-        char filepath[128 + 8]; // Adjust the buffer size as needed
+        char filepath[256]; // Adjust the buffer size as needed
         snprintf(filepath, sizeof(filepath), "/sdcard/%s", filename); // Assuming files are stored in /sdcard/
         FILE *file = fopen(filepath, "rb");
         if (!file) {
