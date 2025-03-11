@@ -1,6 +1,0 @@
-/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:149:14: warning: 'open_file' defined but not used [-Wunused-function]
-  149 | static FILE *open_file(const char *filename) {
-      |              ^~~~~~~~~
-/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:94:13: warning: 'wifi_init_softap' defined but not used [-Wunused-function]
-   94 | static void wifi_init_softap() {
-      |             ^~~~~~~~~~~~~~~~
