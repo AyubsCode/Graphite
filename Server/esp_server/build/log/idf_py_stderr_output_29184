@@ -1,0 +1,595 @@
+[0;33m--- esp-idf-monitor 1.5.0 on /dev/ttyUSB0 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x4008ee4a: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:374
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443
+[0m
+[0;33m--- 0x4008ee47: remove_free_block at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:373 (discriminator 1)
+ (inlined by) block_locate_free at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf_control_functions.h:619 (discriminator 1)
+ (inlined by) tlsf_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/tlsf/tlsf.c:443 (discriminator 1)
+0x4008e7f9: multi_heap_malloc_impl at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/multi_heap.c:209
+0x4008233d: aligned_or_unaligned_alloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:82
+0x40082465: heap_caps_aligned_alloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:156
+0x40082495: heap_caps_malloc_base at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps_base.c:176
+0x40082098: heap_caps_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:84
+0x400820cd: heap_caps_malloc_default at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/heap/heap_caps.c:110
+0x40091539: malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/newlib/src/heap.c:24
+0x400df00d: mem_malloc at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/core/mem.c:209
+0x400ee039: sys_thread_sem_init at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:507
+0x400ee0a5: sys_thread_sem_get at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/port/freertos/sys_arch.c:482
+0x400ee383: netconn_apimsg at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:128
+0x400ee429: netconn_new_with_proto_and_callback at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/api_lib.c:164
+0x400de7d1: lwip_socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/lwip/src/api/sockets.c:1759 (discriminator 4)
+0x400d817a: socket at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:70
+ (inlined by) tcp_server_task at /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:67
+0x4008a23d: vPortTaskWrapper at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /home/zeila/Documents/CMPT496/Graphite/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0m

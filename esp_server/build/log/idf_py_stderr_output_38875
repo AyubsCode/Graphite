@@ -1,0 +1,10 @@
+Command: make -j 10 all
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:52:13: warning: 'wifi_init_sta' defined but not used [-Wunused-function]
+   52 | static void wifi_init_sta() {
+      |             ^~~~~~~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:43:15: warning: 'write_buffer_index' defined but not used [-Wunused-variable]
+   43 | static size_t write_buffer_index = 0;  // Current position in the write buffer
+      |               ^~~~~~~~~~~~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:42:16: warning: 'write_buffer' defined but not used [-Wunused-variable]
+   42 | static uint8_t write_buffer[MAX_FILE_SIZE];  // Buffer for storing file data
+      |                ^~~~~~~~~~~~

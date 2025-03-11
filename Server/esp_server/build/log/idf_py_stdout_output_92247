@@ -1,0 +1,409 @@
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x1b (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6328
+load:0x40078000,len:15828
+load:0x40080400,len:3860
+entry 0x40080638
+[0;32mI (27) boot: ESP-IDF d4b79343-dirty 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Feb  8 2025 23:54:34[0m
+[0;32mI (27) boot: Multicore bootloader[0m
+[0;32mI (29) boot: chip revision: v3.1[0m
+[0;32mI (32) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (36) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (40) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (43) boot: Enabling RNG early entropy source...[0m
+[0;32mI (48) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (57) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (63) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (70) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (76) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=18ec4h (102084) map[0m
+[0;32mI (122) esp_image: segment 1: paddr=00028eec vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (122) esp_image: segment 2: paddr=00028f10 vaddr=3ffb0000 size=03eech ( 16108) load[0m
+[0;32mI (132) esp_image: segment 3: paddr=0002ce04 vaddr=40080000 size=03214h ( 12820) load[0m
+[0;32mI (138) esp_image: segment 4: paddr=00030020 vaddr=400d0020 size=840c8h (540872) map[0m
+[0;32mI (325) esp_image: segment 5: paddr=000b40f0 vaddr=40083214 size=146e4h ( 83684) load[0m
+[0;32mI (370) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (370) boot: Disabling RNG early entropy source...[0m
+[0;32mI (380) cpu_start: Multicore app[0m
+[0;32mI (389) cpu_start: Pro cpu start user code[0m
+[0;32mI (389) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (389) app_init: Application information:[0m
+[0;32mI (389) app_init: Project name:     esp_server[0m
+[0;32mI (393) app_init: App version:      1[0m
+[0;32mI (396) app_init: Compile time:     Feb  8 2025 23:55:07[0m
+[0;32mI (401) app_init: ELF file SHA256:  faff852ce...[0m
+[0;32mI (406) app_init: ESP-IDF:          d4b79343-dirty[0m
+[0;32mI (410) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (414) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (418) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (422) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (428) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (433) heap_init: At 3FFB9568 len 00026A98 (154 KiB): DRAM[0m
+[0;32mI (439) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (444) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (449) heap_init: At 400978F8 len 00008708 (33 KiB): IRAM[0m
+[0;32mI (456) spi_flash: detected chip: generic[0m
+[0;32mI (458) spi_flash: flash io: dio[0m
+[0;33mW (461) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (475) main_task: Started on CPU0[0m
+[0;32mI (485) main_task: Calling app_main()[0m
+[0;32mI (525) wifi:wifi driver task: 3ffc1770, prio:23, stack:6656, core=0[0m
+[0;32mI (535) wifi:wifi firmware version: 34d97ea27[0m
+[0;32mI (545) wifi:wifi certification version: v7.0[0m
+[0;32mI (545) wifi:config NVS flash: enabled[0m
+[0;32mI (545) wifi:config nano formatting: disabled[0m
+[0;32mI (545) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (545) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (555) wifi:Init management short buffer num: 32[0m
+[0;32mI (555) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (565) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (565) wifi:Init static rx buffer num: 10[0m
+[0;32mI (565) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (575) wifi_init: rx ba win: 6[0m
+[0;32mI (575) wifi_init: accept mbox: 6[0m
+[0;32mI (575) wifi_init: tcpip mbox: 32[0m
+[0;32mI (585) wifi_init: udp mbox: 6[0m
+[0;32mI (585) wifi_init: tcp mbox: 6[0m
+[0;32mI (585) wifi_init: tcp tx win: 5760[0m
+[0;32mI (595) wifi_init: tcp rx win: 5760[0m
+[0;32mI (595) wifi_init: tcp mss: 1440[0m
+[0;32mI (595) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (605) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;33mW (615) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2[0m
+[0;32mI (615) phy_init: phy_version 4840,02e0d70,Sep  2 2024,19:39:07[0m
+[0;32mI (695) wifi:mode : sta (ac:15:18:f4:87:04)[0m
+[0;32mI (695) wifi:enable tsf[0m
+[0;32mI (695) TCP_SERVER: Wi-Fi Station initialized. Connecting to TNCAPFE54A1...[0m
+[0;32mI (695) TCP_SERVER: Attempting to connect to Wi-Fi...[0m
+[0;32mI (705) wifi:new:<1,0>, old:<1,0>, ap:<255,255>, sta:<1,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (705) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (1885) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (1905) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (1935) wifi:connected with TNCAPFE54A1, aid = 21, channel 1, BW20, bssid = 0a:c7:f5:fe:54:a9[0m
+[0;32mI (1935) wifi:security: WPA3-SAE, phy: bgn, rssi: -23[0m
+[0;32mI (1935) wifi:pm start, type: 1[0m
+
+[0;32mI (1935) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (1955) wifi:<ba-add>idx:0 (ifx:0, 0a:c7:f5:fe:54:a9), tid:7, ssn:1, winSize:64[0m
+[0;32mI (1995) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (2965) esp_netif_handlers: sta ip: 192.168.0.116, mask: 255.255.255.0, gw: 192.168.0.1[0m
+[0;32mI (3875) TCP_SERVER: Connected to Wi-Fi[0m
+[0;32mI (3875) TCP_SERVER: IP Address: 192.168.0.116[0m
+[0;32mI (3875) TCP_SERVER: TCP server listening on port 5000[0m
+[0;32mI (3875) main_task: Returned from app_main()[0m
+[0;32mI (67025) wifi:<ba-add>idx:1 (ifx:0, 0a:c7:f5:fe:54:a9), tid:0, ssn:1, winSize:64[0m
+[0;32mI (67035) TCP_SERVER: New client connected[0m
+[0;32mI (67035) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (67035) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (67035) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 1024[0m
+[0;32mI (67045) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (67045) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (67055) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 2048[0m
+[0;32mI (67055) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (67065) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (67065) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 3072[0m
+[0;32mI (67075) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (67075) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (67085) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 4096[0m
+[0;32mI (67095) TCP_SERVER: Write buffer full. Printing contents:[0m
+Lorem Ipsum Dolor blah blah blah...
+
+I'm learning about prime numbers in number theory. The number 73 is especially unique as it is the 21st prime and the 21st prime number is.. wait for it..... 37!! 
+that is a coincidental mirror but you want to take it one step further? the number 73 writtin in binary is also a Palindrome! No wonder it's such a special number.
+
+
+anyways, heres the man output for ssh I couldn't figure it out last time so maybe I'll learn how to read one day and the man pages are actually gonna be useful.
+
+
+SSH(1)                                                                                    BSD General Commands Manual                                                                                    SSH(1)
+
+NAME
+     ssh — OpenSSH remote login client
+
+SYNOPSIS
+     ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-B bind_interface] [-b bind_address] [-c cipher_spec] [-D [bind_address:]port] [-E log_file] [-e escape_char] [-F configfile] [-I pkcs11] [-i identity_file]
+         [-J destination] [-L address] [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address] [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]] destination
+         [command [argument ...]]
+
+DESCRIPTION
+     ssh (SSH client) is a program for logging into a remote machine and for executing commands on a remote machine.  It is intended to provide secure encrypted communications between two untrusted hosts
+     over an insecure network.  X11 connections, arbitrary TCP ports and UNIX-domain sockets can also be forwarded over the secure channel.
+
+     ssh connects and logs into the specified destination, which may be specified as either [user@]hostname or a URI of the form ssh://[user@]hostname[:port].  The user must prove their identity to the re‐
+     mote machine using one of several methods (see below).
+
+     If a command is specified, it will be executed on the remote host instead of a login shell.  A complete command line may be specified as command, or it may have additional arguments.  If supplied, the
+     arguments will be appended to the command, separated by spaces, before it is sent to the server to be executed.
+
+     The options are as follows:
+
+     -4      Forces ssh to use IPv4 addresses only.
+
+     -6      Forces ssh to use IPv6 addresses only.
+
+     -A      Enables forwarding of connections from an authentication agent such as ssh-agent(1).  This can also be specified on a per-host basis in a configuration file.
+
+             Agent forwarding should be enabled with caution.  Users with the ability to bypass file permissions on the remote host (for the agent's UNIX-domain socket) can access the local agent through the
+             forwarded connection.  An attacker cannot obtain key material from the agent, however they can perform operations on the keys that enable them to authenticate using the identities loaded into
+             the agent.  A safer alternative may be to use a jump host (see -J).
+
+     -a      Disables forwarding of the authentication agent connection.
+
+     -B bind_interface
+             Bind to the address of bind_interface before attempting to connect to the destination host.  This is only useful on systems with more than one address.
+
+     -b bind_address
+             Use bind_address on the local machine as the source address of the connection.  Only useful on systems with more than one address.
+
+     -C      Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).  The compression algorithm is the same used by gzip(1).  Compres‐
+             sion is desirable on modem lines and other slow connections, but will only slow down things on fast networks.  The default value can be set on a host-by-host basis in the configuration files;
+             see the Compression option in ssh_config(5).
+
+     -c cipher_spec
+             Selects the cipher specification for encrypting the session.  cipher_spec is a comma-separated list of ciphers listed in order of preference.  See the Ciphers keyword in ssh_c
+[0;32mI (67455) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (67465) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (67465) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 1024[0m
+[0;32mI (67475) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (67475) TCP_SERVER: Received 333 bytes from client[0m
+[0;32mI (67485) TCP_SERVER: Copied 333 bytes to write buffer. Write buffer index: 1357[0m
+[0;32mI (67495) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (67495) TCP_SERVER: Client disconnected[0m
+[0;32mI (67495) TCP_SERVER: Processing remaining data in write buffer:[0m
+onfig(5) for more
+             information.
+
+     -D [bind_address:]port
+             Specifies a local “dynamic” application-level port forwarding.  This works by allocating a socket to listen to port on the local side, optionally bound to the specified bind_address.  Whenever a
+             connection is made to this port, the connection is forwarded over the secure channel, and the application protocol is then used to determine where to connect to from the remote machine.  Cur‐
+             rently the SOCKS4 and SOCKS5 protocols are supported, and ssh will act as a SOCKS server.  Only root can forward privileged ports.  Dynamic port forwardings can also be specified in the configu‐
+             ration file.
+
+             IPv6 addresses can be specified by enclosing the address in square brackets.  Only the superuser can forward privileged ports.  By default, the local port is bound in accordance with the
+             GatewayPorts setting.  However, an explicit bind_address may be used to bind the connection to a specific address.  The bind_address of “localhost” indicates that the listening port be bound for
+             local use only, while an empty address or ‘*’ indicates that the port should be available from all interfaces.
+
+     -E log_file
+             Append debug logs to log_file instead of standard error.
+
+[0;32mI (75215) TCP_SERVER: New client connected[0m
+[0;32mI (75225) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (75225) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (75225) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 1024[0m
+[0;32mI (75235) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (75235) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (75235) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 2048[0m
+[0;32mI (75245) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (75255) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (75255) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 3072[0m
+[0;32mI (75265) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (75265) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (75275) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 4096[0m
+[0;32mI (75285) TCP_SERVER: Write buffer full. Printing contents:[0m
+Lorem Ipsum Dolor blah blah blah...
+
+I'm learning about prime numbers in number theory. The number 73 is especially unique as it is the 21st prime and the 21st prime number is.. wait for it..... 37!! 
+that is a coincidental mirror but you want to take it one step further? the number 73 writtin in binary is also a Palindrome! No wonder it's such a special number.
+
+
+anyways, heres the man output for ssh I couldn't figure it out last time so maybe I'll learn how to read one day and the man pages are actually gonna be useful.
+
+
+SSH(1)                                                                                    BSD General Commands Manual                                                                                    SSH(1)
+
+NAME
+     ssh — OpenSSH remote login client
+
+SYNOPSIS
+     ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-B bind_interface] [-b bind_address] [-c cipher_spec] [-D [bind_address:]port] [-E log_file] [-e escape_char] [-F configfile] [-I pkcs11] [-i identity_file]
+         [-J destination] [-L address] [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address] [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]] destination
+         [command [argument ...]]
+
+DESCRIPTION
+     ssh (SSH client) is a program for logging into a remote machine and for executing commands on a remote machine.  It is intended to provide secure encrypted communications between two untrusted hosts
+     over an insecure network.  X11 connections, arbitrary TCP ports and UNIX-domain sockets can also be forwarded over the secure channel.
+
+     ssh connects and logs into the specified destination, which may be specified as either [user@]hostname or a URI of the form ssh://[user@]hostname[:port].  The user must prove their identity to the re‐
+     mote machine using one of several methods (see below).
+
+     If a command is specified, it will be executed on the remote host instead of a login shell.  A complete command line may be specified as command, or it may have additional arguments.  If supplied, the
+     arguments will be appended to the command, separated by spaces, before it is sent to the server to be executed.
+
+     The options are as follows:
+
+     -4      Forces ssh to use IPv4 addresses only.
+
+     -6      Forces ssh to use IPv6 addresses only.
+
+     -A      Enables forwarding of connections from an authentication agent such as ssh-agent(1).  This can also be specified on a per-host basis in a configuration file.
+
+             Agent forwarding should be enabled with caution.  Users with the ability to bypass file permissions on the remote host (for the agent's UNIX-domain socket) can access the local agent through the
+             forwarded connection.  An attacker cannot obtain key material from the agent, however they can perform operations on the keys that enable them to authenticate using the identities loaded into
+             the agent.  A safer alternative may be to use a jump host (see -J).
+
+     -a      Disables forwarding of the authentication agent connection.
+
+     -B bind_interface
+             Bind to the address of bind_interface before attempting to connect to the destination host.  This is only useful on systems with more than one address.
+
+     -b bind_address
+             Use bind_address on the local machine as the source address of the connection.  Only useful on systems with more than one address.
+
+     -C      Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).  The compression algorithm is the same used by gzip(1).  Compres‐
+             sion is desirable on modem lines and other slow connections, but will only slow down things on fast networks.  The default value can be set on a host-by-host basis in the configuration files;
+             see the Compression option in ssh_config(5).
+
+     -c cipher_spec
+             Selects the cipher specification for encrypting the session.  cipher_spec is a comma-separated list of ciphers listed in order of preference.  See the Ciphers keyword in ssh_c
+[0;32mI (75645) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (75655) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (75655) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 1024[0m
+[0;32mI (75665) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (75665) TCP_SERVER: Received 333 bytes from client[0m
+[0;32mI (75675) TCP_SERVER: Copied 333 bytes to write buffer. Write buffer index: 1357[0m
+[0;32mI (75675) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (75685) TCP_SERVER: Client disconnected[0m
+[0;32mI (75685) TCP_SERVER: Processing remaining data in write buffer:[0m
+onfig(5) for more
+             information.
+
+     -D [bind_address:]port
+             Specifies a local “dynamic” application-level port forwarding.  This works by allocating a socket to listen to port on the local side, optionally bound to the specified bind_address.  Whenever a
+             connection is made to this port, the connection is forwarded over the secure channel, and the application protocol is then used to determine where to connect to from the remote machine.  Cur‐
+             rently the SOCKS4 and SOCKS5 protocols are supported, and ssh will act as a SOCKS server.  Only root can forward privileged ports.  Dynamic port forwardings can also be specified in the configu‐
+             ration file.
+
+             IPv6 addresses can be specified by enclosing the address in square brackets.  Only the superuser can forward privileged ports.  By default, the local port is bound in accordance with the
+             GatewayPorts setting.  However, an explicit bind_address may be used to bind the connection to a specific address.  The bind_address of “localhost” indicates that the listening port be bound for
+             local use only, while an empty address or ‘*’ indicates that the port should be available from all interfaces.
+
+     -E log_file
+             Append debug logs to log_file instead of standard error.
+
+[0;32mI (82895) TCP_SERVER: New client connected[0m
+[0;32mI (82895) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (82895) TCP_SERVER: Received 13 bytes from client[0m
+[0;32mI (82895) TCP_SERVER: Copied 13 bytes to write buffer. Write buffer index: 13[0m
+[0;32mI (82905) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (92415) TCP_SERVER: Client disconnected[0m
+[0;32mI (92415) TCP_SERVER: Processing remaining data in write buffer:[0m
+hello server
+
+[0;32mI (106555) TCP_SERVER: New client connected[0m
+[0;32mI (106555) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (106555) TCP_SERVER: Received 13 bytes from client[0m
+[0;32mI (106555) TCP_SERVER: Copied 13 bytes to write buffer. Write buffer index: 13[0m
+[0;32mI (106565) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (111875) TCP_SERVER: Client disconnected[0m
+[0;32mI (111875) TCP_SERVER: Processing remaining data in write buffer:[0m
+hello server
+
+[0;32mI (116075) TCP_SERVER: New client connected[0m
+[0;32mI (116075) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (116075) TCP_SERVER: Received 13 bytes from client[0m
+[0;32mI (116075) TCP_SERVER: Copied 13 bytes to write buffer. Write buffer index: 13[0m
+[0;32mI (116085) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (130815) TCP_SERVER: Client disconnected[0m
+[0;32mI (130815) TCP_SERVER: Processing remaining data in write buffer:[0m
+hello server
+
+[0;32mI (133385) TCP_SERVER: New client connected[0m
+[0;32mI (133385) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (133385) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (133385) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 1024[0m
+[0;32mI (133395) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (133395) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (133405) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 2048[0m
+[0;32mI (133405) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (133415) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (133415) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 3072[0m
+[0;32mI (133425) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (133435) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (133435) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 4096[0m
+[0;32mI (133445) TCP_SERVER: Write buffer full. Printing contents:[0m
+Lorem Ipsum Dolor blah blah blah...
+
+I'm learning about prime numbers in number theory. The number 73 is especially unique as it is the 21st prime and the 21st prime number is.. wait for it..... 37!! 
+that is a coincidental mirror but you want to take it one step further? the number 73 writtin in binary is also a Palindrome! No wonder it's such a special number.
+
+
+anyways, heres the man output for ssh I couldn't figure it out last time so maybe I'll learn how to read one day and the man pages are actually gonna be useful.
+
+
+SSH(1)                                                                                    BSD General Commands Manual                                                                                    SSH(1)
+
+NAME
+     ssh — OpenSSH remote login client
+
+SYNOPSIS
+     ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-B bind_interface] [-b bind_address] [-c cipher_spec] [-D [bind_address:]port] [-E log_file] [-e escape_char] [-F configfile] [-I pkcs11] [-i identity_file]
+         [-J destination] [-L address] [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address] [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]] destination
+         [command [argument ...]]
+
+DESCRIPTION
+     ssh (SSH client) is a program for logging into a remote machine and for executing commands on a remote machine.  It is intended to provide secure encrypted communications between two untrusted hosts
+     over an insecure network.  X11 connections, arbitrary TCP ports and UNIX-domain sockets can also be forwarded over the secure channel.
+
+     ssh connects and logs into the specified destination, which may be specified as either [user@]hostname or a URI of the form ssh://[user@]hostname[:port].  The user must prove their identity to the re‐
+     mote machine using one of several methods (see below).
+
+     If a command is specified, it will be executed on the remote host instead of a login shell.  A complete command line may be specified as command, or it may have additional arguments.  If supplied, the
+     arguments will be appended to the command, separated by spaces, before it is sent to the server to be executed.
+
+     The options are as follows:
+
+     -4      Forces ssh to use IPv4 addresses only.
+
+     -6      Forces ssh to use IPv6 addresses only.
+
+     -A      Enables forwarding of connections from an authentication agent such as ssh-agent(1).  This can also be specified on a per-host basis in a configuration file.
+
+             Agent forwarding should be enabled with caution.  Users with the ability to bypass file permissions on the remote host (for the agent's UNIX-domain socket) can access the local agent through the
+             forwarded connection.  An attacker cannot obtain key material from the agent, however they can perform operations on the keys that enable them to authenticate using the identities loaded into
+             the agent.  A safer alternative may be to use a jump host (see -J).
+
+     -a      Disables forwarding of the authentication agent connection.
+
+     -B bind_interface
+             Bind to the address of bind_interface before attempting to connect to the destination host.  This is only useful on systems with more than one address.
+
+     -b bind_address
+             Use bind_address on the local machine as the source address of the connection.  Only useful on systems with more than one address.
+
+     -C      Requests compression of all data (including stdin, stdout, stderr, and data for forwarded X11, TCP and UNIX-domain connections).  The compression algorithm is the same used by gzip(1).  Compres‐
+             sion is desirable on modem lines and other slow connections, but will only slow down things on fast networks.  The default value can be set on a host-by-host basis in the configuration files;
+             see the Compression option in ssh_config(5).
+
+     -c cipher_spec
+             Selects the cipher specification for encrypting the session.  cipher_spec is a comma-separated list of ciphers listed in order of preference.  See the Ciphers keyword in ssh_c
+[0;32mI (133805) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (133815) TCP_SERVER: Received 1024 bytes from client[0m
+[0;32mI (133815) TCP_SERVER: Copied 1024 bytes to write buffer. Write buffer index: 1024[0m
+[0;32mI (133825) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (133835) TCP_SERVER: Received 333 bytes from client[0m
+[0;32mI (133835) TCP_SERVER: Copied 333 bytes to write buffer. Write buffer index: 1357[0m
+[0;32mI (133845) TCP_SERVER: Waiting for data from client...[0m
+[0;32mI (133845) TCP_SERVER: Client disconnected[0m
+[0;32mI (133855) TCP_SERVER: Processing remaining data in write buffer:[0m
+onfig(5) for more
+             information.
+
+     -D [bind_address:]port
+             Specifies a local “dynamic” application-level port forwarding.  This works by allocating a socket to listen to port on the local side, optionally bound to the specified bind_address.  Whenever a
+             connection is made to this port, the connection is forwarded over the secure channel, and the application protocol is then used to determine where to connect to from the remote machine.  Cur‐
+             rently the SOCKS4 and SOCKS5 protocols are supported, and ssh will act as a SOCKS server.  Only root can forward privileged ports.  Dynamic port forwardings can also be specified in the configu‐
+             ration file.
+
+             IPv6 addresses can be specified by enclosing the address in square brackets.  Only the superuser can forward privileged ports.  By default, the local port is bound in accordance with the
+             GatewayPorts setting.  However, an explicit bind_address may be used to bind the connection to a specific address.  The bind_address of “localhost” indicates that the listening port be bound for
+             local use only, while an empty address or ‘*’ indicates that the port should be available from all interfaces.
+
+     -E log_file
+             Append debug logs to log_file instead of standard error.
+

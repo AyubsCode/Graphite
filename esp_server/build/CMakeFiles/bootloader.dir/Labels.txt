@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/zeila/Documents/CMPT496/esp_server/build/CMakeFiles/bootloader
+/home/zeila/Documents/CMPT496/esp_server/build/CMakeFiles/bootloader.rule
+/home/zeila/Documents/CMPT496/esp_server/build/CMakeFiles/bootloader-complete.rule
+/home/zeila/Documents/CMPT496/esp_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/zeila/Documents/CMPT496/esp_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/zeila/Documents/CMPT496/esp_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/zeila/Documents/CMPT496/esp_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/zeila/Documents/CMPT496/esp_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/zeila/Documents/CMPT496/esp_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/zeila/Documents/CMPT496/esp_server/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

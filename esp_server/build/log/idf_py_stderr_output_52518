@@ -1,0 +1,3 @@
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:80:13: warning: 'wifi_init_softap' defined but not used [-Wunused-function]
+   80 | static void wifi_init_softap() {
+      |             ^~~~~~~~~~~~~~~~

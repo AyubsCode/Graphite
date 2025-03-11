@@ -1,0 +1,101 @@
+Command: /home/zeila/.espressif/python_env/idf5.5_py3.11_env/bin/python /home/zeila/Documents/Tools/esp-idf/tools/idf_monitor.py -p /dev/ttyUSB0 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /home/zeila/Documents/CMPT496/esp_server/build/esp_server.elf /home/zeila/Documents/CMPT496/esp_server/build/bootloader/bootloader.elf -m '/home/zeila/.espressif/python_env/idf5.5_py3.11_env/bin/python' '/home/zeila/Documents/Tools/esp-idf/tools/idf.py'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x1b (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6328
+load:0x40078000,len:15828
+load:0x40080400,len:3860
+entry 0x40080638
+[0;32mI (27) boot: ESP-IDF 35f6cd14 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Feb 28 2025 16:09:02[0m
+[0;32mI (27) boot: Multicore bootloader[0m
+[0;32mI (29) boot: chip revision: v3.1[0m
+[0;32mI (32) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (35) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (43) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (63) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (76) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=1cd2ch (118060) map[0m
+[0;32mI (127) esp_image: segment 1: paddr=0002cd54 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (127) esp_image: segment 2: paddr=0002cd78 vaddr=3ffb0000 size=032a0h ( 12960) load[0m
+[0;32mI (135) esp_image: segment 3: paddr=00030020 vaddr=400d0020 size=94980h (608640) map[0m
+[0;32mI (346) esp_image: segment 4: paddr=000c49a8 vaddr=3ffb32a0 size=00df8h (  3576) load[0m
+[0;32mI (348) esp_image: segment 5: paddr=000c57a8 vaddr=40080000 size=179b4h ( 96692) load[0m
+[0;32mI (399) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (399) boot: Disabling RNG early entropy source...[0m
+[0;32mI (410) cpu_start: Multicore app[0m
+[0;32mI (418) cpu_start: Pro cpu start user code[0m
+[0;32mI (418) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (418) app_init: Application information:[0m
+[0;32mI (418) app_init: Project name:     esp_server[0m
+[0;32mI (422) app_init: App version:      1[0m
+[0;32mI (426) app_init: Compile time:     Feb 28 2025 16:09:37[0m
+[0;32mI (431) app_init: ELF file SHA256:  13fe97389...[0m
+[0;32mI (435) app_init: ESP-IDF:          35f6cd14[0m
+[0;32mI (439) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (443) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (447) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (451) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (457) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (462) heap_init: At 3FFB87D8 len 00027828 (158 KiB): DRAM[0m
+[0;32mI (467) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (473) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (478) heap_init: At 400979B4 len 0000864C (33 KiB): IRAM[0m
+[0;32mI (485) spi_flash: detected chip: generic[0m
+[0;32mI (487) spi_flash: flash io: dio[0m
+[0;33mW (490) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (503) main_task: Started on CPU0[0m
+[0;32mI (513) main_task: Calling app_main()[0m
+[0;32mI (543) main_task: Returned from app_main()[0m
+[0;32mI (553) wifi:wifi driver task: 3ffc1b48, prio:23, stack:6656, core=0[0m
+[0;32mI (563) wifi:wifi firmware version: 34d97ea27[0m
+[0;32mI (563) wifi:wifi certification version: v7.0[0m
+[0;32mI (563) wifi:config NVS flash: enabled[0m
+[0;32mI (563) wifi:config nano formatting: disabled[0m
+[0;32mI (573) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (573) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (583) wifi:Init management short buffer num: 32[0m
+[0;32mI (583) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (593) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (593) wifi:Init static rx buffer num: 10[0m
+[0;32mI (593) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (603) wifi_init: rx ba win: 6[0m
+[0;32mI (603) wifi_init: accept mbox: 6[0m
+[0;32mI (603) wifi_init: tcpip mbox: 32[0m
+[0;32mI (613) wifi_init: udp mbox: 6[0m
+[0;32mI (613) wifi_init: tcp mbox: 6[0m
+[0;32mI (613) wifi_init: tcp tx win: 5760[0m
+[0;32mI (623) wifi_init: tcp rx win: 5760[0m
+[0;32mI (623) wifi_init: tcp mss: 1440[0m
+[0;32mI (623) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (633) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;33mW (643) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2[0m
+[0;32mI (643) phy_init: phy_version 4840,02e0d70,Sep  2 2024,19:39:07[0m
+[0;32mI (723) wifi:mode : sta (ac:15:18:f4:87:04)[0m
+[0;32mI (723) wifi:enable tsf[0m
+[0;32mI (723) TCP_SERVER: Wi-Fi Station initialized. Connecting to TELUS5786...[0m
+[0;32mI (723) TCP_SERVER: Attempting to connect to Wi-Fi...[0m
+[0;32mI (733) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (743) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (753) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (753) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (793) wifi:connected with TELUS5786, aid = 2, channel 11, BW20, bssid = fc:2b:b2:f1:69:92[0m
+[0;32mI (793) wifi:security: WPA2-PSK, phy: bgn, rssi: -40[0m
+[0;32mI (793) wifi:pm start, type: 1[0m
+
+[0;32mI (793) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (813) wifi:AP's beacon interval = 102400 us, DTIM period = 3[0m
+[0;32mI (2313) wifi:<ba-add>idx:0 (ifx:0, fc:2b:b2:f1:69:92), tid:0, ssn:2, winSize:64[0m
+[0;32mI (3333) esp_netif_handlers: sta ip: 192.168.1.74, mask: 255.255.255.0, gw: 192.168.1.254[0m
+[0;32mI (3723) TCP_SERVER: Connected to Wi-Fi[0m
+[0;32mI (3723) TCP_SERVER: IP Address: 192.168.1.74[0m
+[0;32mI (3753) TCP_SERVER: SD card initialized and mounted at /sdcard[0m
+[0;32mI (3763) TCP_SERVER: TCP server listening on port 5000[0m
