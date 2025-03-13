@@ -1,0 +1,8 @@
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: In function 'tcp_server_task':
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:169:33: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+  169 |                 if (write_index == SD_SIZE) {
+      |                                 ^~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: At top level:
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:88:13: warning: 'wifi_init_softap' defined but not used [-Wunused-function]
+   88 | static void wifi_init_softap() {
+      |             ^~~~~~~~~~~~~~~~
