@@ -1,0 +1,16 @@
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: In function 'tcp_server_task':
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:182:40: error: invalid operands to binary + (have 'char *' and 'char *')
+  182 |     const char *filename = MOUNT_POINT + "/write_file.txt";
+      |                                        ^
+      |                                        |
+      |                                        char *
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: At top level:
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:156:14: warning: 'open_file' defined but not used [-Wunused-function]
+  156 | static FILE *open_file(const char *filename) {
+      |              ^~~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:101:13: warning: 'wifi_init_softap' defined but not used [-Wunused-function]
+  101 | static void wifi_init_softap() {
+      |             ^~~~~~~~~~~~~~~~
+make[2]: *** [esp-idf/main/CMakeFiles/__idf_main.dir/build.make:76: esp-idf/main/CMakeFiles/__idf_main.dir/esp_server.c.obj] Error 1
+make[1]: *** [CMakeFiles/Makefile2:5672: esp-idf/main/CMakeFiles/__idf_main.dir/all] Error 2
+make: *** [Makefile:136: all] Error 2

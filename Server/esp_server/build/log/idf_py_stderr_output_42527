@@ -1,0 +1,63 @@
+Command: make -j 10 all
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: In function 'tcp_server_write':
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:161:22: error: expected ']' before ';' token
+  161 |     char response[256;]
+      |                      ^
+      |                      ]
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:163:10: error: 'file' undeclared (first use in this function)
+  163 |     if (!file) {
+      |          ^~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:163:10: note: each undeclared identifier is reported only once for each function it appears in
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:165:17: error: 'response' undeclared (first use in this function)
+  165 |         sprintf(response, "File: %s not found", filepath);
+      |                 ^~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:169:9: error: expected expression before ':' token
+  169 |     else:
+      |         ^
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:169:5: error: this 'else' clause does not guard... [-Werror=misleading-indentation]
+  169 |     else:
+      |     ^~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:171:9: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'else'
+  171 |         send(client_socket, response, strlen(response), 0);
+      |         ^~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: In function 'tcp_server_read':
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:210:9: error: expected expression before ':' token
+  210 |     else:
+      |         ^
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:210:5: error: this 'else' clause does not guard... [-Werror=misleading-indentation]
+  210 |     else:
+      |     ^~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:212:9: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'else'
+  212 |         send(client_socket, response, strlen(response), 0);
+      |         ^~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: In function 'tcp_server_delete':
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:257:9: error: expected expression before ':' token
+  257 |     else:
+      |         ^
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:257:5: error: this 'else' clause does not guard... [-Werror=misleading-indentation]
+  257 |     else:
+      |     ^~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:259:9: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'else'
+  259 |         send(client_socket, response, strlen(response), 0);
+      |         ^~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: In function 'serverTask':
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:353:9: error: expected ';' before 'snprintf'
+  353 |         snprintf(filepath, sizeof(filepath), "/sdcard/%s", filename); // Assuming files are stored in /sdcard/
+      |         ^~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:301:10: warning: unused variable 'response' [-Wunused-variable]
+  301 |     char response[256];
+      |          ^~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: At top level:
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:99:13: warning: 'wifi_init_softap' defined but not used [-Wunused-function]
+   99 | static void wifi_init_softap() {
+      |             ^~~~~~~~~~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:43:15: warning: 'write_buffer_index' defined but not used [-Wunused-variable]
+   43 | static size_t write_buffer_index = 0;  // Current position in the write buffer
+      |               ^~~~~~~~~~~~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:42:16: warning: 'write_buffer' defined but not used [-Wunused-variable]
+   42 | static uint8_t write_buffer[MAX_FILE_SIZE];  // Buffer for storing file data
+      |                ^~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[2]: *** [esp-idf/main/CMakeFiles/__idf_main.dir/build.make:76: esp-idf/main/CMakeFiles/__idf_main.dir/esp_server.c.obj] Error 1
+make[1]: *** [CMakeFiles/Makefile2:5672: esp-idf/main/CMakeFiles/__idf_main.dir/all] Error 2
+make: *** [Makefile:136: all] Error 2

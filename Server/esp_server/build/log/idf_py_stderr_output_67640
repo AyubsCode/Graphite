@@ -1,0 +1,32 @@
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: In function 'tcp_server_task':
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:209:32: error: passing argument 1 of 'recv' makes integer from pointer without a cast [-Wint-conversion]
+  209 |                 int len = recv(socket, read_buffer, BUFFER_SIZE, 0);
+      |                                ^~~~~~
+      |                                |
+      |                                int (*)(int,  int,  int)
+In file included from /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:9:
+/home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:59:32: note: expected 'int' but argument is of type 'int (*)(int,  int,  int)'
+   59 | static inline ssize_t recv(int s,void *mem,size_t len,int flags)
+      |                            ~~~~^
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:231:30: error: passing argument 1 of 'send' makes integer from pointer without a cast [-Wint-conversion]
+  231 |                         send(socket, response, strlen(response), 0);
+      |                              ^~~~~~
+      |                              |
+      |                              int (*)(int,  int,  int)
+/home/zeila/Documents/CMPT496/Graphite/esp-idf/components/lwip/include/lwip/sockets.h:63:32: note: expected 'int' but argument is of type 'int (*)(int,  int,  int)'
+   63 | static inline ssize_t send(int s,const void *dataptr,size_t size,int flags)
+      |                            ~~~~^
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:266:13: warning: 'esp_vfs_fat_sdmmc_unmount' is deprecated: Please use esp_vfs_fat_sdcard_unmount instead [-Wdeprecated-declarations]
+  266 |             esp_vfs_fat_sdmmc_unmount();
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:6:
+/home/zeila/Documents/CMPT496/Graphite/esp-idf/components/fatfs/vfs/esp_vfs_fat.h:221:11: note: declared here
+  221 | esp_err_t esp_vfs_fat_sdmmc_unmount(void) __attribute__((deprecated("Please use esp_vfs_fat_sdcard_unmount instead")));
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c: At top level:
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:94:13: warning: 'wifi_init_softap' defined but not used [-Wunused-function]
+   94 | static void wifi_init_softap() {
+      |             ^~~~~~~~~~~~~~~~
+make[2]: *** [esp-idf/main/CMakeFiles/__idf_main.dir/build.make:76: esp-idf/main/CMakeFiles/__idf_main.dir/esp_server.c.obj] Error 1
+make[1]: *** [CMakeFiles/Makefile2:5672: esp-idf/main/CMakeFiles/__idf_main.dir/all] Error 2
+make: *** [Makefile:136: all] Error 2

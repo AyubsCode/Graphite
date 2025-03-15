@@ -1,0 +1,12 @@
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:153:13: warning: 'tcp_server_write' defined but not used [-Wunused-function]
+  153 | static void tcp_server_write(void *pvParameters) {
+      |             ^~~~~~~~~~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:95:13: warning: 'wifi_init_softap' defined but not used [-Wunused-function]
+   95 | static void wifi_init_softap() {
+      |             ^~~~~~~~~~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:42:15: warning: 'write_buffer_index' defined but not used [-Wunused-variable]
+   42 | static size_t write_buffer_index = 0;  // Current position in the write buffer
+      |               ^~~~~~~~~~~~~~~~~~
+/home/zeila/Documents/CMPT496/esp_server/main/esp_server.c:41:16: warning: 'write_buffer' defined but not used [-Wunused-variable]
+   41 | static uint8_t write_buffer[MAX_FILE_SIZE];  // Buffer for storing file data
+      |                ^~~~~~~~~~~~
