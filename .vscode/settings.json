@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "esp_system.h": "c",
-        "unistd.h": "c"
-    }
+        "unistd.h": "c",
+        "esp_wifi.h": "c"
+    },
+    "cmake.sourceDirectory": "/home/ayub/Desktop/496/Graphite/esp-idf/video-streaming"
 }
